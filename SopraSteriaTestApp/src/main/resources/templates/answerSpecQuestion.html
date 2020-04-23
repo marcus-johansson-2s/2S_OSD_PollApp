@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Demo</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/style.css}"  href="../static/style.css" />
+    <style>
+        body {background-color: lightblue;}
+        h2 {color: white;text-align: center;}
+        h3 {color: white;text-align: center;}
+        h4 {color: white;text-align: center;}
+        p {font-family: verdana;font-size: 20px;}
+        /* A link that has not been visited */
+        a:link {color: White; text-align: center; text-decoration: none;}
+        /* A link that has been visited */
+        a:visited {color: White; text-align: center; text-decoration: none;}
+        /* A link that is hovered on */
+        a:hover {color: White; text-align: center; text-decoration: none;}
+        /* A link that is selected */
+        a:active {color: White; text-align: center; text-decoration: none;}
+        .banner{
+            margin: 0px auto;
+            padding: 0;
+            height: 10%;
+            width: 100%;
+            overflow: hidden;
+            border:solid;
+            background: darkcyan;
+            border-width: 0px 0px 20px 0px;
+            border-color: darkcyan;
+        }
+        label {color: white;text-align: center;}
+        table {color: white;text-align: center;}
+    </style>
+</head>
+<body>
+<div class="banner" style="text-align:center" >
+    <table align="center" >
+        <tr><h2>QuestionApp</h2></tr>
+        <th><a href="createForm.html"
+               th:href="@{/createForm}">Create Form</a></th>
+        <th><a href="answerQuestion.html"
+               th:href="@{/answerQuestion}">Answer</a></th>
+        <th><a href="questions.html"
+               th:href="@{/questions}">Forms</a></th>
+        <th><a href="chooseFormAndAnswers.html"
+               th:href="@{/chooseFormAndAnswers}">See Answers</a></th></tr>
+    </table>
+</div>
+<h2>Showing Form</h2>
+
+<table align="center" style="word-break: break-all;">
+    <tr>
+        <th th:text="${dto.formId}" ></th>
+        <td>--"</td>
+        <th th:text="${dto.description}" ></th>
+        <td>"</td>
+    </tr>
+</table>
+<form align="center" action="#" th:action="@{/answerSpecQuestion}" th:object="${dto}" method="post" id="usrform">
+<table align="center" style="word-break: break-all;" th:each="message : ${dto.getQuestionList()}">
+    <tr>
+        <th></th>
+        <th ><h3>Question</h3></th>
+    </tr>
+    <tr>
+        <th></th>
+        <th th:text="${message.getQuestion()}" ></th>
+    </tr>
+    <tr>
+        <th></th>
+        <td>
+
+             <textarea rows="5" cols="20" name="lines" form="usrform" type="text" th:if="${message.getTypeQuestion() == 1}">Enter text here...</textarea>
+
+                <div class="buttons" th:style="${message.getTypeQuestion() == 2 ? 'display:block' : 'display:none'}">
+                    <input type="radio" id="option1"  th:name="${message.getId()}" ><label class="custom-control-label" for="option1"> 1</label>
+                    <input type="radio" id="option2"  th:name="${message.getId()}" ><label class="custom-control-label" for="option2"> 2</label>
+                    <input type="radio" id="option3"  th:name="${message.getId()}" ><label class="custom-control-label" for="option3"> 3</label>
+                    <input type="radio" id="option4"  th:name="${message.getId()}" ><label class="custom-control-label" for="option4"> 4</label>
+                    <input type="radio" id="option5"  th:name="${message.getId()}" ><label class="custom-control-label" for="option5"> 5</label>
+                    <input type="radio" id="option6"  th:name="${message.getId()}" ><label class="custom-control-label" for="option6"> 6</label>
+                    <input type="radio" id="option7"  th:name="${message.getId()}" ><label class="custom-control-label" for="option7"> 7</label>
+                    <input type="radio" id="option8"  th:name="${message.getId()}" ><label class="custom-control-label" for="option8"> 8</label>
+                    <input type="radio" id="option9"  th:name="${message.getId()}" ><label class="custom-control-label" for="option9"> 9</label>
+                    <input type="radio" id="option10"  th:name="${message.getId()}" ><label class="custom-control-label" for="option10"> 10</label>
+                    </div>
+
+                </div>
+
+
+
+
+            <span th:if="${message.getTypeQuestion() == 3}">CheckBox</span>
+        </td>
+    </tr>
+</table>
+    <p><input type="submit" value="Submit" /> </p>
+</form>
+
+</body>
+</html>

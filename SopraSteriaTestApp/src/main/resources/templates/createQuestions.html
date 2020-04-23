@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <title>Demo</title>
+    <meta charset="UTF-8">
+    <link href="../static/style.css" th:href="@{/static/style.css|}" rel="stylesheet" type="text/css" />
+    <style>
+
+        textarea { text-align: center;  display: block;  margin-left: auto;
+            margin-right: auto;}
+        body {background-color: lightblue;}
+        h2 {color: white;text-align: center;}
+        h3 {color: white;text-align: center;}
+
+        p {font-family: verdana;font-size: 20px;}
+        /* A link that has not been visited */
+        a:link {color: White; text-align: center; text-decoration: none;}
+        /* A link that has been visited */
+        a:visited {color: White; text-align: center; text-decoration: none;}
+        /* A link that is hovered on */
+        a:hover {color: White; text-align: center; text-decoration: none;}
+        /* A link that is selected */
+        a:active {color: White; text-align: center; text-decoration: none;}
+        .banner{
+            margin: 0px auto;
+            padding: 0;
+            height: 10%;
+            width: 100%;
+            overflow: hidden;
+            border:solid;
+            background: darkcyan;
+            border-width: 0px 0px 20px 0px;
+            border-color: darkcyan;
+        }
+        label {color: white;text-align: center;}
+    </style>
+</head>
+<body>
+<div class="banner" style="text-align:center">
+    <table align="center">
+        <tr><h2>QuestionApp</h2></tr>
+        <th><a href="createForm.html"
+               th:href="@{/createForm}">Create Form</a></th>
+        <th><a href="answerQuestion.html"
+               th:href="@{/answerQuestion}">Answer</a></th>
+        <th><a href="questions.html"
+               th:href="@{/questions}">Forms</a></th>
+        <th><a href="chooseFormAndAnswers.html"
+               th:href="@{/chooseFormAndAnswers}">See Answers</a></th></tr>
+    </table>
+</div>
+
+
+
+<h3>Create your question for Form
+<p th:text="${dto.getFormId()}" /></h3>
+
+<form align="center" action="#" th:action="@{/createQuestions}" th:object="${dto}" method="post" id="usrform">
+    <input type="hidden" th:field="*{formId}">
+    <input type="hidden" th:field="*{id}">
+    <label for="name">Question</label><br>
+    <h3> <p th:text="${dto.getId()}" /></h3>
+
+    <textarea rows="8" cols="50" name="comment" form="usrform" type="text" id=name th:field="*{question}">Enter text here...</textarea>
+    <br><label for="test">Choose answer type</label><br>
+    <div class="form-group" id="test">
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="option1" name="option1" class="custom-control-input" value="1" th:field="*{answerId}" onclick="myFunction()">
+            <label class="custom-control-label" for="option1">Standard Text Answer</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="option2" name="option2" class="custom-control-input" value="2" th:field="*{answerId}" onclick="myFunction()">
+            <label class="custom-control-label" for="option2">RadioButton Answer (0-10)</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="option3" name="option3" class="custom-control-input" value="3" th:field="*{answerId}" onclick="myFunction()">
+            <label class="custom-control-label" for="option3">CheckBox Answer</label>
+            <label class="custom-control-label"  id="text4" style="display:none">type in your possible answers ending each with enter</label>
+           <textarea id="text" style="display:none" align="center" rows="8" cols="50" form="usrform" th:field="*{checkBoxText}"> Test</textarea>
+        </div>
+    </div>
+    <br>
+    <h2>---------------</h2>
+    <br>
+    <div class="form-group" id="test2">
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="ja" name="option1" class="custom-control-input" value="1" th:field="*{anotherQuestion}">
+            <label class="custom-control-label" for="option1">Add another question</label>
+            <input type="radio" id="nej" name="option2" class="custom-control-input" value="2" th:field="*{anotherQuestion}">
+            <label class="custom-control-label" for="option2">Done with questions</label>
+
+        </div>
+    </div>
+
+    <p><input type="submit" value="Create" /> </p>
+</form>
+<script>
+    function myFunction() {
+// Get the checkbox
+        var checkBox = document.getElementById("option3");
+// Get the output text
+        var text = document.getElementById("text");
+        var text4 = document.getElementById("text4");
+
+// If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+            text.style.display = "block";
+            text4.style.display = "block";
+        } else {
+            text.style.display = "none";
+            text4.style.display = "none";
+        }
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head>
+    <title>Demo</title>
+    <meta charset="UTF-8">
+    <link href="../static/style.css" th:href="@{/static/style.css|}" rel="stylesheet" type="text/css" />
+    <style>
+        body {background-color: lightblue;}
+        h2 {color: white;text-align: center;}
+        h3 {color: white;text-align: center;}
+        p {font-family: verdana;font-size: 20px;}
+        /* A link that has not been visited */
+        a:link {color: White; text-align: center; text-decoration: none;}
+        /* A link that has been visited */
+        a:visited {color: White; text-align: center; text-decoration: none;}
+        /* A link that is hovered on */
+        a:hover {color: White; text-align: center; text-decoration: none;}
+        /* A link that is selected */
+        a:active {color: White; text-align: center; text-decoration: none;}
+        .banner{
+            margin: 0px auto;
+            padding: 0;
+            height: 10%;
+            width: 100%;
+            overflow: hidden;
+            border:solid;
+            background: darkcyan;
+            border-width: 0px 0px 20px 0px;
+            border-color: darkcyan;
+        }
+        label {color: white;text-align: center;}
+    </style>
+</head>
+<body>
+<div class="banner" style="text-align:center">
+    <table align="center">
+        <tr><h2>QuestionApp</h2></tr>
+        <th><a href="createForm.html"
+               th:href="@{/createForm}">Create Form</a></th>
+        <th><a href="answerQuestion.html"
+               th:href="@{/answerQuestion}">Answer</a></th>
+        <th><a href="questions.html"
+               th:href="@{/questions}">Forms</a></th>
+        <th><a href="chooseFormAndAnswers.html"
+               th:href="@{/chooseFormAndAnswers}">See Answers</a></th></tr>
+    </table>
+</div>
+<h3>Radio Button Answer</h3>
+
+</body>
+</html>
