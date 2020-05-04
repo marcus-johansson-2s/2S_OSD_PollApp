@@ -7,9 +7,10 @@
     <style>
         body {background-color: lightblue;}
         h2 {color: white;text-align: center;}
-        h3 {color: white;text-align: center;}
+        h3 {color: white;text-align: center; font-size: 14px}
         h4 {color: white;text-align: center;}
         p {font-family: verdana;font-size: 20px;}
+
         /* A link that has not been visited */
         a:link {color: White; text-align: center; text-decoration: none;}
         /* A link that has been visited */
@@ -50,7 +51,7 @@
 <h2>Showing Form</h2>
 
 <table align="center" style="word-break: break-all;">
-    <tr th:each="message : ${form} ">
+    <tr th:each="message : ${dto.getForm()} ">
         <th th:text="${message.formId}" ></th>
         <td>--"</td>
         <th th:text="${message.description}" ></th>
@@ -58,16 +59,11 @@
         <td>"</td>
     </tr>
 </table>
-<table align="center" style="word-break: break-all;" th:each="question:${form.getQuestionList()}">
-    <tr>
-        <th><h3>Question</h3></th>
-        <th th:number="${question.getId()}" ></th>
-        <td>--</td>
-        <th th:text="${question.getQuestion()}" ></th>
+<h3 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(dto.SuperOut()),'\n','&lt;br /&gt;'))}"></h3>
+<table align="center" style="word-break: break-all;">
 
+   <tr align="center" >
 
-        <th><h4>Answers</h4></th>
-        <th th:utext="${question.typeQuestion}" ></th>
     </tr>
 </table>
 

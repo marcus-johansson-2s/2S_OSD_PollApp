@@ -54,49 +54,49 @@
         <th th:text="${dto.formId}" ></th>
         <td>--"</td>
         <th th:text="${dto.description}" ></th>
+        <!--
+        <th th:text="${dto.questionList.get(0).getTypeQuestion()}" ></th>
+        -->
         <td>"</td>
     </tr>
 </table>
-<form align="center" action="#" th:action="@{/answerSpecQuestion}" th:object="${dto}" method="post" id="usrform">
-<table align="center" style="word-break: break-all;" th:each="message : ${dto.getQuestionList()}">
-    <tr>
-        <th></th>
-        <th ><h3>Question</h3></th>
-    </tr>
-    <tr>
-        <th></th>
-        <th th:text="${message.getQuestion()}" ></th>
-    </tr>
-    <tr>
-        <th></th>
-        <td>
 
-             <textarea rows="5" cols="20" name="lines" form="usrform" type="text" th:if="${message.getTypeQuestion() == 1}">Enter text here...</textarea>
+<form align="center" action="#" th:action="@{/answerSpecQuestion}" th:object="${dto}" method="post" id="usrform" name="usrform">
+<table align="center" style="word-break: break-all;" th:each="message,itemStat: ${dto.questionList}" >
+<tr>
+    <input type="hidden" th:name="|questionList[${itemStat.index}].typeQuestion|"  th:value="${message.getTypeQuestion()}">
+    <input type="hidden" th:field="*{formId}">
+    <input hidden th:name="|questionList[${itemStat.index}].id|" th:value="${message.getId()}"/>
+ <th></th>
+ <th ><h3>Question</h3></th>
+</tr>
+<tr>
+ <th></th>
+ <th th:text="${message.getQuestion()}" ></th>
+</tr>
+<tr>
+ <th></th>
+ <td>
+     <textarea rows="5" cols="20" th:name="|questionList[${itemStat.index}].tmpString|" form="usrform" type="text" th:if="${message.getTypeQuestion() == 1}">Enter text here...</textarea>
+     <th:block th:if="${message.getTypeQuestion() == 2}">
+         <input th:each="i : ${#numbers.sequence(0, 10)}" th:value="${i}" type="radio" id="option4" th:name="|questionList[${itemStat.index}].tmpInt|"  th:text="${i}">
+     </th:block>
 
-                <div class="buttons" th:style="${message.getTypeQuestion() == 2 ? 'display:block' : 'display:none'}">
-                    <input type="radio" id="option1"  th:name="${message.getId()}" ><label class="custom-control-label" for="option1"> 1</label>
-                    <input type="radio" id="option2"  th:name="${message.getId()}" ><label class="custom-control-label" for="option2"> 2</label>
-                    <input type="radio" id="option3"  th:name="${message.getId()}" ><label class="custom-control-label" for="option3"> 3</label>
-                    <input type="radio" id="option4"  th:name="${message.getId()}" ><label class="custom-control-label" for="option4"> 4</label>
-                    <input type="radio" id="option5"  th:name="${message.getId()}" ><label class="custom-control-label" for="option5"> 5</label>
-                    <input type="radio" id="option6"  th:name="${message.getId()}" ><label class="custom-control-label" for="option6"> 6</label>
-                    <input type="radio" id="option7"  th:name="${message.getId()}" ><label class="custom-control-label" for="option7"> 7</label>
-                    <input type="radio" id="option8"  th:name="${message.getId()}" ><label class="custom-control-label" for="option8"> 8</label>
-                    <input type="radio" id="option9"  th:name="${message.getId()}" ><label class="custom-control-label" for="option9"> 9</label>
-                    <input type="radio" id="option10"  th:name="${message.getId()}" ><label class="custom-control-label" for="option10"> 10</label>
-                    </div>
-
-                </div>
+     <th:block th:if="${message.getTypeQuestion() == 3}">
+         <input hidden th:name="|questionList[${itemStat.index}].checkBoxAnswer|" th:value="${message.getId()}"/>
 
 
+         <input  th:each="item,p: ${dto.questionList[__${itemStat.index}__].checkBoxAnswer}" th:name="|questionList[${itemStat.index}].checkBoxAnswerList[${p.index}]|"  th:value="${item.key}"  type="checkbox" id="option5" th:text="${item.value}" >
 
 
-            <span th:if="${message.getTypeQuestion() == 3}">CheckBox</span>
+     </th:block>
         </td>
     </tr>
 </table>
+
     <p><input type="submit" value="Submit" /> </p>
 </form>
 
 </body>
+
 </html>

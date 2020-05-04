@@ -1,6 +1,8 @@
 package com.sopra.demo.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Question {
@@ -10,16 +12,12 @@ public class Question {
 
     private int tmpInt=0;
     private String tmpString;
-
-
-
     private Map<Integer, String> checkBoxAnswer= new HashMap<>();
+
+    private List<Integer> checkBoxAnswerList = new ArrayList<>();
 
 
     Question(){}
-
-
-
 
     public Question(String question, int id,int typeQuestion) {
         this.question = question;
@@ -28,6 +26,13 @@ public class Question {
     }
 
 
+    public List<Integer> getCheckBoxAnswerList() {
+        return checkBoxAnswerList;
+    }
+
+    public void setCheckBoxAnswerList(int checkBoxAnswerList) {
+        this.checkBoxAnswerList.add(checkBoxAnswerList);
+    }
 
     public Map<Integer, String> getCheckBoxAnswer() {
         return checkBoxAnswer;

@@ -1,20 +1,20 @@
 package com.sopra.demo.controllers;
 
 import java.util.ArrayList;
-import java.util.List;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.util.Map;
 
 public class Form {
 
-   private int formId;
-    private List<Question> questionList=new ArrayList<>();
+    private Long formId;
+    public List<Question> questionList=new ArrayList<>();
     private String description;
-
-
 
 
     Form(){}
 
-    Form(int formId, String desc){
+    Form(long formId, String desc){
         this.formId = formId;
         description=desc;
 
@@ -29,11 +29,11 @@ public class Form {
         this.description = description;
     }
 
-    public int getFormId() {
+    public long getFormId() {
         return formId;
     }
 
-    public void setFormId(int formId) {
+    public void setFormId(long formId) {
         this.formId = formId;
     }
 
