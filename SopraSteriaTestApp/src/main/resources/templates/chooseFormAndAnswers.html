@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
 <head>
+
     <title>Demo</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/static/style.css}"  href="../static/style.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}" href="../static/css/style.css" />
     <style>
         body {background-color: lightblue;}
         h2 {color: white;text-align: center;}
         h3 {color: white;text-align: center;}
+        h4 {color: white;text-align: center;font-size: 14px;}
         p {font-family: verdana;font-size: 20px;}
         /* A link that has not been visited */
         a:link {color: White; text-align: center; text-decoration: none;}
@@ -46,11 +48,8 @@
     </table>
 </div>
 <h3>Check Answers, choose form</h3>
-<form align="center" action="#" th:action="@{/chooseFormAndAnswers}" th:object="${chooseForm}" method="post" id="usrform" >
-    <label for="name">Form id</label><br>
-    <input type="number" id=name th:field="*{id}" value=*{id}/>
-    <p><input type="submit" value="Find"  /></p>
-
-</form>
+<th:block th:each="test: ${chooseForm}" align="center">
+    <h4>  <a href="showingFormAnswers.html" th:href="@{/showingFormAnswers(id=${test})}" th:text="'Form : ' +${test}"  /></h4>
+</th:block>
 </body>
 </html>

@@ -1,0 +1,30 @@
+body {background-color: whitesmoke;}
+
+h1 {  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+    font-size:52px;
+    padding: 20px 10px;
+    text-align: center;
+    text-transform: uppercase;
+    text-rendering: optimizeLegibility;
+    text-shadow: 1px 2px darkslategray;
+}
+h2 {font-family: Helvetica;color: darkgrey;text-align: center;}
+h3 {font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;color: whitesmoke;text-align: center; text-shadow: 1px 1px darkslategray;}
+p {font-family: Helvetica;font-size: 15px;}
+h4 {color: darkgrey;text-align: center;font-size: 17px;}
+/* A link that has not been visited */
+textarea { background: white; border:none }
+label {color: darkgrey;}
+#grad1 {
+    background-image: linear-gradient(darkslategray,whitesmoke);
+}
+#grad2 {
+    background-image: linear-gradient(to right, whitesmoke , darkslategray,whitesmoke); opacity:0.3;
+}
+a:link {color: darkslategray; text-align: center; text-decoration: none;}
+/* A link that has been visited */
+a:visited {color: darkslategray; text-align: center; text-decoration: none;}
+/* A link that is hovered on */
+a:hover {color: darkslategray; text-align: center; text-decoration: none;}
+/* A link that is selected */
+a:active {color: darkslategray; text-align: center; text-decoration: none;}

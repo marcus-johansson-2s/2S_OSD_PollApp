@@ -5,54 +5,60 @@
 
 <head>
     <title>Demo</title>
-    <meta charset="UTF-8">
-    <link href="../static/style.css" th:href="@{/static/style.css|}" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
-        body {background-color: lightblue;}
-        h2 {color: white;text-align: center;}
-        h3 {color: white;text-align: center;}
-        p {font-family: verdana;font-size: 20px;}
-        /* A link that has not been visited */
-        a:link {color: White; text-align: center; text-decoration: none;}
-        /* A link that has been visited */
-        a:visited {color: White; text-align: center; text-decoration: none;}
-        /* A link that is hovered on */
-        a:hover {color: White; text-align: center; text-decoration: none;}
-        /* A link that is selected */
-        a:active {color: White; text-align: center; text-decoration: none;}
-        .banner{
-            margin: 0px auto;
-            padding: 0;
-            height: 10%;
-            width: 100%;
-            overflow: hidden;
-            border:solid;
-            background: darkcyan;
-            border-width: 0px 0px 20px 0px;
-            border-color: darkcyan;
-        }
 
+        body {background-color: whitesmoke;}
+
+        h1 {  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+            font-size:62px;
+            padding: 30px 20px;
+            text-align: center;
+            text-transform: uppercase;
+            text-rendering: optimizeLegibility;
+            text-shadow: 1px 2px darkslategray;
+        }
+        h2 {font-family: Helvetica;color: darkgrey;text-align: center;}
+        h3 {font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;color: whitesmoke;text-align: center; text-shadow: 1px 1px darkslategray;}
+        p {font-family: Helvetica;font-size: 15px;}
+        h4 {color: darkgrey;text-align: center;font-size: 14px;}
+        /* A link that has not been visited */
+        textarea { background: white; border:none }
+        label {color: darkgrey;}
+        #grad1 {
+            background-image: linear-gradient(darkslategray,whitesmoke);
+        }
+        #grad2 {
+            background-image: linear-gradient(to right, whitesmoke , darkslategray,whitesmoke); opacity:0.3;
+        }
     </style>
 </head>
 <body>
-<div class="banner" style="text-align:center">
-    <table align="center">
-        <tr><h2>QuestionApp</h2></tr>
-        <th><a href="createForm.html"
-               th:href="@{/createForm}">Create Form</a></th>
-        <th><a href="answerQuestion.html"
-               th:href="@{/answerQuestion}">Answer</a></th>
-        <th><a href="questions.html"
-               th:href="@{/questions}">Forms</a></th>
-        <th><a href="chooseFormAndAnswers.html"
-               th:href="@{/chooseFormAndAnswers}">See Answers</a></th></tr>
-    </table>
+<div class="jumbotron text-center bg-dark text-white" id="grad1">
+    <h1>QuestionApp</h1>
+    <p>-the greatest form generator the world has ever seen</p>
+    <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-outline-danger">Create</a>
+    <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-outline-secondary">Answer Form</a>
+    <a href="chooseFormAndAnswers.html" type="button" class="btn btn-outline-secondary">See Answers</a>
 </div>
-<h2>Succsess!</h2><br>
-<h2></h2>
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="container p-0 my-0 bg-dark text-white" id="grad2">
+                <h3>Success</h3>
+            </div>
+
+
+</div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
-
-
-
 </html>

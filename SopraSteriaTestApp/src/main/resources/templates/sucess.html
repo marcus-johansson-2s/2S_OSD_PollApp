@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        body {background-color: lightblue;}
+        h2 {color: white;text-align: center;}
+        h3 {color: white;text-align: center; font-size: 14px}
+        h4 {color: white;text-align: center;}
+        p {font-family: verdana;font-size: 20px;}
+
+        /* A link that has not been visited */
+        a:link {color: White; text-align: center; text-decoration: none;}
+        /* A link that has been visited */
+        a:visited {color: White; text-align: center; text-decoration: none;}
+        /* A link that is hovered on */
+        a:hover {color: White; text-align: center; text-decoration: none;}
+        /* A link that is selected */
+        a:active {color: White; text-align: center; text-decoration: none;}
+        .banner{
+            margin: 0px auto;
+            padding: 0;
+            height: 10%;
+            width: 100%;
+            overflow: hidden;
+            border:solid;
+            background: darkcyan;
+            border-width: 0px 0px 20px 0px;
+            border-color: darkcyan;
+        }
+        label {color: white;text-align: center;}
+        table {color: white;text-align: center;}
+
+    </style>
+
+</head>
+<body>
+<div class="jumbotron text-center bg-dark text-white">
+    <h1>QuestionApp</h1>
+    <p>blabla blabla</p>
+    <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-outline-danger">Create</a>
+    <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-outline-secondary">Answer Form</a>
+    <a href="chooseFormAndAnswers.html" type="button" class="btn btn-outline-secondary">See Answers</a>
+</div>
+
+
+<div class="container">
+    <div class="row">
+
+    </div>
+</div>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>

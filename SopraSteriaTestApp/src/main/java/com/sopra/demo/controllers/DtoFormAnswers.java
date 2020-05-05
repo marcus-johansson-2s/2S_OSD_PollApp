@@ -49,9 +49,9 @@ public class DtoFormAnswers {
                 if(fa.getFormId()==form.getFormId()) {
                     outPutBuilder.append(" Question :" + form.getQuestionList().get(qa.getQuestionId()).getQuestion()+ "\n");
                     if (qa.getType() == 1)
-                        outPutBuilder.append("\n" + "TextBox" + "\n" + qa.getTextAnswer() + "\n");
+                        outPutBuilder.append("\n" + "Text" + "\n" + qa.getTextAnswer() + "\n");
                     if (qa.getType() == 2) {
-                        outPutBuilder.append("\n" + "RadioAnswer :" + qa.getRadioAnswer() + "\n");
+                        outPutBuilder.append("\n" + "Radio :" + qa.getRadioAnswer() + "\n");
                             radioMedian=qa.getRadioAnswer();
 
                             if(test.get(qa.getQuestionId()) != null)
@@ -60,7 +60,7 @@ public class DtoFormAnswers {
                             test.put(qa.getQuestionId(),radioMedian);
                     }
                     if (qa.getCheckBoxAnswer() != null && !qa.getCheckBoxAnswer().isEmpty()) {
-                        outPutBuilder.append("\n"+"CheckBoxAnswer: ");
+                        outPutBuilder.append("\n"+"Checkbox: ");
                         for (Integer o : qa.getCheckBoxAnswer()) {
                             if(form.getQuestionList().get(qa.getQuestionId()).getCheckBoxAnswer().get(o)!=null)
                             outPutBuilder.append(form.getQuestionList().get(qa.getQuestionId()).getCheckBoxAnswer().get(o) + "  " );

@@ -202,40 +202,30 @@ public class Controlindex {
     @GetMapping("/answerQuestion")
     public String answerInput(Model model) {
 
-        model.addAttribute("answerQuestion", new DTO());
+        List<Integer> lista = new ArrayList<>();
+        List<String> strings = new ArrayList<>();
+        for(Form i:formService.findAll())
+        {
+            strings.add(i.getDescription());
+            int e= (int) i.getFormId();
+            lista.add(e);
+        }
+
+
+        model.addAttribute("strings", strings);
+
+        model.addAttribute("Qid", lista);
         return "answerQuestion";
-    }
-
-    @PostMapping("/answerQuestion")
-    public String answerFinish(@RequestParam int id, Model model, RedirectAttributes redirectAttrs) {
-
-                redirectAttrs.addAttribute("id", id);
-                return "redirect:/answerSpecQuestion";
-
     }
 
     ///////////////////////////////////FormAnswer SPecific Question
    // @RequestMapping(value = "/answerSpecQuestion" , method = RequestMethod.GET)
-    @GetMapping("/answerSpecQuestion")
-    public String answerSpec(@ModelAttribute ("id") int id, Model model) {
+   // @GetMapping("/answerSpecQuestion"
+    @RequestMapping(value = "/answerSpecQuestion" ,params="id", method = RequestMethod.GET)
+    public String answerSpec(@RequestParam ("id") long id, Model model) {
 
-        model.addAttribute("dto",formService.findAll().get(id));
+        model.addAttribute("dto",formService.findAll().get((int)id));
         return "answerSpecQuestion";
-
-
-        /*
-        for(Form f:formService.findAll()){
-            System.out.println(f.getFormId());
-            if((long)id==f.getFormId()) {
-                model.addAttribute("dto", formService.findAll().get(id));
-
-
-            }
-        }
-                return "error";
-    */
-
-
 
     }
 
@@ -310,12 +300,19 @@ public class Controlindex {
     @GetMapping("/chooseFormAndAnswers")
     public String chooseForm(Model model) {
 
-        model.addAttribute("chooseForm", new DTO());
+        List<Integer> lista = new ArrayList<>();
+        for(Form i:formService.findAll())
+        {
+            int e= (int) i.getFormId();
+            lista.add(e);
+        }
+
+        model.addAttribute("chooseForm", lista);
         return "chooseFormAndAnswers";
     }
-
+/*
     @PostMapping("/chooseFormAndAnswers")
-    public String chooseFormPost(@RequestParam int id,RedirectAttributes redirectAttrs) {
+    public String chooseFormPost(@ModelAttribute List id,RedirectAttributes redirectAttrs) {
 
                 redirectAttrs.addAttribute("id", id);
                 return "redirect:/showingFormAnswers";
@@ -323,12 +320,13 @@ public class Controlindex {
 
     }
 
+ */
+
     /////////////////////////////Seeing form Answers
 
-    @RequestMapping(value = "/showingFormAnswers" , method = RequestMethod.GET)
-    public String showingForm(@ModelAttribute ("id") int id,Model model) {
+    @RequestMapping(value = "/showingFormAnswers" ,params="id", method = RequestMethod.GET)
+    public String showingForm(@RequestParam ("id") long id,Model model) {
      DtoFormAnswers test= new DtoFormAnswers();
-
 
          for (Form q : formService.findAll()) {
              if (id == q.getFormId()) {
