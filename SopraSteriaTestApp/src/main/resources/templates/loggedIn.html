@@ -8,46 +8,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <style>
-
-        body {background-color: whitesmoke;}
-
-        h1 {  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-            font-size:62px;
-            padding: 30px 20px;
-            text-align: center;
-            text-transform: uppercase;
-            text-rendering: optimizeLegibility;
-            text-shadow: 1px 2px darkslategray;
-        }
-        h2 {font-family: Helvetica;color: darkgrey;text-align: center;}
-        h3 {font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;color: whitesmoke;text-align: center; text-shadow: 1px 1px darkslategray;}
-        p {font-family: Helvetica;font-size: 15px;}
-        h4 {color: darkgrey;text-align: center;font-size: 14px;}
-        /* A link that has not been visited */
-        textarea { background: white; border:none }
-        label {color: darkgrey;}
-        #grad1 {
-            background-image: linear-gradient(darkslategray,whitesmoke);
-        }
-        #grad2 {
-            background-image: linear-gradient(to right, whitesmoke , darkslategray,whitesmoke); opacity:0.3;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="/css/style.css"/>
 </head>
 <body>
 <div class="jumbotron text-center bg-dark text-white" id="grad1">
     <h1>QuestionApp</h1>
-    <p>-the greatest form generator the world has ever seen</p>
+    <p>-super awesome form generator</p>
     <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-outline-danger">Create</a>
+    <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers.html}" type="button" class="btn btn-outline-danger">Modify</a>
     <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-outline-secondary">Answer Form</a>
-    <a href="chooseFormAndAnswers.html" type="button" class="btn btn-outline-secondary">See Answers</a>
+    <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-outline-secondary">See Answers</a>
 </div>
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-
             <div class="container p-0 my-0 bg-dark text-white" id="grad2">
                 <h3>Success</h3>
             </div>

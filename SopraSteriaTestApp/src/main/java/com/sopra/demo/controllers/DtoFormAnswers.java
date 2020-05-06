@@ -63,7 +63,7 @@ public class DtoFormAnswers {
                         outPutBuilder.append("\n"+"Checkbox: ");
                         for (Integer o : qa.getCheckBoxAnswer()) {
                             if(form.getQuestionList().get(qa.getQuestionId()).getCheckBoxAnswer().get(o)!=null)
-                            outPutBuilder.append(form.getQuestionList().get(qa.getQuestionId()).getCheckBoxAnswer().get(o) + "  " );
+                            outPutBuilder.append("\n"+form.getQuestionList().get(qa.getQuestionId()).getCheckBoxAnswer().get(o) + "  " );
                         }
                     }
                     outPutBuilder.append("\n"+ "-"+ "\n");

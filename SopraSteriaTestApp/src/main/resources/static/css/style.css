@@ -1,8 +1,8 @@
 body {background-color: whitesmoke;}
 
 h1 {  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-    font-size:52px;
-    padding: 20px 10px;
+    font-size:62px;
+    padding: 30px 10px;
     text-align: center;
     text-transform: uppercase;
     text-rendering: optimizeLegibility;
@@ -19,7 +19,7 @@ label {color: darkgrey;}
     background-image: linear-gradient(darkslategray,whitesmoke);
 }
 #grad2 {
-    background-image: linear-gradient(to right, whitesmoke , darkslategray,whitesmoke); opacity:0.3;
+    background-image: linear-gradient(to right, whitesmoke , darkslategray,whitesmoke); opacity:0.5;
 }
 a:link {color: darkslategray; text-align: center; text-decoration: none;}
 /* A link that has been visited */
