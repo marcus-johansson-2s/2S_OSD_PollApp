@@ -14,7 +14,8 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
-public class WebConfig  implements WebMvcConfigurer {
+public class WebConfig  implements WebMvcConfigurer  {
+
 
     @Bean
     @Description("Thymeleaf template resolver serving HTML 5")
@@ -66,8 +67,8 @@ public class WebConfig  implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/createUser.html").setViewName("createUser");
-        registry.addViewController("/login.html").setViewName("login");
-        registry.addViewController("/result.html").setViewName("result");
+        registry.addViewController("/loginSuccess.html").setViewName("loginSuccess");
+        registry.addViewController("/admin.html").setViewName("admin");
         registry.addViewController("/members.html").setViewName("members");
         registry.addViewController("/loggedIn.html").setViewName("loggedIn");
         registry.addViewController("/createForm.html").setViewName("createForm");

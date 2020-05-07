@@ -46,11 +46,17 @@
     <input type="hidden" th:field="*{formId}">
     <input type="hidden" th:name="|questionList[${itemStat.index}].id|" th:value="${message.getId()}"/>
 
-<h4>Question</h4>
+    <br>
 
- <h4 th:text="${message.getQuestion()}" ></h4>
+<div class="card text-white bg-info mb-3" style="width: 20rem; border-width: 20px;border-color: transparent;" >
+    <div class="card-body">
+ <div th:text="${message.getQuestion()}" ></div>
+    </div>
 
-     <textarea rows="5" cols="20" th:name="|questionList[${itemStat.index}].tmpString|" form="usrform" type="text" th:if="${message.getTypeQuestion() == 1}">Enter text here...</textarea>
+</div>
+
+
+     <textarea rows="3" cols="40" th:name="|questionList[${itemStat.index}].tmpString|" form="usrform" type="text" th:if="${message.getTypeQuestion() == 1}">Enter text here...</textarea>
 
 
             <div class="btn-group btn-group-toggle" data-toggle="buttons" th:if="${message.getTypeQuestion() == 2}">

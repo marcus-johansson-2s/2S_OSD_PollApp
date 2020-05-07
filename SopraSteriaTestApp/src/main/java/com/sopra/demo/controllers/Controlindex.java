@@ -4,6 +4,7 @@ import com.sopra.demo.controllers.Answers.QuestionAnswer;
 import com.sopra.demo.controllers.Service.AnswerService;
 import com.sopra.demo.controllers.Service.FormService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Controller
 public class Controlindex {
 
@@ -19,8 +21,8 @@ public class Controlindex {
     @Autowired
     private AnswerService answerService;
 
-
-
+    String pass="admin";
+    Boolean adminPower=false;
     public static List<Member>memberList = new ArrayList<Member>();
 
 
@@ -29,19 +31,24 @@ public class Controlindex {
             return "index";
         }
     //////////////////////////////Create User
-        @GetMapping("/createUser")
-    public String signUp(Model model) {
-        model.addAttribute("createUser", new Member());
-        return "createUser";
+
+
+        @GetMapping("/admin")
+        public String signUp(Model model) {
+
+        model.addAttribute("admin", new smallDto());
+        return "admin";
     }
-    @PostMapping("/createUser")
-    public String Submit(@ModelAttribute Member member) {
-        for(Member mems:memberList){
-            if(mems.getName().equals(member.getName()))
-                    return "error";
+    @PostMapping("/admin")
+    public String Submit(@ModelAttribute("admin") smallDto admin) {
+
+        if(admin.getAdminPass().equals(pass))
+        {
+            adminPower=true;
+            return "loggedIn";
         }
-        memberList.add(member);
-        return "result";
+
+        return "error";
     }
 
     @RequestMapping(value = "/members" , method = RequestMethod.GET)
@@ -53,7 +60,7 @@ public class Controlindex {
     @GetMapping("/login")
     public String login(Model model){
         model.addAttribute("login", new Member());
-        return "login";
+        return "loginSuccess";
     }
 
     @PostMapping("/login")
@@ -230,14 +237,14 @@ public class Controlindex {
     }
 
     @PostMapping("/answerSpecQuestion")
-    public String answerSpecFinish(@ModelAttribute (value="dto")Form form)throws Exception {
+    public String answerSpecFinish(@ModelAttribute (value="dto")Form form,OAuth2AuthenticationToken authentication)throws Exception {
+
 
         FormAnswer fa = new FormAnswer();
 
                 fa.setFormId(form.getFormId());
                 fa.setId(answerService.findAnswers().size());
-                fa.setUser("ANON");
-
+                fa.setUser(authentication.getPrincipal().getAttributes().get("name").toString());
 
 
         for(Question q:form.getQuestionList())
