@@ -48,7 +48,9 @@ public class Controlindex {
             return "loggedIn";
         }
 
-        return "error";
+        return "adminDeny";
+
+
     }
 
     @RequestMapping(value = "/members" , method = RequestMethod.GET)
@@ -83,6 +85,10 @@ public class Controlindex {
     //////////////////////////////Create Form
     @GetMapping("/createForm")
     public String Fcreate(Model model) {
+
+        if(!adminPower)
+            return "adminDeny";
+
         model.addAttribute("createObj", new DTO());
         return "createForm";
     }
@@ -101,6 +107,11 @@ public class Controlindex {
     //////////////////Create Question
     @GetMapping("/createQuestions")
     public String Qcreate(@ModelAttribute ("id")int id,Model model) {
+
+        if(!adminPower)
+            return "adminDeny";
+
+
         DTO dto = new DTO();
         int indexCount=formService.findAll().get(id).getQuestionList().size();
 
@@ -197,10 +208,9 @@ public class Controlindex {
 
 
     ///////////////////////////////////////// POSTING QUESTIONS
-    @RequestMapping(value = "/questions" , method = RequestMethod.GET)
-    @ModelAttribute("question")
-    public  List<Form> postForms(){
-        return formService.findAll();
+    @RequestMapping(value = "/adminDeny" , method = RequestMethod.GET)
+    public  String adminDeny(Model model){
+        return "adminDeny";
     }
 
     ///////////////////////////7
@@ -307,6 +317,9 @@ public class Controlindex {
     @GetMapping("/chooseFormAndAnswers")
     public String chooseForm(Model model) {
 
+        if(!adminPower)
+            return "adminDeny";
+
         List<Integer> lista = new ArrayList<>();
         for(Form i:formService.findAll())
         {
@@ -333,6 +346,10 @@ public class Controlindex {
 
     @RequestMapping(value = "/showingFormAnswers" ,params="id", method = RequestMethod.GET)
     public String showingForm(@RequestParam ("id") long id,Model model) {
+
+        if(!adminPower)
+            return "adminDeny";
+
      DtoFormAnswers test= new DtoFormAnswers();
 
          for (Form q : formService.findAll()) {
