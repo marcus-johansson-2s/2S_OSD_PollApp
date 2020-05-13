@@ -1,8 +1,5 @@
 package com.sopra.demo.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DTO {
     private String question;
     private String answer;
@@ -11,11 +8,13 @@ public class DTO {
     private int formId;
     private int anotherQuestion=0;
     private String checkBoxText;
+    private boolean tmpInt=false;
 
     DTO(){}
     public DTO(String answer, int id) {
         this.answer = answer;
         this.id = id;
+
     }
 
 
@@ -73,5 +72,13 @@ public class DTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean getTmpInt() {
+        return tmpInt;
+    }
+
+    public void setTmpInt(boolean tmpInt) {
+        this.tmpInt = tmpInt;
     }
 }

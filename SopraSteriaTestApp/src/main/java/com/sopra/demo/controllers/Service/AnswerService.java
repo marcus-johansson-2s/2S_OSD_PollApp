@@ -6,6 +6,8 @@ import com.sopra.demo.controllers.Form;
 import java.util.List;
 
 public interface AnswerService {
+
+    public void delForm(long id);
     List<FormAnswer> findAnswers();
     void saveAnswers(FormAnswer formAnswer);
 }

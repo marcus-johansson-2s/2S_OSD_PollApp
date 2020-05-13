@@ -1,24 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 
 
 <head>
     <title>Demo</title>
     <meta charset="utf-8">
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="/css/style.css"/>
+
 </head>
 <body>
+
 <div class="jumbotron text-center bg-dark text-white" id="grad1">
     <h1>QuestionApp</h1>
     <p>-super awesome form generator</p>
     <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-outline-danger">Create</a>
-    <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers.html}" type="button" class="btn btn-outline-danger">Modify</a>
+    <a href="modify.html"  th:href="@{/modify}" type="button" class="btn btn-outline-danger">Modify</a>
     <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-outline-secondary">Answer Form</a>
     <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-outline-secondary">See Answers</a>
+    <a href="admin.html"  th:href="@{/admin}" type="button" class="btn btn-outline-warning">Admin</a>
 </div>
+
 
 <div class="container">
     <div class="row">
@@ -29,6 +35,20 @@
 <form th:align="center" action="#" th:action="@{/createForm}" th:object="${createObj}" method="post" id="usrform">
     <label for="comment">Description</label><br>
     <textarea rows="10" cols="25" name="comment" form="usrform"  type="text" id=comment th:field="*{question}" >Enter text here...</textarea>
+
+    <h4>Should the form be anonymous?</h4>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-outline-secondary">
+            <input type="radio" name="options" id="option5"  checked value="true" th:field="${createObj.tmpInt}"> No
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" name="options" id="option4" value="false" th:field="${createObj.tmpInt}"> Yes
+        </label>
+    </div>
+
+    <h4>-</h4>
+
+
     <p><input type="submit" value="Create" class="btn btn-outline-danger"/> </p>
 </form>
         </div>
@@ -37,8 +57,13 @@
 
 </div>
 
+
+
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
 </body>
+
 </html>

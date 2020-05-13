@@ -6,16 +6,18 @@
 <head>
     <title>Demo</title>
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="/css/style.css"/>
 </head>
 <body>
+
 <div class="jumbotron text-center bg-dark text-white" id="grad1">
     <h1>QuestionApp</h1>
     <p>-super awesome form generator</p>
     <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-outline-danger">Create</a>
-    <a href="modify.html"  th:href="@{/modify.html}" type="button" class="btn btn-outline-danger">Modify</a>
+    <a href="modify.html"  th:href="@{/modify}" type="button" class="btn btn-outline-danger">Modify</a>
     <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-outline-secondary">Answer Form</a>
     <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-outline-secondary">See Answers</a>
     <a href="admin.html"  th:href="@{/admin}" type="button" class="btn btn-outline-warning">Admin</a>
@@ -23,18 +25,82 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-12">
             <div class="container p-0 my-0 bg-dark text-white" id="grad2">
-                <h3>ModifyForm</h3>
+                <h3>Modify</h3>
             </div>
-            <h4>chooose form to modify</h4>
+            <h4>Forms need to be activated for applicants to answer them,once a form is activated it will always be
+                active , Forms can only be modified if no activated</h4>
+            <div th:align="center">
+            <button type="button" class="btn btn-outline-secondary" onclick = "display('firstbox')">Remove</button>
+            <button type="button" class="btn btn-outline-secondary" onclick = "display('secondbox')">Modify</button>
+                <button type="button" class="btn btn-outline-secondary" onclick = "display('thirdbox')">Activate</button>
+            </div>
+
+
+            <div id="text4" align="center" style="display:none">
+                <h4>Choose form to remove</h4>
+                <h4>-</h4>
+                <h4 th:each="test: ${chooseForm}" >  <a href="modifyForm.html" th:href="@{/modifyForm(id=${test})}" th:text="'Form : ' +${test}"  /></h4>
+                <h4>-</h4>
+            </div>
+
+            <div id="text5" align="center" style="display:none">
+                <h4>Choose form to Modify</h4>
+                <h4>-</h4>
+
+                <h4>-</h4>
+            </div>
+
+            <div id="text6" align="center" style="display:none">
+                <h4>Choose form to Activate</h4>
+                <h4>-</h4>
+
+                <h4>-</h4>
+            </div>
+
 
         </div>
-
     </div>
+</div>
+
+
+
+
+<script>
+    var text = document.getElementById("text4");
+    var text5 = document.getElementById("text5");
+    var text6 = document.getElementById("text6");
+    function display (selected)
+
+{
+if (selected === 'firstbox')
+{
+text.style.display = "block";
+    text5.style.display = "none";
+    text6.style.display = "none";
+}
+else if (selected === 'secondbox')
+{
+    text.style.display = "none";
+    text5.style.display = "block";
+    text6.style.display = "none";
+}
+else if (selected === 'thirdbox')
+{
+    text.style.display = "none";
+    text5.style.display = "none";
+    text6.style.display = "block";
+}
+
+
+}
+</script>
+
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
 </body>
 </html>

@@ -2,10 +2,12 @@ package com.sopra.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ResolvableType;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -23,11 +25,6 @@ import java.util.Map;
 @Controller
 public class ControllerUser {
 
-    private static final String authorizationRequestBaseUri = "oauth2/authorize-client";
-    Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
-
-    @Autowired
-    private ClientRegistrationRepository clientRegistrationRepository;
 
 
 
@@ -35,11 +32,9 @@ public class ControllerUser {
     private OAuth2AuthorizedClientService authorizedClientService;
 
 
-
-
-
     @GetMapping("/loginSuccess")
     public String getLoginInfo(Model model, OAuth2AuthenticationToken authentication) {
+
 
         OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
 
@@ -65,9 +60,6 @@ public class ControllerUser {
 
         return "loginSuccess";
     }
-
-
-
 
 
 

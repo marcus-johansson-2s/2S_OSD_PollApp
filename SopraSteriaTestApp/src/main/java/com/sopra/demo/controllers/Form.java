@@ -10,13 +10,15 @@ public class Form {
     private Long formId;
     public List<Question> questionList=new ArrayList<>();
     private String description;
+    private boolean isAnon=false;
 
 
     Form(){}
 
-    Form(long formId, String desc){
+    Form(long formId, String desc,boolean anon){
         this.formId = formId;
         description=desc;
+        isAnon=anon;
 
     }
 
@@ -43,5 +45,13 @@ public class Form {
 
     public void setQuestionList(Question questionList) {
         this.questionList.add(questionList);
+    }
+
+    public boolean getAnon() {
+        return isAnon;
+    }
+
+    public void setAnon(boolean anon) {
+        isAnon = anon;
     }
 }

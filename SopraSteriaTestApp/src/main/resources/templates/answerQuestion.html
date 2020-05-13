@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:color="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 
 
 
@@ -11,23 +11,28 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="/css/style.css"/>
 </head>
 <body>
+
 <div class="jumbotron text-center bg-dark text-white" id="grad1">
     <h1>QuestionApp</h1>
     <p>-super awesome form generator</p>
     <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-outline-danger">Create</a>
-    <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers.html}" type="button" class="btn btn-outline-danger">Modify</a>
+    <a href="modify.html"  th:href="@{/modify}" type="button" class="btn btn-outline-danger">Modify</a>
     <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-outline-secondary">Answer Form</a>
     <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-outline-secondary">See Answers</a>
     <a href="admin.html"  th:href="@{/admin}" type="button" class="btn btn-outline-warning">Admin</a>
 </div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="container p-0 my-0 bg-dark text-white" id="grad2">
                 <h3>Answer form</h3>
             </div>
-<th:block th:each="test: ${Qid}" align="center">
+<th:block th:each="test,i: ${Qid}" align="center">
+    <!--
     <h4>  <a href="answerSpecQuestion.html" th:href="@{/answerSpecQuestion(id=${test})}" th:text="'Form  ' +${test} +' description : '+${strings.get(test)}"/></h4>
+    -->
+    <h4>  <a href="answerSpecQuestion.html" th:href="@{/answerSpecQuestion(id=${test.formId})}" th:text="'Form  ' +${test.formId} +' description : '+${test.description}"/></h4>
 </th:block>
         </div>
     </div>
@@ -35,5 +40,8 @@
             <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+
 </body>
 </html>

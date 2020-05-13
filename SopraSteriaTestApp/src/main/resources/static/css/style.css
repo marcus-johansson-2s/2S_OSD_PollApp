@@ -18,6 +18,17 @@ label {color: darkgrey;}
 #grad1 {
     background-image: linear-gradient(darkslategray,whitesmoke);
 }
+#grad3{
+    color:#000000;
+    border: 0;
+    margin-bottom: 0;
+
+}
+#grad4{
+    color:#cccccc;
+    border: 0;
+    margin-bottom: 0;
+}
 #grad2 {
     background-image: linear-gradient(to right, whitesmoke , darkslategray,whitesmoke); opacity:0.5;
 }

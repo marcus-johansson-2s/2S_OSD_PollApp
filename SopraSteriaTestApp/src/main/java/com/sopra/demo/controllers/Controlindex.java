@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.*;
 
 @Controller
 public class Controlindex {
@@ -21,8 +24,8 @@ public class Controlindex {
     @Autowired
     private AnswerService answerService;
 
-    String pass="admin";
-    Boolean adminPower=false;
+    private String adminPass ="admin";
+
     public static List<Member>memberList = new ArrayList<Member>();
 
 
@@ -33,49 +36,43 @@ public class Controlindex {
     //////////////////////////////Create User
 
 
-        @GetMapping("/admin")
-        public String signUp(Model model) {
+    @GetMapping("/admin")
+        public String signUp(Model model,HttpSession session)throws Exception {
+
+        try {
+            if (session.getAttribute("sessionPass")=="hasRights")
+                return "loginSuccess";
+
+
+
+        }catch (Exception e){}
 
         model.addAttribute("admin", new smallDto());
         return "admin";
     }
     @PostMapping("/admin")
-    public String Submit(@ModelAttribute("admin") smallDto admin) {
+    public String Submit(@ModelAttribute("admin") smallDto admin, HttpSession session, HttpServletResponse response) throws IOException {
 
-        if(admin.getAdminPass().equals(pass))
+        response.setContentType("text/html");
+        PrintWriter pw = response.getWriter();
+
+        if(admin.getAdminPass().equals(adminPass))
         {
-            adminPower=true;
+            session.setAttribute("sessionPass", "hasRights");
+            pw.println("You can now create,modify and see form answers");
             return "loggedIn";
         }
 
         return "adminDeny";
-
-
     }
 
     @RequestMapping(value = "/members" , method = RequestMethod.GET)
     @ModelAttribute("test")
+
     public  List<Member> member(){
         return memberList;
     }
     //////////////////////////////LOGIN
-    @GetMapping("/login")
-    public String login(Model model){
-        model.addAttribute("login", new Member());
-        return "loginSuccess";
-    }
-
-    @PostMapping("/login")
-    public String loginCheck(@ModelAttribute Member member) {
-
-        for(Member mems:memberList){
-            if(mems.getName().equals(member.getName()) && mems.getPassword().equals(member.getPassword()))
-                return "loggedIn";
-        }
-        return "error";
-    }
-
-
     @RequestMapping("/loggedIn")
     public String loggedIn(){
         return "loggedIn";
@@ -84,21 +81,27 @@ public class Controlindex {
 
     //////////////////////////////Create Form
     @GetMapping("/createForm")
-    public String Fcreate(Model model) {
+    public String Fcreate(Model model, HttpSession session)throws Exception {
 
-        if(!adminPower)
-            return "adminDeny";
+        try { if (!session.getAttribute("sessionPass").equals("hasRights"))
+                return "adminDeny";
+        }catch(Exception e){    return "adminDeny";}
 
         model.addAttribute("createObj", new DTO());
         return "createForm";
     }
-    @PostMapping("/createForm")
-    public String Fsubmit(@RequestParam ("question")String description,RedirectAttributes redirectAttrs) {
 
-        int indexCount=formService.findAll().size();
-        List<Form> tmpForm = new ArrayList<>();
-        tmpForm.add(new Form((long)indexCount,description));
-        formService.saveAll(tmpForm);
+    @PostMapping("/createForm")
+    public String Fsubmit(@RequestParam("tmpInt")boolean anon,@RequestParam ("question")String description,RedirectAttributes redirectAttrs) {
+
+        long indexCount= 0;
+
+        while(formService.existsDoubles(indexCount)) {
+            indexCount++;
+        }
+
+
+        formService.save(new Form((long)indexCount,description,anon));
 
         redirectAttrs.addAttribute("id",indexCount);
         return "redirect:/createQuestions";
@@ -106,14 +109,17 @@ public class Controlindex {
 
     //////////////////Create Question
     @GetMapping("/createQuestions")
-    public String Qcreate(@ModelAttribute ("id")int id,Model model) {
+    public String Qcreate(@ModelAttribute ("id")int id,Model model,HttpSession session) {
 
-        if(!adminPower)
+        try { if (!session.getAttribute("sessionPass").equals("hasRights"))
             return "adminDeny";
+        }catch(Exception e){    return "adminDeny";}
+
 
 
         DTO dto = new DTO();
-        int indexCount=formService.findAll().get(id).getQuestionList().size();
+        int indexCount=formService.findingOne(id).questionList.size();
+
 
         dto.setAnswerId(1);
         dto.setAnotherQuestion(2);
@@ -146,7 +152,8 @@ public class Controlindex {
                 for(Form f:formService.findAll()){
                     if(f.getFormId()==formId){
                         q.setTypeQuestion(1);
-                        formService.findAll().get(formId).setQuestionList(q);
+                        formService.findingOne(formId).setQuestionList(q);
+                        //formService.findAll().get(formId).setQuestionList(q);
 
                     }}
                 redirectAttrs.addAttribute("id",formId);
@@ -155,7 +162,8 @@ public class Controlindex {
                 for(Form f:formService.findAll()) {
                     if (f.getFormId() == formId) {
                         q.setTypeQuestion(1);
-                        formService.findAll().get(formId).setQuestionList(q);
+                        formService.findingOne(formId).setQuestionList(q);
+                       // formService.findAll().get(formId).setQuestionList(q);
 
                     }
                 }
@@ -166,7 +174,8 @@ public class Controlindex {
                 for(Form f:formService.findAll()) {
                     if (f.getFormId() == formId) {
                         q.setTypeQuestion(2);
-                        formService.findAll().get(formId).setQuestionList(q);
+                        formService.findingOne(formId).setQuestionList(q);
+                        //formService.findAll().get(formId).setQuestionList(q);
                     }
                 }
                 redirectAttrs.addAttribute("id",formId);
@@ -175,7 +184,8 @@ public class Controlindex {
                 for(Form f:formService.findAll()) {
                     if (f.getFormId() == formId) {
                         q.setTypeQuestion(2);
-                        formService.findAll().get(formId).setQuestionList(q);
+                        //formService.findAll().get(formId).setQuestionList(q);
+                        formService.findingOne(formId).setQuestionList(q);
                     }
                 }
                 return "loggedIn";
@@ -185,7 +195,8 @@ public class Controlindex {
                 for(Form f:formService.findAll()) {
                     if (f.getFormId() == formId) {
                         q.setTypeQuestion(3);
-                        formService.findAll().get(formId).setQuestionList(q);
+                        formService.findingOne(formId).setQuestionList(q);
+                       // formService.findAll().get(formId).setQuestionList(q);
                     }
                 }
                 redirectAttrs.addAttribute("id",formId);
@@ -195,7 +206,8 @@ public class Controlindex {
                 for(Form f:formService.findAll()) {
                     if (f.getFormId() == formId) {
                         q.setTypeQuestion(3);
-                        formService.findAll().get(formId).setQuestionList(q);
+                        formService.findingOne(formId).setQuestionList(q);
+                       // formService.findAll().get(formId).setQuestionList(q);
                     }
                 }
                 return "loggedIn";
@@ -228,10 +240,9 @@ public class Controlindex {
             lista.add(e);
         }
 
-
         model.addAttribute("strings", strings);
 
-        model.addAttribute("Qid", lista);
+        model.addAttribute("Qid", formService.findAll());
         return "answerQuestion";
     }
 
@@ -239,9 +250,24 @@ public class Controlindex {
    // @RequestMapping(value = "/answerSpecQuestion" , method = RequestMethod.GET)
    // @GetMapping("/answerSpecQuestion"
     @RequestMapping(value = "/answerSpecQuestion" ,params="id", method = RequestMethod.GET)
-    public String answerSpec(@RequestParam ("id") long id, Model model) {
+    public String answerSpec(@RequestParam ("id") long id, Model model,OAuth2AuthenticationToken authentication,HttpServletResponse response) throws IOException {
 
-        model.addAttribute("dto",formService.findAll().get((int)id));
+
+            response.setContentType("text/html");
+            PrintWriter pw = response.getWriter();
+
+        for(FormAnswer faa:answerService.findAnswers()) {
+            if (faa.getFormId() == id) {
+                if (faa.getUser().equals(authentication.getPrincipal().getAttributes().get("name").toString())) {
+                    pw.println("You only answer once per form");
+                    return "error";
+
+                }
+
+            }
+        }
+
+        model.addAttribute("dto",formService.findAll().stream().filter(f -> f.getFormId() == id).findFirst().orElseGet(null));
         return "answerSpecQuestion";
 
     }
@@ -250,11 +276,20 @@ public class Controlindex {
     public String answerSpecFinish(@ModelAttribute (value="dto")Form form,OAuth2AuthenticationToken authentication)throws Exception {
 
 
+
+
         FormAnswer fa = new FormAnswer();
 
                 fa.setFormId(form.getFormId());
-                fa.setId(answerService.findAnswers().size());
+                fa.setId((int)form.getFormId());
+                if(form.getAnon())
                 fa.setUser(authentication.getPrincipal().getAttributes().get("name").toString());
+                else {
+                    fa.setUser(authentication.getPrincipal().getAttributes().get("name").toString());
+                    fa.setAnon(true);
+
+                }
+
 
 
         for(Question q:form.getQuestionList())
@@ -279,46 +314,19 @@ public class Controlindex {
         }
 
         answerService.saveAnswers(fa);
-/*        answerService.saveAnswers(fa);
-        int o= (int) form.getFormId();
-
-        for( Question q:formService.findAll().get(o).getQuestionList()) {
-            System.out.println("_________HASHMAP");
-            for (Map.Entry<Integer, String> entry : q.getCheckBoxAnswer().entrySet()) {
-                System.out.println("Key = " + entry.getKey() +
-                        ", Value = " + entry.getValue());
-            }
-            System.out.println("____________________________--");
-        }
-
-        for(Question q:form.getQuestionList())
-        {
-            System.out.println("Question "+ q.getId());
-            System.out.println("CheckBoxAnswers");
-            for (Integer t:q.getCheckBoxAnswerList()){
-                System.out.println(t);
-                }
-            System.out.println("RadioButton");
-            System.out.println(q.getTmpInt());
-
-            System.out.println("TextAnswers");
-            System.out.println(q.getTmpString());
-
-            System.out.println("____________________________--");
-
-        }
-
- */
         return "loggedIn";
 
     }
     /////////////////////////////Chooosing form
 
     @GetMapping("/chooseFormAndAnswers")
-    public String chooseForm(Model model) {
+    public String chooseForm(Model model,HttpSession session) {
 
-        if(!adminPower)
+        try { if (!session.getAttribute("sessionPass").equals("hasRights"))
             return "adminDeny";
+        }catch(Exception e){    return "adminDeny";}
+
+
 
         List<Integer> lista = new ArrayList<>();
         for(Form i:formService.findAll())
@@ -345,19 +353,38 @@ public class Controlindex {
     /////////////////////////////Seeing form Answers
 
     @RequestMapping(value = "/showingFormAnswers" ,params="id", method = RequestMethod.GET)
-    public String showingForm(@RequestParam ("id") long id,Model model) {
+    public String showingForm(@RequestParam ("id") long id,Model model,HttpSession session) {
 
-        if(!adminPower)
+        try { if (!session.getAttribute("sessionPass").equals("hasRights"))
             return "adminDeny";
+        }catch(Exception e){    return "adminDeny";}
 
-     DtoFormAnswers test= new DtoFormAnswers();
+
+
+        DtoFormAnswers tmpClassForPrint= new DtoFormAnswers();
 
          for (Form q : formService.findAll()) {
              if (id == q.getFormId()) {
-                 test.setForm(q);
+                 tmpClassForPrint.setForm(q);
                  for(FormAnswer fa:answerService.findAnswers()) {
-                     if(fa.getFormId()==q.getFormId())
-                     test.addFormAnswer(fa);
+                     if(fa.getFormId()==q.getFormId()) {
+
+                         if (fa.isAnon()) {
+
+                             FormAnswer tmpUser = new FormAnswer();
+                             tmpUser.setUser(("anonymous"));
+                             tmpUser.addAllAnswers(fa.getAnswers());
+                             tmpUser.setId((int)fa.getId());
+                             tmpUser.setFormId(fa.getFormId());
+                             tmpClassForPrint.addFormAnswer(tmpUser);
+                         }
+                         else {tmpClassForPrint.addFormAnswer(fa);}
+
+
+                     }
+
+
+
                  }
 /*
                 for(FormAnswer b:answerService.findAnswers()){
@@ -365,13 +392,56 @@ public class Controlindex {
                     System.out.println(c.getTextAnswer());
 
                 } } */
-                System.out.println(test.SuperOut());
-                 model.addAttribute("dto", test);
+                System.out.println(tmpClassForPrint.SuperOut());
+                 model.addAttribute("dto", tmpClassForPrint);
                  return "showingFormAnswers";
              }
          }
 
         return "error";
+
+    }
+
+
+
+    @GetMapping("/modify")
+    public String chooseFormModify(Model model,HttpSession session) {
+
+
+        try { if (!session.getAttribute("sessionPass").equals("hasRights"))
+            return "adminDeny";
+        }catch(Exception e){    return "adminDeny";}
+
+
+
+        List<Integer> lista = new ArrayList<>();
+        for(Form i:formService.findAll())
+        {
+            int e= (int) i.getFormId();
+            lista.add(e);
+        }
+
+        model.addAttribute("chooseForm", lista);
+        return "modify";
+    }
+
+
+    @RequestMapping(value = "/modifyForm" ,params="id", method = RequestMethod.GET)
+    public String modifySpec(@RequestParam ("id") long id, Model model,HttpSession session)throws Exception {
+
+        try { if (!session.getAttribute("sessionPass").equals("hasRights"))
+            return "adminDeny";
+        }catch(Exception e){    return "adminDeny";}
+
+
+        try {
+            formService.delForm(id);
+            answerService.delForm(id);
+        }catch (Exception e){System.out.println(e); }
+
+
+        model.addAttribute("dto",id);
+        return "modifyForm";
 
     }
 

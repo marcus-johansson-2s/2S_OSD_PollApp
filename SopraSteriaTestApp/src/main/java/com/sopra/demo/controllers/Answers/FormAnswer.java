@@ -8,6 +8,7 @@ public class FormAnswer {
     private long id;
     private long formId;
     private String user;
+    private boolean isAnon = false;
 
     private List<QuestionAnswer>  answers = new ArrayList<>();
 
@@ -43,5 +44,16 @@ public class FormAnswer {
 
     public void addAnswers(QuestionAnswer answers) {
         this.answers.add(answers);
+    }
+    public void addAllAnswers(List<QuestionAnswer> answers2) {
+        answers=answers2;
+    }
+
+    public boolean isAnon() {
+        return isAnon;
+    }
+
+    public void setAnon(boolean anon) {
+        isAnon = anon;
     }
 }

@@ -12,6 +12,7 @@ public class smallDto {
         this.adminPass = adminPass;
     }
 
+    smallDto(String a){adminPass=a;}
     smallDto(){}
 
 

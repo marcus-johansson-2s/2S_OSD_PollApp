@@ -9,8 +9,10 @@ public interface FormService {
 
     List<Form> findAll();
     void saveAll(List<Form> form);
-
-
+    void delForm(long id);
+    public void save(Form form);
+    public Form findingOne(long theOne);
+    public boolean existsDoubles(long id);
 
 
 
