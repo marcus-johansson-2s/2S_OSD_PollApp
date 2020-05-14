@@ -67,7 +67,7 @@
 
 
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-outline-danger active">
+        <label class="btn btn-outline-secondary active">
             <input type="radio" name="options" id="option5" autocomplete="off" checked value="1" th:field="*{anotherQuestion}"> Add more
         </label>
         <label class="btn btn-outline-success">
@@ -76,6 +76,7 @@
     </div>
     <br>
     <h2>--</h2>
+    <a href="modifyQuestion.html" th:href="@{/modifyQuestion(question=404,id=${dto.formId})}" type="button" class="btn btn-outline-secondary">Modify form</a>
     <input type="submit" value="Create" class="btn btn-outline-danger" /><i class='fa fa-comment-o'></i>
 
 </form>

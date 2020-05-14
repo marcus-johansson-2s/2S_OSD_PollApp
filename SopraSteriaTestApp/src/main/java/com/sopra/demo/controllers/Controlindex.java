@@ -154,7 +154,12 @@ public class Controlindex {
         }
         q.setQuestion(question);
 
-        q.setId(id);
+        int tmp=id;
+       while(formService.existsDoublesQuestions(formId,tmp)) {
+           tmp++;
+       }
+           q.setId(tmp);
+
 
         if (answerId == 1) {
             if (anotherQuestion == 1) {
@@ -264,15 +269,13 @@ public class Controlindex {
     // @RequestMapping(value = "/answerSpecQuestion" , method = RequestMethod.GET)
     // @GetMapping("/answerSpecQuestion"
     @RequestMapping(value = "/answerSpecQuestion", params = "id", method = RequestMethod.GET)
-    public String answerSpec(@RequestParam("id") long id, Model model, OAuth2AuthenticationToken authentication, HttpServletResponse response) throws IOException {
+    public String answerSpec(@RequestParam("id") long id, Model model, OAuth2AuthenticationToken authentication,RedirectAttributes redirectAttributes) throws IOException {
 
 
-        response.setContentType("text/html");
-        PrintWriter pw = response.getWriter();
 
         if (!formService.findingOne(id).getActive()) {
-            pw.println("Form has not been activated");
-            return "error";
+            redirectAttributes.addFlashAttribute("errorDto","Form is not activated");
+            return "redirect:/errorMessage";
         }
 
 
@@ -280,8 +283,9 @@ public class Controlindex {
             if (faa.getFormId() == id) {
 
                 if (faa.getUser().equals(authentication.getPrincipal().getAttributes().get("name").toString()) ||authentication.getPrincipal().getAttributes().get("name").toString().equals(encryption.decryptOrNull(faa.getUser())) ) {
-                    pw.println("You only answer once per form");
-                    return "error";
+
+                    redirectAttributes.addFlashAttribute("errorDto","You can only answer once per form");
+                    return "redirect:/errorMessage";
 
                 }
 
@@ -375,17 +379,6 @@ public class Controlindex {
         model.addAttribute("chooseForm", lista);
         return "chooseFormAndAnswers";
     }
-/*
-    @PostMapping("/chooseFormAndAnswers")
-    public String chooseFormPost(@ModelAttribute List id,RedirectAttributes redirectAttrs) {
-
-                redirectAttrs.addAttribute("id", id);
-                return "redirect:/showingFormAnswers";
-
-
-    }
-
- */
 
     /////////////////////////////Seeing form Answers
 
@@ -409,15 +402,8 @@ public class Controlindex {
                     if (fa.getFormId() == q.getFormId()) {
                         tmpClassForPrint.addFormAnswer(fa);
                     }
-
-
                 }
-/*
-                for(FormAnswer b:answerService.findAnswers()){
-                for(QuestionAnswer c:b.getAnswers()){
-                    System.out.println(c.getTextAnswer());
 
-                } } */
                 System.out.println(tmpClassForPrint.SuperOut());
                 model.addAttribute("dto", tmpClassForPrint);
                 return "showingFormAnswers";
@@ -484,8 +470,6 @@ public class Controlindex {
             }
 
         }
-
-
         model.addAttribute("dto", id);
         return "loggedIn";
 
@@ -493,7 +477,7 @@ public class Controlindex {
     }
 
     @RequestMapping(value = "/modifyQuestion", params = "id", method = RequestMethod.GET)
-    public String modifyQuestion(@RequestParam("question") long question, @RequestParam("id") long id, Model model, HttpSession session) throws Exception {
+    public String modifyQuestion(@RequestParam("question") long question, @RequestParam("id") long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) throws Exception {
 
         try {
             if (!session.getAttribute("sessionPass").equals("hasRights"))
@@ -503,18 +487,39 @@ public class Controlindex {
         }
 
         if (formService.findingOne(id).getActive()) {
-           return "error";
+            redirectAttributes.addFlashAttribute("errorDto","You can not edit an activated form");
+            return "redirect:/errorMessage";
         }
 
         if(question!=404){
-            formService.findingOne(id).getQuestionList().remove((int)question);
+
+            formService.findingOne(id).getQuestionList().remove(formService.findingOne(id).indexCorrector((int)question));
         }
-
-
         model.addAttribute("dto", formService.findingOne(id));
         return "modifyQuestion";
+    }
+
+    @PostMapping("/modifyQuestion")
+    public String modifyPost(@RequestParam ("formId") int formId ,RedirectAttributes redirectAttributes) {
+                redirectAttributes.addAttribute("id", formId);
+                return "redirect:/createQuestions";
+    }
+
+    @GetMapping("review")
+    public String review(@RequestParam ("id") long formId,Model model) {
+        model.addAttribute("dto",  formService.findingOne(formId));
+        return "review";
+    }
 
 
+
+    @GetMapping("errorMessage")
+    public String error(Model model) {
+        String some = (String) model.asMap().get("errorDto");
+
+        System.out.println(some);
+        model.addAttribute("error", new ErrorDto(some));
+        return "errorMessage";
     }
 
 }

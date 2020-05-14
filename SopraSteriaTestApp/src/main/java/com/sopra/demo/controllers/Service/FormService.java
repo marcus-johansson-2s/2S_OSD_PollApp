@@ -13,6 +13,7 @@ public interface FormService {
     public void save(Form form);
     public Form findingOne(long theOne);
     public boolean existsDoubles(long id);
+    public boolean existsDoublesQuestions(long id,int doppler);
 
 
 

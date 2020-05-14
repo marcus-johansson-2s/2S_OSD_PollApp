@@ -37,6 +37,20 @@ public class FormMemory implements FormService {
         return false;
     }
 
+    public boolean existsDoublesQuestions(long id,int doppler) {
+        for (Map.Entry<Long,Form> entry : formDB.entrySet()) {
+            if (entry.getValue().getFormId() == id) {
+                for(int i=0;i<entry.getValue().questionList.size();i++) {
+                    if (entry.getValue().questionList.get(i).getId()==doppler)
+                            return true;
+
+                }
+            }
+
+        }
+            return false;
+    }
+
     @Override
     public List<Form> findAll() {
         return new ArrayList<>(formDB.values());

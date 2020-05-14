@@ -66,10 +66,10 @@ public class Form {
     }
 
 
-       public int indexCorrector(int index,Question q) {
-           for (int i = 0; i < questionList.size(); i++) {
+       public int indexCorrector(int index) {
+            for (int i = 0; i < questionList.size(); i++) {
 
-               if (questionList.get(i).getId() == q.getId()) {
+               if (questionList.get(i).getId() == index) {
                    return i;
                }
 

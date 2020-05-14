@@ -25,9 +25,8 @@ label {color: darkgrey;}
 
 }
 #grad4{
-    color:#cccccc;
-    border: 0;
-    margin-bottom: 0;
+
+    align-content: center;
 }
 #grad2 {
     background-image: linear-gradient(to right, whitesmoke , darkslategray,whitesmoke); opacity:0.5;

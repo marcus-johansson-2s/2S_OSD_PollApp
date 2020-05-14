@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head>
+    <title>Demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="/css/style.css"/>
+</head>
+<body>
+
+<div class="jumbotron text-center bg-dark text-white" id="grad1">
+    <h1>QuestionApp</h1>
+    <p>-super awesome form generator</p>
+    <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-outline-danger">Create</a>
+    <a href="modify.html"  th:href="@{/modify}" type="button" class="btn btn-outline-danger">Modify</a>
+    <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-outline-secondary">Answer Form</a>
+    <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-outline-secondary">See Answers</a>
+    <a href="admin.html"  th:href="@{/admin}" type="button" class="btn btn-outline-warning">Admin</a>
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="container p-0 my-0 bg-dark text-white" id="grad2">
+                <h3>Review Form</h3>
+            </div>
+            <table align="center" style="word-break: break-all;">
+                <tr>
+                    <th th:text="${dto.formId}" ></th>
+                    <td>--"</td>
+                    <th th:text="${dto.description}" ></th>
+                    <!--
+                    <th th:text="${dto.questionList.get(0).getTypeQuestion()}" ></th>
+                    -->
+                    <td>"</td>
+                </tr>
+            </table>
+
+            <form align="center" action="#" th:action="@{/review}" th:object="${dto}" method="post" id="usrform" name="usrform">
+                <div align="center" style="word-break: break-all;" th:each="message,itemStat: ${dto.questionList}" >
+
+                    <input type="hidden" th:name="|questionList[${itemStat.index}].typeQuestion|"  th:value="${message.getTypeQuestion()}">
+                    <input type="hidden" th:field="*{formId}">
+                    <input type="hidden" th:field="*{anon}">
+                    <input type="hidden" th:name="|questionList[${itemStat.index}].id|" th:value="${message.getId()}"/>
+
+                    <br>
+
+                    <div class="card text-white bg-secondary mb-3" style="width: 20rem; border-width: 20px;border-color: transparent; opacity: 40%;" >
+                        <div class="card-body">
+                            <div th:text="${message.getQuestion()}" ></div>
+                        </div>
+
+                    </div>
+
+
+                    <textarea rows="3" cols="40" th:name="|questionList[${itemStat.index}].tmpString|" form="usrform" type="text" th:if="${message.getTypeQuestion() == 1}">Enter text here...</textarea>
+
+
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons" th:if="${message.getTypeQuestion() == 2}">
+                        <label class="btn btn-outline-secondary btn-toggle" th:each="i : ${#numbers.sequence(0, 10)}">
+                            <input th:value="${i}" type="radio" th:id="${i}" th:name="|questionList[${itemStat.index}].tmpInt|"  th:text="${i}" autocomplete="off">
+                        </label>
+                    </div>
+
+                    <div class="btn-group-vertical btn-group-toggle" data-toggle="buttons" th:if="${message.getTypeQuestion() == 3}">
+                        <input hidden th:name="|questionList[${itemStat.index}].checkBoxAnswer|" th:value="${message.getId()}"/>
+                        <label class="btn btn-outline-info  btn-toggle" th:each="item,p: ${dto.questionList[__${itemStat.index}__].checkBoxAnswer}">
+                            <input  th:name="|questionList[${itemStat.index}].checkBoxAnswerList[${p.index}]|"  th:value="${item.key}"  type="checkbox" th:id="item" th:text="${item.value}" >
+                        </label>
+                    </div>
+
+
+
+                </div>
+               <h4>--</h4>
+                <br>
+
+                <a href="modifyQuestion.html" th:href="@{/modifyQuestion(question=404,id=${dto.formId})}" type="button" class="btn btn-outline-primary">Go back to modify</a>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
