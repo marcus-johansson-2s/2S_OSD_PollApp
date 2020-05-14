@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
 
 
 
@@ -7,11 +7,10 @@
     <title>Demo</title>
     <meta charset="utf-8">
 
-
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="/css/style.css"/>
-
 </head>
 <body>
 
@@ -26,41 +25,46 @@
 </div>
 
 
+
 <div class="container">
     <div class="row">
-    <div class="col-md-12">
-        <div class="container p-0 my-0 bg-dark text-white" id="grad2">
-            <h3>Create form</h3>
+        <div class="col-sm-12">
+            <div class="container p-0 my-0 bg-dark text-white" id="grad2">
+                <h3>Modify Form</h3>
+            </div>
+
+            <form align="center" action="#" th:action="@{/modifyQuestion}" th:object="${dto}" method="post" id="usrform">
+                <input type="hidden" th:field="*{formId}">
+                <label th:text="'Form:'+${dto.formId}"></label><br><br>
+
+                <div th:each="DTO:${dto.questionList}"  align="center">
+                    <label for="test" th:text="'Question: '+ ${DTO.id}"></label><br>
+                    <div id="test" class="card text-white bg-secondary mb-3" style="width: 20rem; border-width: 20px;border-color: transparent; opacity: 40%;">
+                        <div class="card-body">
+                            <div th:text="${DTO.question}" ></div><br>
+
+
+                        </div>
+
+                    </div>
+                    <a href="modifyQuestion.html" th:href="@{/modifyQuestion(question=${DTO.id},id=${dto.formId})}"  type="button" class="btn btn-outline-danger">Remove</a>
+                </div>
+
+                <br>
+
+                <h2>--</h2>
+                <input type="submit" value="Done" class="btn btn-outline-success" /><i class='fa fa-comment-o'></i>
+
+            </form>
+            <h4>OH nothing here=</h4>
+
+
+
+
         </div>
-<form th:align="center" action="#" th:action="@{/createForm}" th:object="${createObj}" method="post" id="usrform">
-    <label>Remember to activate your form after completing it!</label><br>
-    <label for="comment">Description</label><br>
-    <textarea rows="10" cols="25" name="comment" form="usrform"  type="text" id=comment th:field="*{question}" >Enter text here...</textarea>
-<br>
-    <label>Should the form be anonymous?</label>
-    <br>
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-outline-secondary">
-            <input type="radio" name="options" id="option5"  checked value="true" th:field="${createObj.tmpInt}"> No
-        </label>
-        <label class="btn btn-outline-secondary">
-            <input type="radio" name="options" id="option4" value="false" th:field="${createObj.tmpInt}"> Yes
-        </label>
     </div>
 
-    <h4>-</h4>
-
-
-    <p><input type="submit" value="Create" class="btn btn-outline-danger"/> </p>
-</form>
-        </div>
-
 </div>
-
-</div>
-
-
-
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

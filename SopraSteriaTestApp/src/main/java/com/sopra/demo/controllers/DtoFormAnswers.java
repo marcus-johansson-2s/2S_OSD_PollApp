@@ -45,24 +45,33 @@ public class DtoFormAnswers {
             outPutBuilder.append("\n"+ "-----------------------------------"+"\n");
             outPutBuilder.append("\n"+ "User :"+fa.getUser()+"\n");
             for(QuestionAnswer qa:fa.getAnswers()){
+                int matcher=0;
+                for(int i=0;i<form.getQuestionList().size();i++){
+                    if(form.getQuestionList().get(i).getId()==qa.getId())
+                    {
+                        matcher=i;
+                    }
+                }
+
+
                 counterTotalAnswers++;
                 if(fa.getFormId()==form.getFormId()) {
-                    outPutBuilder.append(" Question :" + form.getQuestionList().get(qa.getQuestionId()).getQuestion()+ "\n");
+                    outPutBuilder.append(" Question :" + form.getQuestionList().get(matcher).getQuestion()+ "\n");
                     if (qa.getType() == 1)
                         outPutBuilder.append("\n" + "Text" + "\n" + qa.getTextAnswer() + "\n");
                     if (qa.getType() == 2) {
                         outPutBuilder.append("\n" + "Radio :" + qa.getRadioAnswer() + "\n");
                             radioMedian=qa.getRadioAnswer();
 
-                            if(test.get(qa.getQuestionId()) != null)
-                            radioMedian+=test.get(qa.getQuestionId());
+                            if(test.get(matcher) != null)
+                            radioMedian+=test.get(matcher);
 
-                            test.put(qa.getQuestionId(),radioMedian);
+                            test.put(matcher,radioMedian);
                     }
                     if (qa.getCheckBoxAnswer() != null && !qa.getCheckBoxAnswer().isEmpty()) {
                         outPutBuilder.append("\n"+"Checkbox: ");
                         for (Integer o : qa.getCheckBoxAnswer()) {
-                            if(form.getQuestionList().get(qa.getQuestionId()).getCheckBoxAnswer().get(o)!=null)
+                            if(form.getQuestionList().get(matcher).getCheckBoxAnswer().get(o)!=null)
                             outPutBuilder.append("\n"+form.getQuestionList().get(qa.getQuestionId()).getCheckBoxAnswer().get(o) + "  " );
                         }
                     }

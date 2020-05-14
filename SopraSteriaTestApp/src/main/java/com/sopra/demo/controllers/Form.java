@@ -11,14 +11,16 @@ public class Form {
     public List<Question> questionList=new ArrayList<>();
     private String description;
     private boolean isAnon=false;
+    private boolean active=false;
 
 
     Form(){}
 
-    Form(long formId, String desc,boolean anon){
+    Form(long formId, String desc,boolean anon,boolean bool){
         this.formId = formId;
         description=desc;
         isAnon=anon;
+        active = bool;
 
     }
 
@@ -53,5 +55,25 @@ public class Form {
 
     public void setAnon(boolean anon) {
         isAnon = anon;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+
+       public int indexCorrector(int index,Question q) {
+           for (int i = 0; i < questionList.size(); i++) {
+
+               if (questionList.get(i).getId() == q.getId()) {
+                   return i;
+               }
+
+           }
+           return 0;
     }
 }

@@ -29,34 +29,34 @@
             <div class="container p-0 my-0 bg-dark text-white" id="grad2">
                 <h3>Modify</h3>
             </div>
-            <h4>Forms need to be activated for applicants to answer them,once a form is activated it will always be
-                active , Forms can only be modified if no activated</h4>
+            <label>Forms need to be activated for applicants to answer them,once a form is activated it will always be
+                active , Forms can only be modified if not activated</label>
             <div th:align="center">
             <button type="button" class="btn btn-outline-secondary" onclick = "display('firstbox')">Remove</button>
             <button type="button" class="btn btn-outline-secondary" onclick = "display('secondbox')">Modify</button>
                 <button type="button" class="btn btn-outline-secondary" onclick = "display('thirdbox')">Activate</button>
             </div>
-
+            <h4>-</h4>
 
             <div id="text4" align="center" style="display:none">
                 <h4>Choose form to remove</h4>
                 <h4>-</h4>
-                <h4 th:each="test: ${chooseForm}" >  <a href="modifyForm.html" th:href="@{/modifyForm(id=${test})}" th:text="'Form : ' +${test}"  /></h4>
+                <h4 th:each="test: ${chooseForm.getNummer()}" >  <a href="modifyForm.html" th:href="@{/modifyForm(activate=0,id=${test})}" th:text="'Form : ' +${test}"  /></h4>
                 <h4>-</h4>
             </div>
 
             <div id="text5" align="center" style="display:none">
                 <h4>Choose form to Modify</h4>
                 <h4>-</h4>
-
+                <h4 th:each="test: ${chooseForm.getNummer()}" >  <a href="modifyQuestion.html" th:href="@{/modifyQuestion(question=404,id=${test})}" th:text="'Form : ' +${test}"  />
                 <h4>-</h4>
             </div>
 
             <div id="text6" align="center" style="display:none">
                 <h4>Choose form to Activate</h4>
                 <h4>-</h4>
+                <h4 th:each="test: ${chooseForm.getNummer()}" >  <a href="modifyForm.html" th:href="@{/modifyForm(activate=1,id=${test})}" th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/></h4>
 
-                <h4>-</h4>
             </div>
 
 

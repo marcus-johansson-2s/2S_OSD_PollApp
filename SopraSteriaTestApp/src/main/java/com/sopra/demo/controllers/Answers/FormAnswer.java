@@ -1,5 +1,7 @@
 package com.sopra.demo.controllers.Answers;
 
+import com.sopra.demo.controllers.Question;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,4 +58,6 @@ public class FormAnswer {
     public void setAnon(boolean anon) {
         isAnon = anon;
     }
+
+
 }
