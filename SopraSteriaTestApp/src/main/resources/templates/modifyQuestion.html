@@ -36,14 +36,14 @@
             <form align="center" action="#" th:action="@{/modifyQuestion}" th:object="${dto}" method="post" id="usrform">
                 <input type="hidden" th:field="*{formId}">
                 <label th:text="'Form:'+${dto.formId}"></label><br><br>
-
-                <div th:each="DTO:${dto.questionList}"  align="center">
+                <label> simply write/edit the question boxes to alter the questions and then press "save change"
+                </label><br>
+                <div th:each="DTO,itemStat:${dto.questionList}"  align="center">
 
                     <div id="test" class="card text-white bg-secondary mb-4" style="width: 20rem; border-width: 1px;border-color: transparent; opacity: 40%;">
                         <h5 class="card-title white-text"  th:text="'Question'"></h5>
-                        <div class="card-body rounded-top white-text pr-0" >
-                            <p class="card-text" th:text="${DTO.question}"></p>
-
+                        <div class="card-body rounded-top white-text pr-0 border-0" >
+                            <textarea class="card-text" th:text="${DTO.question}"  th:id="${DTO.id}" th:name="|questionList[${itemStat.index}].question|" style="background-color: transparent; color: white; width: 270px;height: 130px;"></textarea>
                         </div>
 
                     </div>
@@ -52,13 +52,15 @@
                     <h2>--</h2>
 
                     </div>
+                <a href="createQuestions.html" th:href="@{/createQuestions(id=${dto.formId})}"  type="button" class="btn btn-outline-primary">Add questions</a>
                 <a href="review.html" th:href="@{/review(id=${dto.formId})}"  type="button" class="btn btn-outline-primary">Review Form</a>
-                <input type="submit" value="Add questions!" class="btn btn-outline-secondary" /><i class='fa fa-comment-o'></i>
+                <input type="submit" value="Save changes" class="btn btn-outline-secondary" /><i class='fa fa-comment-o'></i>
                 <a href="loggedIn.html" th:href="@{/loggedIn}"  type="button" class="btn btn-outline-success">Done</a>
             </form>
 
 
-
+<br>
+        <h4>--</h4>
 
 
         </div>

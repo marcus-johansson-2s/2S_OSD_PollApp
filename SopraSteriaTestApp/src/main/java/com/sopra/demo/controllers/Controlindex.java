@@ -86,6 +86,8 @@ public class Controlindex {
     @GetMapping("/createForm")
     public String Fcreate(Model model, HttpSession session) throws Exception {
 
+
+
         try {
             if (!session.getAttribute("sessionPass").equals("hasRights"))
                 return "adminDeny";
@@ -281,8 +283,8 @@ public class Controlindex {
 
         for (FormAnswer faa : answerService.findAnswers()) {
             if (faa.getFormId() == id) {
-
-                if (faa.getUser().equals(authentication.getPrincipal().getAttributes().get("name").toString()) ||authentication.getPrincipal().getAttributes().get("name").toString().equals(encryption.decryptOrNull(faa.getUser())) ) {
+               //if (faa.getUser().equals(authentication.getPrincipal().getAttributes().get("name").toString()) ||authentication.getPrincipal().getAttributes().get("name").toString().equals(encryption.decryptOrNull(faa.getUser())) )
+                if (faa.getUser().equals(authentication.getPrincipal().getAttributes().get("name").toString()) ||Integer.toString(authentication.getPrincipal().getAttributes().get("name").toString().hashCode()).equals(faa.getUser()) ) {
 
                     redirectAttributes.addFlashAttribute("errorDto","You can only answer once per form");
                     return "redirect:/errorMessage";
@@ -311,7 +313,8 @@ public class Controlindex {
         if (form.getAnon())
             fa.setUser(authentication.getPrincipal().getAttributes().get("name").toString());
         else {
-            fa.setUser(encryption.encryptOrNull(authentication.getPrincipal().getAttributes().get("name").toString()));
+           // fa.setUser(encryption.encryptOrNull(authentication.getPrincipal().getAttributes().get("name").toString()));
+            fa.setUser(Integer.toString(authentication.getPrincipal().getAttributes().get("name").toString().hashCode()));
             fa.setAnon(true);
 
         }
@@ -404,7 +407,6 @@ public class Controlindex {
                     }
                 }
 
-                System.out.println(tmpClassForPrint.SuperOut());
                 model.addAttribute("dto", tmpClassForPrint);
                 return "showingFormAnswers";
             }
@@ -477,7 +479,7 @@ public class Controlindex {
     }
 
     @RequestMapping(value = "/modifyQuestion", params = "id", method = RequestMethod.GET)
-    public String modifyQuestion(@RequestParam("question") long question, @RequestParam("id") long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) throws Exception {
+    public String modifyQuestion(@RequestParam(value = "question") long question, @RequestParam("id") long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) throws Exception {
 
         try {
             if (!session.getAttribute("sessionPass").equals("hasRights"))
@@ -500,13 +502,44 @@ public class Controlindex {
     }
 
     @PostMapping("/modifyQuestion")
-    public String modifyPost(@RequestParam ("formId") int formId ,RedirectAttributes redirectAttributes) {
-                redirectAttributes.addAttribute("id", formId);
-                return "redirect:/createQuestions";
+    public String modifyPost(@ModelAttribute ("dto")Form DTO,Model model,RedirectAttributes redirectAttributes) {
+
+        boolean hasEdited=false;
+
+        for(Question q:DTO.getQuestionList()){
+            if(!q.getQuestion().equals(formService.findingOne(DTO.getFormId()).questionList.get(q.getId()).getQuestion())) {
+                formService.findingOne(DTO.getFormId()).listSetter(DTO.questionList);
+                hasEdited=true;
+            }
+
+
+        }
+
+
+            redirectAttributes.addAttribute("question", 404);
+            redirectAttributes.addAttribute("id", DTO.getFormId());
+            return "redirect:/modifyQuestion";
+
+
+
+
     }
 
     @GetMapping("review")
-    public String review(@RequestParam ("id") long formId,Model model) {
+    public String review(@RequestParam ("id") long formId,Model model,HttpSession session,RedirectAttributes redirectAttributes) {
+
+        try {
+            if (!session.getAttribute("sessionPass").equals("hasRights"))
+                return "adminDeny";
+        } catch (Exception e) {
+            return "adminDeny";
+        }
+
+        if (formService.findingOne(formId).getActive()) {
+            redirectAttributes.addFlashAttribute("errorDto","You can not review an activated form");
+            return "redirect:/errorMessage";
+        }
+
         model.addAttribute("dto",  formService.findingOne(formId));
         return "review";
     }
@@ -516,10 +549,11 @@ public class Controlindex {
     @GetMapping("errorMessage")
     public String error(Model model) {
         String some = (String) model.asMap().get("errorDto");
-
-        System.out.println(some);
         model.addAttribute("error", new ErrorDto(some));
         return "errorMessage";
     }
+
+
+
 
 }
