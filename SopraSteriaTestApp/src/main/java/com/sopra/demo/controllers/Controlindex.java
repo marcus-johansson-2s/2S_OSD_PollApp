@@ -35,7 +35,6 @@ public class Controlindex {
     public String index() {
         return "index";
     }
-    //////////////////////////////Create User
 
 
     @GetMapping("/admin")
@@ -290,9 +289,10 @@ public class Controlindex {
                     return "redirect:/errorMessage";
 
                 }
-
             }
         }
+
+
 
         model.addAttribute("dto", formService.findAll().stream().filter(f -> f.getFormId() == id).findFirst().orElseGet(null));
         return "answerSpecQuestion";
@@ -304,9 +304,6 @@ public class Controlindex {
 
 
         FormAnswer fa = new FormAnswer();
-
-
-
         fa.setFormId(form.getFormId());
         fa.setId((int) form.getFormId());
 
