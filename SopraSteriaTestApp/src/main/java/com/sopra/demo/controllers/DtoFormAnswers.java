@@ -193,7 +193,7 @@ public class DtoFormAnswers {
 
 
 
-    public FinalDTO SuperOut3() {
+    public FinalDTO functionUltra4000() {
 
         FinalDTO fdto = new FinalDTO();
 
@@ -249,10 +249,13 @@ public class DtoFormAnswers {
             }
         }
 
+        fdto.setCounterTotalAnswers(counterTotalAnswers);
+        fdto.setQuestion(question);
+        fdto.setQuestionAndUser(questionAndUser);
+        fdto.setTest(test);
+        fdto.setTotalApplicants(totalApplicants);
+        fdto.setForm(form);
 
-        outPutBuilder.append("\n" + "-----------------------------------" + "\n");
-        outPutBuilder.append("\n" + "Form :" + form.getFormId() + "\n");
-        outPutBuilder.append("\n" + "-----------------------------------" + "\n");
         for (Map.Entry<String,Integer> entry : question.entrySet()) {
 
             outPutBuilder.append("\n" + "Question : "+form.questionList.get(form.indexCorrector(entry.getValue())).getQuestion() + "\n");
@@ -268,16 +271,17 @@ public class DtoFormAnswers {
 
                 }
             }
-            outPutBuilder.append("\n" + "-----------------------------------" + "\n");
+
         }
         outPutBuilder.append("\n"+ "Total Applicants :"+ totalApplicants + "\n");
         outPutBuilder.append("\n"+ "Total Answers :"+ counterTotalAnswers + "\n");
 
 
 
-       // return outPutBuilder.toString();
+
         return fdto;
     }
+
 
 
 

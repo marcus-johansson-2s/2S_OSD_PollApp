@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<div class="jumbotron text-center bg-dark text-white" id="grad1">
+<div class="jumbotron text-center bg-dark text-white pb-0" id="grad1">
     <h1>QuestionApp</h1>
     <p>-super awesome form generator</p>
     <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-outline-danger">Create</a>
@@ -32,17 +32,33 @@
             </div>
 
 
-        <table align="center" style="word-break: break-all;">
-    <tr th:each="message : ${dto.getForm()} ">
-        <th th:text="${message.formId}" ></th>
-        <td>--"</td>
-        <th th:text="${message.description}" ></th>
-        <td>"</td>
-    </tr>
-</table>
-            
+                <label style="text-align:center; display: block;" th:text="'Form '+${dto.getForm().formId}+': '+${dto.getForm().description}"></label>
 
+
+            <ul class="list-group mx-auto d-block">
+            <div th:each="entry:${dto.getQuestion().entrySet()}">
+                <li class="list-group-item list-group-item-dark text-white text-md-center p-3 h4" th:text="${dto.form.getQuestionList().get(dto.form.indexCorrector(entry.getValue())).getQuestion()+' ?'}"></li>
+
+                    <div th:if="${dto.getTest().get(entry.getValue())!=null}">
+                        <li class="list-group-item list-group-item-danger text-white text-md-center " th:text="${'RadioButton Average :'+dto.getTest().get(entry.getValue()/dto.totalApplicants)}"></li>
+                    </div>
+
+                <th:block th:each="entry2:${dto.getQuestionAndUser().entrySet()}">
+                    <div th:if="${entry.getKey().equals(entry2.getKey())}">
+                        <li class="list-group-item list-group-item-success text-md-center p-2 h6" th:text="' |'+${entry2.getValue()}+'| '+${dto.converter(entry2.getKey())}"></li>
+                    </div>
+                </th:block>
+
+
+            </div>
+                <li class="list-group-item list-group-item-primary text-white text-md-center h4"  th:text="${'Total Applicants :'+dto.totalApplicants}"></li>
+                <li class="list-group-item list-group-item-primary text-white text-md-center h4"   th:text="${'Total Answers :'+dto.counterTotalAnswers}"></li>
+            <!--
 <h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(dto.SuperOut2()),'\n','&lt;br /&gt;'))}"></h4>
+--></ul>
+
+
+
 
         </div>
     </div>

@@ -404,7 +404,7 @@ public class Controlindex {
                     }
                 }
 
-                model.addAttribute("dto", tmpClassForPrint);
+                model.addAttribute("dto", tmpClassForPrint.functionUltra4000());
                 return "showingFormAnswers";
             }
         }

@@ -7,13 +7,14 @@ public class FinalDTO {
 
     FinalDTO(){}
 
+    private Form form = new Form();
     private int totalApplicants = 0;
     private int counterTotalAnswers = 0;
     private int radioMedian = 0;
     private Map<String, String> questionAndUser = new HashMap<>();
     private Map<String,Integer> question = new HashMap<>();
     private Map<Integer, Integer> test = new HashMap<>();
-    private int formId =0;
+
 
     public int getTotalApplicants() {
         return totalApplicants;
@@ -63,11 +64,19 @@ public class FinalDTO {
         this.test = test;
     }
 
-    public int getFormId() {
-        return formId;
+
+    public Form getForm() {
+        return form;
     }
 
-    public void setFormId(int formId) {
-        this.formId = formId;
+    public void setForm(Form form) {
+        this.form = form;
+    }
+
+
+    public String converter(String s){
+
+        return s.replaceAll("\\d","") + "\n";
+
     }
 }
