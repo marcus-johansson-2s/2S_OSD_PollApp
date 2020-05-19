@@ -15,25 +15,25 @@
 </head>
 <body>
 
-<div class="jumbotron text-center bg-dark text-white pb-0" id="grad1">
+<div class="jumbotron mt-1 text-center bg-dark text-white pb-0 p-4"  id="grad1">
     <h1>QuestionApp</h1>
     <p>-super awesome form generator</p>
-    <div class="container-fluid p-0 my-0 bg-white text-white " id="grad8">
-    <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-outline-danger">Create</a>
-    <a href="modify.html"  th:href="@{/modify}" type="button" class="btn btn-outline-danger">Modify</a>
-    <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-outline-secondary">Answer Form</a>
-    <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-outline-secondary">See Answers</a>
-    <a href="admin.html"  th:href="@{/admin}" type="button" class="btn btn-outline-warning">Admin</a>
+    <div class="container-fluid p-1 my-0 bg-white text-white " id="grad8">
+        <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-link">Create</a>
+        <a href="modify.html"  th:href="@{/modify}" type="button" class="btn btn-link">Modify</a>
+        <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-link">Answer Form</a>
+        <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-link">See Answers</a>
+        <a href="admin.html"  th:href="@{/admin}" type="button" class="btn btn-link">Admin</a>
     </div>
 </div>
 
 
 <div class="container">
     <div class="row">
-    <div class="col-md-12">
-        <div class="container p-0 my-0 bg-dark text-white" id="grad2">
-            <h3>Create form</h3>
-        </div>
+        <div class="col-sm-12">
+            <div class="container p-0 my-0 bg-dark text-white" id="grad2">
+                <h3>Create questions</h3>
+            </div>
 <form th:align="center" action="#" th:action="@{/createForm}" th:object="${createObj}" method="post" id="usrform">
     <label>Remember to activate your form after completing it,under the modify section you can activate your form!</label><br>
     <label for="comment">Description</label><br>

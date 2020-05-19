@@ -12,14 +12,16 @@
 </head>
 <body>
 
-<div class="jumbotron text-center bg-dark text-white pb-0" id="grad1">
+<div class="jumbotron mt-1 text-center bg-dark text-white pb-0 p-4"  id="grad1">
     <h1>QuestionApp</h1>
     <p>-super awesome form generator</p>
-    <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-outline-danger">Create</a>
-    <a href="modify.html"  th:href="@{/modify}" type="button" class="btn btn-outline-danger">Modify</a>
-    <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-outline-secondary">Answer Form</a>
-    <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-outline-secondary">See Answers</a>
-    <a href="admin.html"  th:href="@{/admin}" type="button" class="btn btn-outline-warning">Admin</a>
+    <div class="container-fluid p-1 my-0 bg-white text-white " id="grad8">
+        <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-link">Create</a>
+        <a href="modify.html"  th:href="@{/modify}" type="button" class="btn btn-link">Modify</a>
+        <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-link">Answer Form</a>
+        <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-link">See Answers</a>
+        <a href="admin.html"  th:href="@{/admin}" type="button" class="btn btn-link">Admin</a>
+    </div>
 </div>
 
 

@@ -17,7 +17,9 @@ textarea { background: white; border:none }
 label {color: darkgrey;}
 #grad1 {
     background-image: linear-gradient(darkslategray,whitesmoke);
+
 }
+
 #grad3{
     color:#000000;
     border: 0;
@@ -29,9 +31,20 @@ label {color: darkgrey;}
     align-content: center;
 }
 
-#grad8{
+.jumbotron{
+    padding-right:0;
+    padding-left:0;
+    margin-right:auto;
+    margin-left:auto;
+    width:100%;
+}
 
-    background-color:transparent; opacity:0.8; border-top: 1px solid #9e9e9e; border-bottom: 1px solid #ababab;
+#grad8{
+    padding-right:0;
+    padding-left:0;
+    margin-right:auto;
+    margin-left:auto;
+    width:100%; background-color:transparent; opacity:0.8;
 
 }
 #grad2 {
