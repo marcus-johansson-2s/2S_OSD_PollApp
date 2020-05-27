@@ -37,9 +37,12 @@
 
             <form align="center" action="#" th:action="@{/modifyQuestion}" th:object="${dto}" method="post" id="usrform">
                 <input type="hidden" th:field="*{formId}">
-                <label th:text="'Form:'+${dto.formId}"></label><br><br>
-                <label> simply write/edit the question boxes to alter the questions and then press "save change"
-                </label><br>
+                <label th:text="'Form:'+${dto.formId}"></label>
+                <div class="alert alert-primary" style="margin:auto;width:80%;display: block;text-align:center; word-wrap: break-word;"  role="alert">
+
+                 simply write/edit the question boxes to alter the questions and then press "save change"
+                </div>
+                <br>
                 <div th:each="DTO,itemStat:${dto.questionList}"  align="center">
 
                     <div id="test" class="card text-white bg-secondary mb-4" style="width: 20rem; border-width: 1px;border-color: transparent; opacity: 40%;">
@@ -63,8 +66,8 @@
 
 <br>
         <h4>--</h4>
-
-
+            <hr/>
+            <a href="https://www.soprasteria.se"><div class="center" style="opacity: 50%"></div></a>
         </div>
     </div>
 

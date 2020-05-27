@@ -35,8 +35,11 @@
                 <h3>Create questions</h3>
             </div>
 <form th:align="center" action="#" th:action="@{/createForm}" th:object="${createObj}" method="post" id="usrform">
-    <label>Remember to activate your form after completing it,under the modify section you can activate your form!</label><br>
+    <div class="alert alert-primary" style="margin:auto;width:80%;display: block;text-align:center; word-wrap: break-word;"  role="alert">
+    Remember to activate your form after completing it,under the modify section you can activate your form!<br>
+    </div>
     <label for="comment">Description</label><br>
+
     <textarea rows="10" cols="25" name="comment" form="usrform"  type="text" id=comment th:field="*{question}" >Enter text here...</textarea>
 <br>
     <label>Should the form be anonymous?</label>
@@ -54,8 +57,12 @@
 
 
     <p><input type="submit" value="Create" class="btn btn-outline-danger"/> </p>
+
 </form>
+            <hr/>
+            <a href="https://www.soprasteria.se"><div class="center" style="opacity: 50%"></div></a>
         </div>
+
 
 </div>
 

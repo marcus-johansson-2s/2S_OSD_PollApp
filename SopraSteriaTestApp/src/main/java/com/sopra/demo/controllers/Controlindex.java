@@ -1,10 +1,12 @@
 package com.sopra.demo.controllers;
-import EasyXLS.*;
-import EasyXLS.Constants.*;
+
 import com.sopra.demo.controllers.Answers.FormAnswer;
 import com.sopra.demo.controllers.Answers.QuestionAnswer;
 import com.sopra.demo.controllers.Service.AnswerService;
 import com.sopra.demo.controllers.Service.FormService;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -14,14 +16,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static org.apache.poi.util.IOUtils.toByteArray;
 
 @Controller
 public class Controlindex {
-    Encryption encryption = Encryption.getDefault("Key", "Salt", new byte[16]);
     @Autowired
     private FormService formService;
     @Autowired
@@ -54,15 +57,15 @@ public class Controlindex {
     }
 
     @PostMapping("/admin")
-    public String Submit(@ModelAttribute("admin") smallDto admin, HttpSession session, HttpServletResponse response) throws IOException {
-
-        response.setContentType("text/html");
-        PrintWriter pw = response.getWriter();
+    public String Submit(@ModelAttribute("admin") smallDto admin, HttpSession session,RedirectAttributes redirectAttributes) throws IOException {
 
         if (admin.getAdminPass().equals(adminPass)) {
             session.setAttribute("sessionPass", "hasRights");
-            pw.println("You can now create,modify and see form answers");
-            return "loggedIn";
+
+
+            redirectAttributes.addFlashAttribute("successDto","You are now logged in as admin");
+            return "redirect:/loggedIn";
+
         }
 
         return "adminDeny";
@@ -77,7 +80,14 @@ public class Controlindex {
 
     //////////////////////////////LOGIN
     @RequestMapping("/loggedIn")
-    public String loggedIn() {
+    public String loggedIn(Model model) {
+
+        String some = (String) model.asMap().get("successDto");
+
+        if(some==null)
+            some="Action was successful";
+        model.addAttribute("success", new SuccessDto(some));
+
         return "loggedIn";
     }
 
@@ -85,9 +95,6 @@ public class Controlindex {
     //////////////////////////////Create Form
     @GetMapping("/createForm")
     public String Fcreate(Model model, HttpSession session) throws Exception {
-
-
-
         try {
             if (!session.getAttribute("sessionPass").equals("hasRights"))
                 return "adminDeny";
@@ -185,7 +192,8 @@ public class Controlindex {
 
                     }
                 }
-                return "loggedIn";
+                redirectAttrs.addFlashAttribute("successDto","Action was successful");
+                return "redirect:/loggedIn";
             }
         }
         if (answerId == 2) {
@@ -208,7 +216,8 @@ public class Controlindex {
                         formService.findingOne(formId).setQuestionList(q);
                     }
                 }
-                return "loggedIn";
+                redirectAttrs.addFlashAttribute("successDto","Action was successful");
+                return "redirect:/loggedIn";
             }
         }
         if (answerId == 3) {
@@ -232,7 +241,8 @@ public class Controlindex {
                         // formService.findAll().get(formId).setQuestionList(q);
                     }
                 }
-                return "loggedIn";
+                redirectAttrs.addFlashAttribute("successDto","Action was successful");
+                return "redirect:/loggedIn";
             }
         }
 
@@ -301,17 +311,19 @@ public class Controlindex {
     }
 
     @PostMapping("/answerSpecQuestion")
-    public String answerSpecFinish(@ModelAttribute(value = "dto") Form form, OAuth2AuthenticationToken authentication) throws Exception {
+    public String answerSpecFinish(@ModelAttribute(value = "dto") Form form, OAuth2AuthenticationToken authentication,RedirectAttributes redirectAttributes) throws Exception {
 
 
         FormAnswer fa = new FormAnswer();
+
+
         fa.setFormId(form.getFormId());
         fa.setId((int) form.getFormId());
 
         if (form.getAnon())
             fa.setUser(authentication.getPrincipal().getAttributes().get("name").toString());
         else {
-           // fa.setUser(encryption.encryptOrNull(authentication.getPrincipal().getAttributes().get("name").toString()));
+
             fa.setUser(Integer.toString(authentication.getPrincipal().getAttributes().get("name").toString().hashCode()));
             fa.setAnon(true);
 
@@ -355,7 +367,8 @@ public class Controlindex {
         }
 
         answerService.saveAnswers(fa);
-        return "loggedIn";
+        redirectAttributes.addFlashAttribute("successDto","Your answers has been registered");
+        return "redirect:/loggedIn";
 
     }
     /////////////////////////////Chooosing form
@@ -447,7 +460,7 @@ public class Controlindex {
 
 
     @RequestMapping(value = "/modifyForm", params = "id", method = RequestMethod.GET)
-    public String modifySpec(@RequestParam("activate") long activate, @RequestParam("id") long id, Model model, HttpSession session) throws Exception {
+    public String modifySpec(@RequestParam("activate") long activate, @RequestParam("id") long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) throws Exception {
 
         try {
             if (!session.getAttribute("sessionPass").equals("hasRights"))
@@ -457,6 +470,11 @@ public class Controlindex {
         }
 
         if (activate == 1) {
+            if(formService.findingOne(id).getQuestionList().size()==0){
+                redirectAttributes.addFlashAttribute("errorDto","You cannot activate a form without questions");
+                return "redirect:/errorMessage";
+            }
+
             formService.findingOne(id).setActive(true);
         }
 
@@ -471,7 +489,8 @@ public class Controlindex {
 
         }
         model.addAttribute("dto", id);
-        return "loggedIn";
+        redirectAttributes.addFlashAttribute("successDto","Form has been activated");
+        return "redirect:/loggedIn";
 
 
     }
@@ -512,19 +531,15 @@ public class Controlindex {
 
 
         }
-
-
             redirectAttributes.addAttribute("question", 404);
             redirectAttributes.addAttribute("id", DTO.getFormId());
             return "redirect:/modifyQuestion";
-
-
-
 
     }
 
     @GetMapping("review")
     public String review(@RequestParam ("id") long formId,Model model,HttpSession session,RedirectAttributes redirectAttributes) {
+
 
         try {
             if (!session.getAttribute("sessionPass").equals("hasRights"))
@@ -552,52 +567,103 @@ public class Controlindex {
     }
 
 
-public void exelFunction() { try {
+    @GetMapping(value = "/get-file", params = "id", produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    public @ResponseBody byte[] getFile(@RequestParam ("id") long id) throws IOException {
 
-        // Create an instance of the class that exports Excel files, having two sheets
-        ExcelDocument workbook = new ExcelDocument(2);
 
-        // Set the sheet names
-        workbook.easy_getSheetAt(0).setSheetName("First tab");
-        workbook.easy_getSheetAt(1).setSheetName("Second tab");
+        DtoFormAnswers tmpClassForPrint = new DtoFormAnswers();
 
-        // Get the table of data for the first worksheet
-        ExcelTable xlsFirstTable = ((ExcelWorksheet)workbook.easy_getSheetAt(0)).easy_getExcelTable();
-
-        // Add data in cells for report header
-        for (int column=0; column<5; column++)
-        {
-            xlsFirstTable.easy_getCell(0,column).setValue("Column " + (column + 1));
-            xlsFirstTable.easy_getCell(0,column).setDataType(DataType.STRING);
-        }
-
-        // Add data in cells for report values
-        for (int row=0; row<100; row++)
-        {
-            for (int column=0; column<5; column++)
-            {
-                xlsFirstTable.easy_getCell(row+1,column).setValue("Data " + (row + 1) + ", " + (column + 1));
-                xlsFirstTable.easy_getCell(row+1,column).setDataType(DataType.STRING);
+        for (Form q : formService.findAll()) {
+            if (id == q.getFormId()) {
+                tmpClassForPrint.setForm(q);
+                for (FormAnswer fa : answerService.findAnswers()) {
+                    if (fa.getFormId() == q.getFormId()) {
+                        tmpClassForPrint.addFormAnswer(fa);
+                    }
+                }
             }
         }
+        FinalDTO finalDTO = tmpClassForPrint.functionUltra4000();
+        Workbook workbook = new XSSFWorkbook();
 
-        // Export the XLSX file
-        System.out.println("Writing file: C:\\Samples\\Tutorial04.xlsx");
-        workbook.easy_WriteXLSXFile("C:\\Samples\\Tutorial04.xlsx");
+            Sheet sheet = workbook.createSheet("Form "+finalDTO.getForm().getFormId());
+            sheet.setColumnWidth(0, 6000);
+            sheet.setColumnWidth(1, 4000);
+            sheet.setColumnWidth(2, 4000);
 
-        // Confirm export of Excel file
-        if (workbook.easy_getError().equals(""))
-            System.out.println("File successfully created.");
-        else
-            System.out.println("Error encountered: " + workbook.easy_getError());
 
-        // Dispose memory
-        workbook.Dispose();
-    }
-        catch (Exception ex) {
-        ex.printStackTrace();
+            Row header = sheet.createRow(0);
+
+            CellStyle headerStyle = workbook.createCellStyle();
+            headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            XSSFFont font = ((XSSFWorkbook) workbook).createFont();
+            font.setFontName("Arial");
+            font.setFontHeightInPoints((short) 16);
+            font.setBold(true);
+            headerStyle.setFont(font);
+
+            Cell headerCell = header.createCell(0);
+            headerCell.setCellValue("Question");
+            headerCell.setCellStyle(headerStyle);
+
+            headerCell = header.createCell(1);
+            headerCell.setCellValue("Answer");
+            headerCell.setCellStyle(headerStyle);
+
+            headerCell = header.createCell(2);
+            headerCell.setCellValue("User");
+            headerCell.setCellStyle(headerStyle);
+
+            ///////////////////////////////////////////////////
+            CellStyle style = workbook.createCellStyle();
+            style.setWrapText(true);
+
+            int i=1;
+            for (Map.Entry<String,Integer> entry : finalDTO.getQuestion().entrySet()) {
+
+                Row row = sheet.createRow(i);
+                Cell cell = row.createCell(0);
+                cell.setCellValue(finalDTO.getForm().getQuestionList().get(finalDTO.getForm().indexCorrector(entry.getValue())).getQuestion());
+                cell.setCellStyle(style);
+                i++;
+                for (Map.Entry<String, String> entry2 : finalDTO.getQuestionAndUser().entrySet()) {
+                    if (entry.getKey().equals(entry2.getKey())) {
+                        cell = row.createCell(1);
+                        cell.setCellValue(entry2.getValue());
+                        cell.setCellStyle(style);
+                        // i++;
+
+                        cell = row.createCell(2);
+                        cell.setCellValue(entry2.getKey().replaceAll("\\d",""));
+                        cell.setCellStyle(style);
+                        //i++;
+
+                    }
+                }
+
+            }
+
+            //////////////////////////////////////////////////
+            //File currDir = new File(".");
+            //String path = currDir.getAbsolutePath();
+            //String temporaryDir = System.getProperty("java.io.tmpdir");
+            //String fileLocation = temporaryDir+"temp.xlsx";
+            // File currDir = new File( "../"+ "temp.xlsx");
+           // File  file = new File(fileLocation);
+
+            File file = File.createTempFile("temp", null);
+            FileOutputStream outputStream = new FileOutputStream(file);
+            workbook.write(outputStream);
+            workbook.close();
+            InputStream targetStream = new FileInputStream(file);
+            byte[] test = toByteArray(targetStream) ;
+            file.deleteOnExit();
+            return test;
+
     }
 
 }
 
-}
+

@@ -1,4 +1,7 @@
+
 <!DOCTYPE html>
+
+
 <html xmlns:th="http://www.thymeleaf.org">
 
 
@@ -39,7 +42,7 @@
 
             <ul class="list-group mx-auto d-block">
             <div th:each="entry:${dto.getQuestion().entrySet()}">
-                <li class="list-group-item list-group-item-dark text-white text-md-center p-3 h4" th:text="${dto.form.getQuestionList().get(dto.form.indexCorrector(entry.getValue())).getQuestion()+' ?'}"></li>
+                <li class="list-group-item list-group-item-warning text-dark text-md-center p-3 h4" th:text="${dto.form.getQuestionList().get(dto.form.indexCorrector(entry.getValue())).getQuestion()+' ?'}"></li>
 
                     <div th:if="${dto.getTest().get(entry.getValue())!=null}">
                         <li class="list-group-item list-group-item-success text-md-center " th:text="${'RadioButton Average :'+dto.getTest().get(entry.getValue()/dto.totalApplicants)}"></li>
@@ -58,9 +61,21 @@
             <!--
 <h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(dto.SuperOut2()),'\n','&lt;br /&gt;'))}"></h4>
 --></ul>
+            <div style="text-align:center; display: block;">
 
 
 
+                <a th:href="@{/get-file(id=${dto.getForm().formId})}"  type="button" class="btn btn-outline-primary">Export to excel file</a>
+                <hr/>
+                <a href="https://www.soprasteria.se"><div class="center" style="opacity: 50%"></div></a>
+<!--
+  <a href="ms-excel:ofe|u|C:/Users/CptCaveMan/IdeaProjects/2S_OSD_PollApp/temp.xlsx" download type="button" class="btn btn-link">GetFile</a>
+     <a th:href="${dto.exelFunction()}"  download type="button" class="btn btn-link">GetFile</a>
+                <a href="ms-excel:ofe|u|temp.xlsx" download type="button" class="btn btn-link">GetFile</a>
+                <a th:href="'ms-excel:ofe|u|'+${dto.exelFunction()}" type="button" class="btn btn-link">GetFile</a>
+                       <button th:onclick="${dto.exelFunction()}">KUK</button>
+-->
+        </div>
 
         </div>
     </div>

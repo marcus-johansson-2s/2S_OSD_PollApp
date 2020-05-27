@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Description;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
@@ -47,6 +50,7 @@ public class WebConfig  implements WebMvcConfigurer  {
     public ViewResolver viewResolver() {
 
         ViewResolver viewResolver = new ThymeleafViewResolver();
+
 
         ((ThymeleafViewResolver) viewResolver).setTemplateEngine(templateEngine());
         ((ThymeleafViewResolver) viewResolver).setCharacterEncoding("UTF-8");
@@ -98,5 +102,12 @@ public class WebConfig  implements WebMvcConfigurer  {
 
 
  */
-
+@Override
+public void configureViewResolvers(ViewResolverRegistry registry) {
+    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+    viewResolver.setViewClass(JstlView.class);
+    viewResolver.setPrefix("/WEB-INF/views/");
+    viewResolver.setSuffix(".jsp");
+    registry.viewResolver(viewResolver);
+}
 }

@@ -34,8 +34,12 @@
     <!--
     <h4>  <a href="answerSpecQuestion.html" th:href="@{/answerSpecQuestion(id=${test})}" th:text="'Form  ' +${test} +' description : '+${strings.get(test)}"/></h4>
     -->
+
     <h4>  <a href="answerSpecQuestion.html" th:href="@{/answerSpecQuestion(id=${test.formId})}" th:text="'Form  ' +${test.formId} +' description : '+${test.description}"/></h4>
+
 </th:block>
+            <hr/>
+            <a href="https://www.soprasteria.se"><div class="center" style="opacity: 50%"></div></a>
         </div>
     </div>
 </div>

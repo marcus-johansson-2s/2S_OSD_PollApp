@@ -11,12 +11,12 @@ h1 {  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "
 h2 {font-family: Helvetica;color: darkgrey;text-align: center;}
 h3 {font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;color: whitesmoke;text-align: center; text-shadow: 1px 1px darkslategray;}
 p {font-family: Helvetica;font-size: 15px;}
-h4 {color: darkgrey;text-align: center;font-size: 17px;}
+h4 {color: darkgrey;text-align: center;font-size: 14px;font-family:Verdana;}
 /* A link that has not been visited */
 textarea { background: white; border:none }
 label {color: darkgrey;}
 #grad1 {
-    background-image: linear-gradient(darkslategray,whitesmoke);
+    background-image: linear-gradient(#4e718a,whitesmoke);
 
 }
 
@@ -48,7 +48,7 @@ label {color: darkgrey;}
 
 }
 #grad2 {
-    background-image: linear-gradient(to right, whitesmoke , darkslategray,whitesmoke); opacity:0.5;
+    background-image: linear-gradient(to right, whitesmoke , #4e718a,whitesmoke); opacity:0.5;
 }
 a:link {color: darkslategray; text-align: center; text-decoration: none;}
 /* A link that has been visited */
@@ -62,8 +62,24 @@ a:active {color: darkslategray; text-align: center; text-decoration: none;}
     width:50%;
     font-family:Candara;
     text-overflow:ellipsis;
-
     word-wrap: break-word;
 
 
+}
+.center
+{
+    background-image: url('/css/soprasterialogo2.jpg');
+    width:192px;
+    height:47px;
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+opacity: 80%;
+ }
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }

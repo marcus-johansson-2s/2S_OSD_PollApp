@@ -31,8 +31,10 @@
             <div class="container p-0 my-0 bg-dark text-white" id="grad2">
                 <h3>Modify</h3>
             </div>
-            <label>Forms need to be activated for applicants to answer them,once a form is activated it will always be
-                active , Forms can only be modified if not activated</label>
+            <div class="alert alert-primary" style="margin:auto;width:80%;display: block;text-align:center; word-wrap: break-word;"  role="alert">
+            Forms need to be activated for applicants to answer them,once a form is activated it will always be
+                active , Forms can only be modified if not activated
+            </div>
             <div th:align="center">
             <button type="button" class="btn btn-link" onclick = "display('firstbox')">Remove</button>
             <button type="button" class="btn btn-link" onclick = "display('secondbox')">Modify</button>
@@ -40,10 +42,22 @@
             </div>
             <h4>-</h4>
 
+
+
+
+
             <div id="text4" align="center" style="display:none">
                 <h4>Choose form to remove</h4>
                 <h4>-</h4>
-                <h4 th:each="test: ${chooseForm.getNummer()}" >  <a href="modifyForm.html" th:href="@{/modifyForm(activate=0,id=${test})}" th:text="'Form : ' +${test}"  /></h4>
+                <a th:each="test: ${chooseForm.getNummer()}"> <a href="modifyForm.html" th:href="@{/modifyForm(activate=0,id=${test})}" th:text="'Form : ' +${test}" /></h4></a>
+
+
+
+
+
+<!--
+                <div th:each="test: ${chooseForm.getNummer()}">  <a href="modifyForm.html" th:href="@{/modifyForm(activate=0,id=${test})}" th:text="'Form : ' +${test}" /></div>
+                -->
                 <h4>-</h4>
             </div>
 
@@ -60,12 +74,11 @@
                 <h4 th:each="test: ${chooseForm.getNummer()}" >  <a href="modifyForm.html" th:href="@{/modifyForm(activate=1,id=${test})}" th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/></h4>
                 <h4>-</h4>
             </div>
-
+            <hr/>
+            <a href="https://www.soprasteria.se"><div class="center" style="opacity: 50%"></div></a>
         </div>
     </div>
 </div>
-
-
 
 
 <script>

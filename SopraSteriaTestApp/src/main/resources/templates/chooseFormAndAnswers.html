@@ -34,8 +34,12 @@
             </div>
 
 <th:block th:each="test: ${chooseForm}" align="center">
+
     <h4>  <a href="showingFormAnswers.html" th:href="@{/showingFormAnswers(id=${test})}" th:text="'Form : ' +${test}"  /></h4>
+
 </th:block>
+            <hr/>
+            <a href="https://www.soprasteria.se"><div class="center" style="opacity: 50%"></div></a>
         </div>
     </div>
 </div>

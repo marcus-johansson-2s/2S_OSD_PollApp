@@ -41,10 +41,7 @@
 
     <label for="name">Questions</label><br>
     <p th:text="${dto.getId()}" />
-    <textarea rows="8" cols="50" name="comment" form="usrform" type="text" id=name th:field="*{question}">Enter text here...</textarea>
-
-
-
+    <textarea rows="4" cols="50" name="comment" form="usrform" type="text" id=name th:field="*{question}">Enter question here...</textarea>
 
     <br><label for="test">Choose answer type</label><br>
     <div class="form-group" id="test">
@@ -82,7 +79,8 @@
     <input type="submit" value="Create/Add" class="btn btn-outline-danger" /><i class='fa fa-comment-o'></i>
 
 </form>
-
+            <hr/>
+            <a href="https://www.soprasteria.se"><div class="center" style="opacity: 50%"></div></a>
     </div>
         </div>
 
