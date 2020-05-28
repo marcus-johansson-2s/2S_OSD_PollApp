@@ -1,15 +1,12 @@
-package com.sopra.demo.controllers.Service;
+package com.sopra.demo.Service;
 
 import com.sopra.demo.controllers.Answers.FormAnswer;
-import com.sopra.demo.controllers.Form;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class AnswerMemory implements AnswerService {

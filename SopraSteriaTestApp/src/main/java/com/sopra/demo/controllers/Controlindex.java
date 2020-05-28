@@ -2,19 +2,19 @@ package com.sopra.demo.controllers;
 
 import com.sopra.demo.controllers.Answers.FormAnswer;
 import com.sopra.demo.controllers.Answers.QuestionAnswer;
-import com.sopra.demo.controllers.Service.AnswerService;
-import com.sopra.demo.controllers.Service.FormService;
+import com.sopra.demo.Service.AnswerService;
+import com.sopra.demo.Service.FormService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
@@ -25,8 +25,11 @@ import static org.apache.poi.util.IOUtils.toByteArray;
 
 @Controller
 public class Controlindex {
+
+    @Qualifier("formMemory")
     @Autowired
     private FormService formService;
+    @Qualifier("answerDB")
     @Autowired
     private AnswerService answerService;
 
@@ -333,10 +336,11 @@ public class Controlindex {
 
         for (Question q : form.getQuestionList()) {
             QuestionAnswer qa = new QuestionAnswer();
+
             qa.setId(form.questionList.size());
             qa.setQuestionId(q.getId());
             qa.setType(q.getTypeQuestion());
-
+            qa.setQuestion(formService.findingOne((int)form.getFormId()).questionList.get(q.getId()).getQuestion());
 
             ///////////////Correct index fault
             for(int i=0;i<form.getQuestionList().size();i++){
@@ -361,10 +365,14 @@ public class Controlindex {
             if (qa.getType() == 3)
                 qa.setCheckBoxAnswer(tmp.getCheckBoxAnswerList());
 
+
             fa.addAnswers(qa);
 
 
         }
+
+
+
 
         answerService.saveAnswers(fa);
         redirectAttributes.addFlashAttribute("successDto","Your answers has been registered");

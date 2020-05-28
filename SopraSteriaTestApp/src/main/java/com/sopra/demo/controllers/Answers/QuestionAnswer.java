@@ -4,6 +4,8 @@ import java.util.List;
 
 public class QuestionAnswer {
 
+    private String question;
+
     private int id;
     private int questionId;
 
@@ -61,5 +63,14 @@ public class QuestionAnswer {
 
     public void setCheckBoxAnswer(List<Integer> checkBoxAnswer) {
         this.checkBoxAnswer = checkBoxAnswer;
+    }
+
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
     }
 }

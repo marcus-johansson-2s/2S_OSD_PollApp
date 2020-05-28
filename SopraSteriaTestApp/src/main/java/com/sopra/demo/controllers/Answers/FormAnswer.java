@@ -12,6 +12,8 @@ public class FormAnswer {
     private String user;
     private boolean isAnon = false;
 
+
+
     private List<QuestionAnswer>  answers = new ArrayList<>();
 
     public  FormAnswer(){}
