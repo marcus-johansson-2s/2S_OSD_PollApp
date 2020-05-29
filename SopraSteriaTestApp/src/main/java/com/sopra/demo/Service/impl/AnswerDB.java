@@ -11,6 +11,7 @@ import com.sopra.demo.controllers.Answers.FormAnswer;
 import com.sopra.demo.controllers.Answers.QuestionAnswer;
 import com.sopra.demo.controllers.Form;
 import com.sopra.demo.controllers.Question;
+import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,38 +56,173 @@ public class AnswerDB implements AnswerService {
     @Override
     public List<FormAnswer> findAnswers() {
 
-        FormAnswer FA = new FormAnswer();
+
+        Map<String,QuestionAnswer> questionAnswerListMap =  new HashMap<>();
+        Map<String,FormAnswer> formAnswerListMap =  new HashMap<>();
+
+
         List<FormAnswer> FAList = new ArrayList<FormAnswer>();
-        List<QuestionAnswer> QAList = new ArrayList<QuestionAnswer>();
-        QuestionAnswer  QA = new QuestionAnswer();
+
+        List<FormAnswerDB> fadbList = Arep.findAll();
+        List<FormQuestions> qDBList = Qrep.findAll();
 
 
-            for(FormAnswerDB fadb:Arep.findAll()){
-                FA.setUser(fadb.getUser());
-                FA.setFormId(fadb.getFormId());
-                FA.setId(fadb.getId());
+        int checker=0;
+        String tmpChecker="test";
+        int  formCounter=0;
 
-                for(FormQuestions Qtmp:Qrep.findAll()) {
-                        if(Qtmp.getFormId()==fadb.getFormId() && fadb.getQuestionId() == Qtmp.getQuestionId()) {
-                            QA.setId(Qtmp.getId());
-                            QA.setQuestionId(Qtmp.getQuestionId());
-                            QA.setType(Qtmp.getQuestiontype());
-                        if(QA.getType()==1) {
-                            QA.setTextAnswer(fadb.getAnswer());
-                            }
-                            if(QA.getType()==2) {
-                                QA.setRadioAnswer(parseInt(fadb.getAnswer()));
-                            }
-                            if(QA.getType()==3) {
-                                //QA.setCheckBoxAnswer();
-                            }
-                            QAList.add(QA);
+     for(FormAnswerDB faDB:fadbList) {
+         FormAnswer FA = new FormAnswer();
+         tmpChecker=faDB.getUser();
+         formCounter=faDB.getFormId();
+         FA.setUser(faDB.getUser());
+         FA.setFormId(faDB.getFormId());
+         FA.setId(faDB.getId());
+
+
+         if(!tmpChecker.equals(faDB.getUser()) && formCounter == faDB.getFormId()) {
+             checker++;
+
+
+         }
+         for(FormQuestions fqDB:qDBList) {
+                    if(faDB.getFormId()==fqDB.getFormId() && faDB.getQuestionId() ==fqDB.getQuestionId()){
+                        QuestionAnswer QA = new QuestionAnswer();
+                        QA.setId(Qrep.findAll().size());
+                        QA.setType(fqDB.getQuestiontype());
+                        QA.setQuestion(fqDB.getQuestion());
+                        QA.setQuestionId(faDB.getQuestionId());
+                        // qa.setId(form.questionList.size());
+                        if (QA.getType() == 1) {
+                            QA.setTextAnswer(faDB.getAnswer());
                         }
-                    }
+                        if (QA.getType() == 2) {
+                            QA.setRadioAnswer(parseInt(faDB.getAnswer()));
+                        }
+                        if (QA.getType() == 3) {
+                            //QA.setCheckBoxAnswer();
+                        }
 
-                FA.addAllAnswers(QAList);
+                        //QAList.add(QA);
+                        questionAnswerListMap.put(faDB.getUser()+"("+faDB.getFormId()+")"+fqDB.getQuestionId(),QA);
+                    }
+            }
+
+
+         formAnswerListMap.put(FA.getUser()+"("+FA.getFormId()+")",FA);
+
+     }
+
+        //String x = "test string (67)".replaceAll(".*\\(|\\).*", "");
+
+        for(Map.Entry<String, FormAnswer> form : formAnswerListMap.entrySet()) {
+            System.out.println("-------------HASHMAP--------------");
+            System.out.println(form.getValue().getFormId());
+            for (Map.Entry<String, QuestionAnswer> question : questionAnswerListMap.entrySet()) {
+                System.out.println(question.getValue().getQuestion());
+            }
+        }
+        System.out.println("-------------------------------");
+        System.out.println("CHECKER = "+checker);
+        System.out.println("-------------------------------");
+     for(Map.Entry<String, FormAnswer> form : formAnswerListMap.entrySet()){
+
+
+
+
+         System.out.println("Form id INPUt = "+form.getValue().getFormId());
+
+         List<QuestionAnswer> QAList = new ArrayList<QuestionAnswer>();
+
+         for (Map.Entry<String, QuestionAnswer> question : questionAnswerListMap.entrySet()) {
+
+
+             String newKey = form.getKey()+question.getValue().getQuestionId();
+            if(newKey.equals(question.getKey())){
+                QAList.add(question.getValue());
+
+             }
+
+         }
+
+
+        form.getValue().addAllAnswers(QAList);
+         FAList.add(form.getValue());
+
+
+
+         }
+
+
+
+
+
+
+/*
+        for (FormAnswerDB fadb : fadbList) {
+
+            if(FAList.isEmpty()) {
                 FAList.add(FA);
             }
+            else{
+                if(!FAList.get(p).getUser().equals(fadb.getUser())){
+                    System.out.println(FAList.get(p).getUser());
+                    System.out.println(fadb.getUser());
+                    FAList.add(FA);
+                    p++;
+                    QAList.clear();
+                }
+
+            }
+
+            FAList.get(p).setUser(fadb.getUser());
+            FAList.get(p).setFormId(fadb.getFormId());
+            FAList.get(p).setId(fadb.getId());
+
+
+            for (FormQuestions fq : qDBList) {
+
+                if (fadb.getFormId() == fq.getFormId() && fq.getQuestionId() == fadb.getQuestionId()) {
+                    QuestionAnswer QA = new QuestionAnswer();
+                    QA.setId(Qrep.findAll().size());
+                    QA.setType(fq.getQuestiontype());
+                    QA.setQuestion(fq.getQuestion());
+                    QA.setQuestionId(fadb.getQuestionId());
+                    // qa.setId(form.questionList.size());
+
+
+                    if (QA.getType() == 1) {
+                        QA.setTextAnswer(fadb.getAnswer());
+                    }
+                    if (QA.getType() == 2) {
+                        QA.setRadioAnswer(parseInt(fadb.getAnswer()));
+                    }
+                    if (QA.getType() == 3) {
+                        //QA.setCheckBoxAnswer();
+                    }
+                   // FA.addAnswers(QA);
+                    QAList.add(QA);
+                }
+
+
+            }
+
+            FAList.get(p).addAllAnswers(QAList);
+            FAList.set(p,FA);
+
+
+        }
+
+ */
+        for(FormAnswer fa :FAList){
+                System.out.println("----------------------------------------");
+                System.out.println(fa.getFormId());
+                for(int i=0;i<fa.getAnswers().size();i++) {
+                    System.out.println(fa.getAnswers().get(i).getQuestion());
+                    System.out.println(fa.getAnswers().get(i).getTextAnswer());
+                }
+                System.out.println("----------------------------------------");
+                }
 
 
             return FAList;
@@ -96,15 +232,26 @@ public class AnswerDB implements AnswerService {
     @Override
     public void saveAnswers(FormAnswer formAnswer) {
 
-        FormQuestions formQuestions = new FormQuestions();
-        FormAnswerDB formAnswerDB = new FormAnswerDB();
+
+
+List<FormAnswerDB> aList = new ArrayList<>();
+        List<FormQuestions> fList = new ArrayList<>();
 
         for(QuestionAnswer QA:formAnswer.getAnswers()) {
+
+
+
+            FormQuestions formQuestions = new FormQuestions();
+            FormAnswerDB formAnswerDB = new FormAnswerDB();
+
             formQuestions.setFormId((int) formAnswer.getFormId());
             formAnswerDB.setFormId((int) formAnswer.getFormId());
             formAnswerDB.setUser(formAnswer.getUser());
             formQuestions.setQuestion(QA.getQuestion());
             formQuestions.setQuestionId(QA.getQuestionId());
+            formAnswerDB.setQuestionId(QA.getQuestionId());
+
+
 
             formQuestions.setQuestiontype(QA.getType());
             if(QA.getType()==1) {
@@ -117,18 +264,16 @@ public class AnswerDB implements AnswerService {
                 //QA.setCheckBoxAnswer();
             }
 
-
-
-            Qrep.save(formQuestions);
-            Arep.save(formAnswerDB);
+        fList.add(formQuestions);
+        aList.add(formAnswerDB);
         }
 
 
 
-
-
-
-
+       // Qrep.save(formQuestions);
+        //Arep.save(formAnswerDB);
+        Qrep.saveAll(fList);
+        Arep.saveAll(aList);
 
     }
 }
