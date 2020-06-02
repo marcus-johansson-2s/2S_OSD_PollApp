@@ -19,6 +19,7 @@ public interface FormService {
     public void activate(long formId);
     public void deletingQuestion(long question,long formId);
     public void UpdatingQuestion(Form DTO);
+    public String getQuestion(int formId,int questionID);
 
 
 

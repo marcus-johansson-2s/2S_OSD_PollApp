@@ -1,11 +1,7 @@
 package com.sopra.demo.Service.impl;
 
-import com.sopra.demo.DB.AnswerRep;
-import com.sopra.demo.DB.Entities.FormAnswerDB;
-import com.sopra.demo.DB.Entities.FormDB;
-import com.sopra.demo.DB.Entities.FormQuestions;
-import com.sopra.demo.DB.FormRep;
-import com.sopra.demo.DB.QuestionRep;
+import com.sopra.demo.DB.*;
+import com.sopra.demo.DB.Entities.*;
 import com.sopra.demo.Service.AnswerService;
 import com.sopra.demo.controllers.Answers.FormAnswer;
 import com.sopra.demo.controllers.Answers.QuestionAnswer;
@@ -26,8 +22,10 @@ import static java.lang.Integer.parseInt;
 @Service
 @Transactional
 public class AnswerDB implements AnswerService {
-
-
+    @Autowired
+    private CheckboxQuestionsRep CBquestions;
+    @Autowired
+    private CheckboxAnswerRep CBanswer;
     @Autowired
     private FormRep frep;
     @Autowired
@@ -38,9 +36,23 @@ public class AnswerDB implements AnswerService {
 
     @Override
     public void delForm(long id) {
+
+        List<CheckboxAnswer> cList= CBanswer.findAll();
+        List<CheckboxQuestions> cqList= CBquestions.findAll();
+
         for(FormQuestions d:Qrep.findAll()){
             if(d.getFormId()==id){
                 Qrep.delete(d);
+            }
+        }
+        for(CheckboxQuestions tmp:cqList){
+            if(tmp.getFormId()==id){
+               CBquestions.delete(tmp);
+               for(CheckboxAnswer ca:cList) {
+                   if(ca.getIdanswer()==tmp.getId()) {
+                       CBanswer.delete(ca);
+                   }
+               }
             }
         }
         for(FormAnswerDB d:Arep.findAll()){
@@ -238,7 +250,48 @@ List<FormAnswerDB> aList = new ArrayList<>();
                 formAnswerDB.setAnswer(String.valueOf(QA.getRadioAnswer()));
             }
             if(QA.getType()==3) {
-                //QA.setCheckBoxAnswer();
+
+                List<CheckboxQuestions> cbList = CBquestions.findAll();
+
+                for(int fa:QA.getCheckBoxAnswer()){
+                    CheckboxAnswer cbTmpAnswer = new CheckboxAnswer();
+
+                        cbTmpAnswer.setIdanswer(fa);
+                        cbTmpAnswer.setUser(formAnswer.getUser());
+                        CBanswer.save(cbTmpAnswer);
+
+
+                }
+
+
+/*
+                for(CheckboxQuestions cq :cbList){
+                    CheckboxAnswer cbTmpAnswer = new CheckboxAnswer();
+
+                    if(cq.getFormId()==formAnswer.getFormId() && cq.getQuestionId()==QA.getQuestionId()) {
+                        cbTmpAnswer.setIdanswer(cq.getId());
+                        cbTmpAnswer.setUser(formAnswer.getUser());
+
+                    }
+
+
+                    CBanswer.save(cbTmpAnswer);
+
+
+
+
+                }
+ */
+
+
+
+
+
+
+
+
+
+
             }
 
         fList.add(formQuestions);

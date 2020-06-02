@@ -20,6 +20,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.apache.poi.util.IOUtils.toByteArray;
 
@@ -207,49 +208,49 @@ public class Controlindex {
         }
         if (answerId == 2) {
             if (anotherQuestion == 1) {
-                for (Form f : formService.findAll()) {
-                    if (f.getFormId() == formId) {
+
                         q.setTypeQuestion(2);
-                        formService.findingOne(formId).setQuestionList(q);
+                formService.savingQuestion(q,formId);
+                       // formService.findingOne(formId).setQuestionList(q);
                         //formService.findAll().get(formId).setQuestionList(q);
-                    }
-                }
+
+
                 redirectAttrs.addAttribute("id", formId);
                 return "redirect:/createQuestions";
             }
+
             if (anotherQuestion == 2) {
-                for (Form f : formService.findAll()) {
-                    if (f.getFormId() == formId) {
+
                         q.setTypeQuestion(2);
+                        formService.savingQuestion(q,formId);
                         //formService.findAll().get(formId).setQuestionList(q);
-                        formService.findingOne(formId).setQuestionList(q);
-                    }
-                }
+                        //formService.findingOne(formId).setQuestionList(q);
+
                 redirectAttrs.addFlashAttribute("successDto","Action was successful");
                 return "redirect:/loggedIn";
-            }
+
+        }
         }
         if (answerId == 3) {
             if (anotherQuestion == 1) {
-                for (Form f : formService.findAll()) {
-                    if (f.getFormId() == formId) {
+
                         q.setTypeQuestion(3);
-                        formService.findingOne(formId).setQuestionList(q);
+                formService.savingQuestion(q,formId);
+                        //formService.findingOne(formId).setQuestionList(q);
                         // formService.findAll().get(formId).setQuestionList(q);
-                    }
-                }
+
+
                 redirectAttrs.addAttribute("id", formId);
                 return "redirect:/createQuestions";
 
             }
             if (anotherQuestion == 2) {
-                for (Form f : formService.findAll()) {
-                    if (f.getFormId() == formId) {
+
                         q.setTypeQuestion(3);
-                        formService.findingOne(formId).setQuestionList(q);
+                        formService.savingQuestion(q,formId);
+                       // formService.findingOne(formId).setQuestionList(q);
                         // formService.findAll().get(formId).setQuestionList(q);
-                    }
-                }
+
                 redirectAttrs.addFlashAttribute("successDto","Action was successful");
                 return "redirect:/loggedIn";
             }
@@ -346,7 +347,9 @@ public class Controlindex {
             qa.setId(form.questionList.size());
             qa.setQuestionId(q.getId());
             qa.setType(q.getTypeQuestion());
-            qa.setQuestion(formService.findingOne((int)form.getFormId()).questionList.get(q.getId()).getQuestion());
+
+            //qa.setQuestion(formService.findingOne((int)form.getFormId()).questionList.get(q.getId()).getQuestion());
+            qa.setQuestion(formService.getQuestion((int)form.getFormId(),q.getId()));
 
             ///////////////Correct index fault
             for(int i=0;i<form.getQuestionList().size();i++){
@@ -360,18 +363,23 @@ public class Controlindex {
 
             Question tmp= form.questionList.get(matcher);
 
-            if (qa.getType() == 1) {
 
+
+            if (qa.getType() == 1) {
                 qa.setTextAnswer(tmp.getTmpString());
             }
 
             if (qa.getType() == 2)
                 qa.setRadioAnswer(tmp.getTmpInt());
 
-            if (qa.getType() == 3)
+            if (qa.getType() == 3) {
+                tmp.getCheckBoxAnswerList().removeIf(Objects::isNull);
+
+
+
                 qa.setCheckBoxAnswer(tmp.getCheckBoxAnswerList());
 
-
+            }
             fa.addAnswers(qa);
 
 

@@ -2,25 +2,18 @@ package com.sopra.demo.Service.impl;
 
 
 
-import com.sopra.demo.DB.AnswerRep;
+import com.sopra.demo.DB.*;
+import com.sopra.demo.DB.Entities.CheckboxQuestions;
 import com.sopra.demo.DB.Entities.FormDB;
-import com.sopra.demo.DB.Entities.FormQuestions;
 import com.sopra.demo.DB.Entities.QuestionsDB;
-import com.sopra.demo.DB.FormRep;
-import com.sopra.demo.DB.QuestionRep;
-import com.sopra.demo.DB.QuestionsDBRep;
-import com.sopra.demo.Service.AnswerService;
 import com.sopra.demo.Service.FormService;
-import com.sopra.demo.controllers.Answers.FormAnswer;
 import com.sopra.demo.controllers.Form;
 import com.sopra.demo.controllers.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +21,8 @@ import java.util.Map;
 @Transactional
 public class FormImpDB implements FormService {
 
+    @Autowired
+    private CheckboxQuestionsRep CBrep;
     @Autowired
     private QuestionsDBRep QFrep;
     @Autowired
@@ -66,6 +61,19 @@ public class FormImpDB implements FormService {
                         tmpQuestion.setQuestion(q.getQuestion());
                         tmpQuestion.setId(q.getQuestionId());
                         tmpQuestion.setTypeQuestion(q.getQuestiontype());
+
+                        if(tmpQuestion.getTypeQuestion()==3){
+                            List<CheckboxQuestions>  chbtmp = CBrep.findAll();
+                            for(CheckboxQuestions tmp: chbtmp){
+                                if(tmp.getFormId()==theForm.getFormId() && tmp.getQuestionId()==tmpQuestion.getId()) {
+                                    tmpQuestion.setCheckBoxAnswer(tmp.getId(), tmp.getAlternatives());
+                                }
+                            }
+
+
+
+                        }
+
                         questionList.add(tmpQuestion);
                     }
                 }
@@ -196,6 +204,23 @@ public class FormImpDB implements FormService {
                         tmpQuestion.setQuestion(q.getQuestion());
                         tmpQuestion.setId(q.getQuestionId());
                         tmpQuestion.setTypeQuestion(q.getQuestiontype());
+
+                        if(tmpQuestion.getTypeQuestion()==3){
+                            List<CheckboxQuestions>  chbtmp = CBrep.findAll();
+                            for(CheckboxQuestions tmp: chbtmp){
+                                if(tmp.getFormId()==theForm.getFormId() && tmp.getQuestionId()==tmpQuestion.getId()) {
+                                    tmpQuestion.setCheckBoxAnswer(tmp.getId(), tmp.getAlternatives());
+                                }
+                            }
+
+
+
+                        }
+
+
+
+
+
                         questionList.add(tmpQuestion);
                     }
                 }
@@ -255,6 +280,11 @@ public class FormImpDB implements FormService {
                 tmp.setQuestiontype(typeList.get(counter));
                 questionDBlist.add(tmp);
             counter++;
+
+
+
+
+
         }
 
 
@@ -277,6 +307,28 @@ public class FormImpDB implements FormService {
             }
         }
     }
+    @Override
+    public String getQuestion(int formId,int questionID) {
+        String match="";
+
+        List<QuestionsDB> listCheck = QFrep.findAll();
+
+        for(QuestionsDB qb:listCheck )
+        {
+            if(qb.getQuestionId()==questionID && qb.getFormId()==formId)
+            {
+                match=qb.getQuestion();
+                return match;
+            }
+
+        }
+
+
+
+        return match;
+    }
+
+
 
     @Override
     public void savingQuestion(Question q,long formId) {
@@ -287,6 +339,22 @@ public class FormImpDB implements FormService {
         tmpQ.setQuestion(q.getQuestion());
         tmpQ.setQuestionId(q.getId());
         tmpQ.setQuestiontype(q.getTypeQuestion());
+
+                 if(q.getTypeQuestion()==3){
+                     for(Map.Entry<Integer,String> entry:q.getCheckBoxAnswer().entrySet()){
+                         CheckboxQuestions tmp = new CheckboxQuestions();
+                         tmp.setFormId((int)formId);
+                         tmp.setQuestionId(q.getId());
+                         tmp.setAlternatives(entry.getValue());
+                         CBrep.save(tmp);
+
+                     }
+
+
+                 }
+
+
+
 
         QFrep.save(tmpQ);
 

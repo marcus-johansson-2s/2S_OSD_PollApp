@@ -44,7 +44,8 @@ public class FormMemory implements FormService {
          */
         return false;
     }
-
+    @Override
+    public String getQuestion(int formId,int questionID){return null;}
     @Override
     public void activate(long formId) {
 /*
