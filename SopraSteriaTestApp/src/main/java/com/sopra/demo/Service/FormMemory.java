@@ -1,7 +1,10 @@
 package com.sopra.demo.Service;
 
 
+import com.sopra.demo.DB.Entities.FormDB;
+import com.sopra.demo.DB.Entities.QuestionsDB;
 import com.sopra.demo.controllers.Form;
+import com.sopra.demo.controllers.Question;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,38 +19,83 @@ public class FormMemory implements FormService {
 
     static Map<Long, Form> formDB = new HashMap<>();
 
-    long del=9999;
+    long del = 9999;
 
     public void delForm(long id) {
-        for (Map.Entry<Long,Form> entry : formDB.entrySet()) {
-            if(entry.getValue().getFormId() == id)
-                del=entry.getKey();
+        for (Map.Entry<Long, Form> entry : formDB.entrySet()) {
+            if (entry.getValue().getFormId() == id)
+                del = entry.getKey();
         }
-        if(del!=9999) {
+        if (del != 9999) {
             formDB.remove(del);
         }
     }
 
     public boolean existsDoubles(long id) {
+
+        int tmpInt = 0;
+
+        /*
         for (Map.Entry<Long,Form> entry : formDB.entrySet()) {
             if(entry.getValue().getFormId() == id)
                 return true;
         }
+
+         */
         return false;
     }
 
-    public boolean existsDoublesQuestions(long id,int doppler) {
-        for (Map.Entry<Long,Form> entry : formDB.entrySet()) {
+    @Override
+    public void activate(long formId) {
+/*
+        for(FormDB f:frep.findAll()) {
+            if(f.getFormId()==formId){
+                f.setIsActive(true);
+            }
+
+        }
+
+
+ */
+    }
+
+
+
+
+    @Override
+    public void deletingQuestion(long question, long formId) {
+
+
+/*
+            for(QuestionsDB qdb : QFrep.findAll()){
+                if(qdb.getFormId()==question && qdb.getQuestionId()==question){
+
+                    QFrep.findAll().remove(qdb);
+
+                }
+
+
+
+
+
+
+        }
+
+ */
+    }
+
+    public boolean existsDoublesQuestions(long id, int doppler) {
+        for (Map.Entry<Long, Form> entry : formDB.entrySet()) {
             if (entry.getValue().getFormId() == id) {
-                for(int i=0;i<entry.getValue().questionList.size();i++) {
-                    if (entry.getValue().questionList.get(i).getId()==doppler)
-                            return true;
+                for (int i = 0; i < entry.getValue().questionList.size(); i++) {
+                    if (entry.getValue().questionList.get(i).getId() == doppler)
+                        return true;
 
                 }
             }
 
         }
-            return false;
+        return false;
     }
 
     @Override
@@ -66,20 +114,20 @@ public class FormMemory implements FormService {
     }
 
     @Override
-    public void save(Form form) {
+    public void saveForm(Form form) {
 
-        formDB.put(getNextId(),form);
+        formDB.put(getNextId(), form);
     }
 
     @Override
     public Form findingOne(long theOne) {
-        for(Form e:formDB.values()){
-            if(e.getFormId()==theOne)
+        for (Form e : formDB.values()) {
+            if (e.getFormId() == theOne)
                 return e;
 
         }
         return null;
-}
+    }
 
 
     private Long getNextId() {
@@ -91,6 +139,13 @@ public class FormMemory implements FormService {
     }
 
 
+    public void savingQuestion(Question q, long formId) {
+    }
 
+    ;
+
+
+    public void UpdatingQuestion(Form DTO) {
+    }
 
 }

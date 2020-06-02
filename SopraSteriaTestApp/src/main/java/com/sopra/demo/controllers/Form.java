@@ -14,9 +14,9 @@ public class Form {
     private boolean active=false;
 
 
-    Form(){}
+   public Form(){}
 
-    Form(long formId, String desc,boolean anon,boolean bool){
+    public Form(long formId, String desc,boolean anon,boolean bool){
         this.formId = formId;
         description=desc;
         isAnon=anon;
@@ -50,11 +50,15 @@ public class Form {
     }
 
     public void listSetter(List<Question> questionList2) {
-
+/*
         for(int i =0;i<questionList.size();i++){
            questionList.get(i).setQuestion(questionList2.get(i).getQuestion());
 
         }
+
+ */
+
+        questionList=questionList2;
 
     }
 

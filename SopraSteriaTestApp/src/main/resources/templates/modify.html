@@ -49,10 +49,10 @@
             <div id="text4" align="center" style="display:none">
                 <h4>Choose form to remove</h4>
                 <h4>-</h4>
-                <a th:each="test: ${chooseForm.getNummer()}"> <a href="modifyForm.html" th:href="@{/modifyForm(activate=0,id=${test})}" th:text="'Form : ' +${test}" /></h4></a>
+                <h4 th:each="test: ${chooseForm.getNummer()}"> <a href="modifyForm.html" th:href="@{/modifyForm(activate=0,id=${test})}" th:text="'Form : ' +${test}" /></h4>
 
 
-
+                <h4>-</h4>
 
 
 <!--

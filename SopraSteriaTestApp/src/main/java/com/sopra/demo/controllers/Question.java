@@ -12,18 +12,22 @@ public class Question {
 
     private int tmpInt=0;
     private String tmpString;
-    private Map<Integer, String> checkBoxAnswer= new HashMap<>();
 
+
+
+    private Map<Integer, String> checkBoxAnswer= new HashMap<>();
     private List<Integer> checkBoxAnswerList = new ArrayList<>();
 
 
-    Question(){}
+    public Question(){}
 
     public Question(String question, int id,int typeQuestion) {
         this.question = question;
         this.id = id;
         this.typeQuestion=typeQuestion;
     }
+
+
 
 
     public List<Integer> getCheckBoxAnswerList() {

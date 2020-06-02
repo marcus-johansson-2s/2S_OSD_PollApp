@@ -26,7 +26,8 @@ import static org.apache.poi.util.IOUtils.toByteArray;
 @Controller
 public class Controlindex {
 
-    @Qualifier("formMemory")
+
+    @Qualifier("formImpDB")
     @Autowired
     private FormService formService;
     @Qualifier("answerDB")
@@ -112,14 +113,18 @@ public class Controlindex {
     @PostMapping("/createForm")
     public String Fsubmit(@RequestParam("tmpInt") boolean anon, @RequestParam("question") String description, RedirectAttributes redirectAttrs) {
 
-        long indexCount = 0;
+        long indexCount = 1;
+
 
         while (formService.existsDoubles(indexCount)) {
             indexCount++;
         }
 
 
-        formService.save(new Form((long) indexCount, description, anon, false));
+
+
+            System.out.println("Index count = " +indexCount);
+        formService.saveForm(new Form(indexCount, description, anon, false));
 
         redirectAttrs.addAttribute("id", indexCount);
         return "redirect:/createQuestions";
@@ -139,10 +144,9 @@ public class Controlindex {
 
         DTO dto = new DTO();
         int indexCount = formService.findingOne(id).questionList.size();
-
-
         dto.setAnswerId(1);
         dto.setAnotherQuestion(2);
+       System.out.println("Form id= "+id);
         dto.setFormId(id);
         dto.setId(indexCount);
         model.addAttribute("dto", dto);
@@ -152,6 +156,7 @@ public class Controlindex {
     @PostMapping("/createQuestions")
     public String Qsubmit(@RequestParam String checkBoxText, @RequestParam int anotherQuestion, @RequestParam int id, @RequestParam int answerId, @RequestParam String question, @RequestParam int formId, RedirectAttributes redirectAttrs) {
         Question q = new Question();
+
 //        String[] x = checkBoxText.split("\n");
         int counter = 0;
         checkBoxText += "/";
@@ -175,26 +180,27 @@ public class Controlindex {
 
         if (answerId == 1) {
             if (anotherQuestion == 1) {
-                for (Form f : formService.findAll()) {
-                    if (f.getFormId() == formId) {
+
                         q.setTypeQuestion(1);
-                        formService.findingOne(formId).setQuestionList(q);
+                      // formService.findingOne(formId).setQuestionList(q);
+                        formService.savingQuestion(q,formId);
                         //formService.findAll().get(formId).setQuestionList(q);
 
-                    }
-                }
+
+
                 redirectAttrs.addAttribute("id", formId);
                 return "redirect:/createQuestions";
             }
             if (anotherQuestion == 2) {
-                for (Form f : formService.findAll()) {
-                    if (f.getFormId() == formId) {
+
                         q.setTypeQuestion(1);
-                        formService.findingOne(formId).setQuestionList(q);
+                      //  formService.findingOne(formId).setQuestionList(q);
+
+                        formService.savingQuestion(q,formId);
                         // formService.findAll().get(formId).setQuestionList(q);
 
-                    }
-                }
+
+
                 redirectAttrs.addFlashAttribute("successDto","Action was successful");
                 return "redirect:/loggedIn";
             }
@@ -460,6 +466,7 @@ public class Controlindex {
                 dto.addStrings(e, "Inactive");
             }
             dto.addInt(e);
+            System.out.println("Form ID ="+e);
         }
 
         model.addAttribute("chooseForm", dto);
@@ -477,13 +484,18 @@ public class Controlindex {
             return "adminDeny";
         }
 
+        System.out.println("Form ID match ="+id);
+
         if (activate == 1) {
+
             if(formService.findingOne(id).getQuestionList().size()==0){
                 redirectAttributes.addFlashAttribute("errorDto","You cannot activate a form without questions");
                 return "redirect:/errorMessage";
             }
 
-            formService.findingOne(id).setActive(true);
+
+            formService.activate(id);
+           // formService.findingOne(id).setActive(true);
         }
 
         if (activate == 0) {
@@ -520,25 +532,29 @@ public class Controlindex {
 
         if(question!=404){
 
-            formService.findingOne(id).getQuestionList().remove(formService.findingOne(id).indexCorrector((int)question));
+            formService.deletingQuestion(question,id);
+           // formService.findingOne(id).getQuestionList().remove(formService.findingOne(id).indexCorrector((int)question));
         }
         model.addAttribute("dto", formService.findingOne(id));
         return "modifyQuestion";
     }
 
     @PostMapping("/modifyQuestion")
-    public String modifyPost(@ModelAttribute ("dto")Form DTO,Model model,RedirectAttributes redirectAttributes) {
+    public String modifyPost(@ModelAttribute ("dto")Form DTO, Model model,RedirectAttributes redirectAttributes) {
 
-        boolean hasEdited=false;
 
+        formService.UpdatingQuestion(DTO);
+        /*
         for(Question q:DTO.getQuestionList()){
             if(!q.getQuestion().equals(formService.findingOne(DTO.getFormId()).questionList.get(q.getId()).getQuestion())) {
                 formService.findingOne(DTO.getFormId()).listSetter(DTO.questionList);
-                hasEdited=true;
+
             }
 
 
         }
+
+         */
             redirectAttributes.addAttribute("question", 404);
             redirectAttributes.addAttribute("id", DTO.getFormId());
             return "redirect:/modifyQuestion";

@@ -9,19 +9,20 @@ public class FormDB implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "formid", unique = true)
     private int formId;
     @Column(name = "description", nullable = true)
     private String description;
     @Column(name = "isanon", nullable = true)
     private int isAnon;
+    @Column(name = "isactive", nullable = true)
+    private int isActive;
 
-    public int getId() {
+    public int getFormId() {
         return formId;
     }
 
-    public void setId(int id) {
+    public void setFormId(int id) {
         this.formId = id;
     }
 
@@ -44,5 +45,18 @@ public class FormDB implements Serializable {
         else
             isAnon=0;
 
+    }
+
+    public void setIsActive(boolean test) {
+
+        if(test)
+            isActive=1;
+        else
+            isActive=0;
+
+    }
+
+    public int getIsActive() {
+        return isActive;
     }
 }

@@ -28,8 +28,6 @@ import static java.lang.Integer.parseInt;
 public class AnswerDB implements AnswerService {
 
 
-    static Map<Long, FormAnswer> answersDB = new HashMap<>();
-
     @Autowired
     private FormRep frep;
     @Autowired
@@ -59,32 +57,20 @@ public class AnswerDB implements AnswerService {
 
         Map<String,QuestionAnswer> questionAnswerListMap =  new HashMap<>();
         Map<String,FormAnswer> formAnswerListMap =  new HashMap<>();
-
-
         List<FormAnswer> FAList = new ArrayList<FormAnswer>();
-
         List<FormAnswerDB> fadbList = Arep.findAll();
         List<FormQuestions> qDBList = Qrep.findAll();
 
 
-        int checker=0;
-        String tmpChecker="test";
-        int  formCounter=0;
+
 
      for(FormAnswerDB faDB:fadbList) {
          FormAnswer FA = new FormAnswer();
-         tmpChecker=faDB.getUser();
-         formCounter=faDB.getFormId();
+
          FA.setUser(faDB.getUser());
          FA.setFormId(faDB.getFormId());
          FA.setId(faDB.getId());
 
-
-         if(!tmpChecker.equals(faDB.getUser()) && formCounter == faDB.getFormId()) {
-             checker++;
-
-
-         }
          for(FormQuestions fqDB:qDBList) {
                     if(faDB.getFormId()==fqDB.getFormId() && faDB.getQuestionId() ==fqDB.getQuestionId()){
                         QuestionAnswer QA = new QuestionAnswer();
@@ -114,7 +100,7 @@ public class AnswerDB implements AnswerService {
      }
 
         //String x = "test string (67)".replaceAll(".*\\(|\\).*", "");
-
+/*
         for(Map.Entry<String, FormAnswer> form : formAnswerListMap.entrySet()) {
             System.out.println("-------------HASHMAP--------------");
             System.out.println(form.getValue().getFormId());
@@ -122,27 +108,18 @@ public class AnswerDB implements AnswerService {
                 System.out.println(question.getValue().getQuestion());
             }
         }
-        System.out.println("-------------------------------");
-        System.out.println("CHECKER = "+checker);
-        System.out.println("-------------------------------");
+
+
+ */
      for(Map.Entry<String, FormAnswer> form : formAnswerListMap.entrySet()){
 
-
-
-
          System.out.println("Form id INPUt = "+form.getValue().getFormId());
-
          List<QuestionAnswer> QAList = new ArrayList<QuestionAnswer>();
-
          for (Map.Entry<String, QuestionAnswer> question : questionAnswerListMap.entrySet()) {
-
-
              String newKey = form.getKey()+question.getValue().getQuestionId();
             if(newKey.equals(question.getKey())){
                 QAList.add(question.getValue());
-
-             }
-
+            }
          }
 
 
@@ -213,7 +190,7 @@ public class AnswerDB implements AnswerService {
 
         }
 
- */
+
         for(FormAnswer fa :FAList){
                 System.out.println("----------------------------------------");
                 System.out.println(fa.getFormId());
@@ -223,7 +200,7 @@ public class AnswerDB implements AnswerService {
                 }
                 System.out.println("----------------------------------------");
                 }
-
+ */
 
             return FAList;
 
