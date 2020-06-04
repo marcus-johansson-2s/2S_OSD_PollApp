@@ -88,20 +88,7 @@ public class WebConfig  implements WebMvcConfigurer  {
         registry.addViewController("/thankyou.html").setViewName("thankyou");
 
     }
-/*
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .antMatcher("/**")
-                .authorizeRequests()
-                .antMatchers("/", "/login**", "/callback/", "/webjars/**", "/error**")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
-    }
 
-
- */
 @Override
 public void configureViewResolvers(ViewResolverRegistry registry) {
     InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

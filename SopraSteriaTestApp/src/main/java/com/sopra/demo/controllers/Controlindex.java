@@ -121,10 +121,6 @@ public class Controlindex {
             indexCount++;
         }
 
-
-
-
-           // System.out.println("Index count = " +indexCount);
         formService.saveForm(new Form(indexCount, description, anon, false));
 
         redirectAttrs.addAttribute("id", indexCount);
@@ -183,26 +179,15 @@ public class Controlindex {
             if (anotherQuestion == 1) {
 
                         q.setTypeQuestion(1);
-                      // formService.findingOne(formId).setQuestionList(q);
                         formService.savingQuestion(q,formId);
-                        //formService.findAll().get(formId).setQuestionList(q);
-
-
-
-                redirectAttrs.addAttribute("id", formId);
+                        redirectAttrs.addAttribute("id", formId);
                 return "redirect:/createQuestions";
             }
             if (anotherQuestion == 2) {
 
                         q.setTypeQuestion(1);
-                      //  formService.findingOne(formId).setQuestionList(q);
-
                         formService.savingQuestion(q,formId);
-                        // formService.findAll().get(formId).setQuestionList(q);
-
-
-
-                redirectAttrs.addFlashAttribute("successDto","Action was successful");
+                        redirectAttrs.addFlashAttribute("successDto","Action was successful");
                 return "redirect:/loggedIn";
             }
         }
@@ -211,10 +196,6 @@ public class Controlindex {
 
                         q.setTypeQuestion(2);
                 formService.savingQuestion(q,formId);
-                       // formService.findingOne(formId).setQuestionList(q);
-                        //formService.findAll().get(formId).setQuestionList(q);
-
-
                 redirectAttrs.addAttribute("id", formId);
                 return "redirect:/createQuestions";
             }
@@ -223,10 +204,7 @@ public class Controlindex {
 
                         q.setTypeQuestion(2);
                         formService.savingQuestion(q,formId);
-                        //formService.findAll().get(formId).setQuestionList(q);
-                        //formService.findingOne(formId).setQuestionList(q);
-
-                redirectAttrs.addFlashAttribute("successDto","Action was successful");
+                        redirectAttrs.addFlashAttribute("successDto","Action was successful");
                 return "redirect:/loggedIn";
 
         }
@@ -236,10 +214,6 @@ public class Controlindex {
 
                         q.setTypeQuestion(3);
                 formService.savingQuestion(q,formId);
-                        //formService.findingOne(formId).setQuestionList(q);
-                        // formService.findAll().get(formId).setQuestionList(q);
-
-
                 redirectAttrs.addAttribute("id", formId);
                 return "redirect:/createQuestions";
 
@@ -248,10 +222,7 @@ public class Controlindex {
 
                         q.setTypeQuestion(3);
                         formService.savingQuestion(q,formId);
-                       // formService.findingOne(formId).setQuestionList(q);
-                        // formService.findAll().get(formId).setQuestionList(q);
-
-                redirectAttrs.addFlashAttribute("successDto","Action was successful");
+                        redirectAttrs.addFlashAttribute("successDto","Action was successful");
                 return "redirect:/loggedIn";
             }
         }
@@ -550,17 +521,7 @@ return "thankyou";
 
 
         formService.UpdatingQuestion(DTO);
-        /*
-        for(Question q:DTO.getQuestionList()){
-            if(!q.getQuestion().equals(formService.findingOne(DTO.getFormId()).questionList.get(q.getId()).getQuestion())) {
-                formService.findingOne(DTO.getFormId()).listSetter(DTO.questionList);
 
-            }
-
-
-        }
-
-         */
             redirectAttributes.addAttribute("question", 404);
             redirectAttributes.addAttribute("id", DTO.getFormId());
             return "redirect:/modifyQuestion";
@@ -676,14 +637,7 @@ return "thankyou";
             }
 
             //////////////////////////////////////////////////
-            //File currDir = new File(".");
-            //String path = currDir.getAbsolutePath();
-            //String temporaryDir = System.getProperty("java.io.tmpdir");
-            //String fileLocation = temporaryDir+"temp.xlsx";
-            // File currDir = new File( "../"+ "temp.xlsx");
-           // File  file = new File(fileLocation);
-
-            File file = File.createTempFile("temp", null);
+        File file = File.createTempFile("temp", null);
             FileOutputStream outputStream = new FileOutputStream(file);
             workbook.write(outputStream);
             workbook.close();

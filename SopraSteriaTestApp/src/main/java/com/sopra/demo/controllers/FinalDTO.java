@@ -1,34 +1,25 @@
 package com.sopra.demo.controllers;
 
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamSource;
-import org.springframework.core.io.Resource;
-import org.springframework.util.ResourceUtils;
-
-import java.io.*;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FinalDTO {
 
-    FinalDTO(){}
+    FinalDTO() {
+    }
 
     private Form form = new Form();
     private int totalApplicants = 0;
     private int counterTotalAnswers = 0;
     private int radioMedian = 0;
     private Map<String, String> questionAndUser = new HashMap<>();
-    private Map<String,Integer> question = new HashMap<>();
+    private Map<String, Integer> question = new HashMap<>();
     private Map<Integer, Integer> test = new HashMap<>();
 
     //Resource resource = new ClassPathResource("exel/temp.xlsx");
-
 
 
     public int getTotalApplicants() {
@@ -89,19 +80,19 @@ public class FinalDTO {
     }
 
 
-    public String converter(String s){
+    public String converter(String s) {
 
-        return s.replaceAll("\\d","") + "\n";
+        return s.replaceAll("\\d", "") + "\n";
 
     }
 
-    public List<Integer> listgetter(){
+    public List<Integer> listgetter() {
         List<Integer> tmpList = new ArrayList<>();
 
-        for(Map.Entry<String,Integer> entry:question.entrySet()){
+        for (Map.Entry<String, Integer> entry : question.entrySet()) {
 
-            if(!tmpList.contains(entry.getValue()))
-                    tmpList.add(entry.getValue());
+            if (!tmpList.contains(entry.getValue()))
+                tmpList.add(entry.getValue());
         }
 
         return tmpList;

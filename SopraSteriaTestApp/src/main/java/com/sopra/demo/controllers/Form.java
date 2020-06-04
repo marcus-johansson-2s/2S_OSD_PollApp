@@ -89,4 +89,18 @@ public class Form {
            }
            return 0;
     }
+
+    public Question getQ(int id){
+
+       for(Question q:questionList){
+
+           if(q.getId()==id){
+               return q;
+           }
+
+       }
+
+
+       return null;
+    }
 }
