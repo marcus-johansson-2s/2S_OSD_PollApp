@@ -14,7 +14,7 @@
 <body>
 
 <div class="jumbotron mt-1 text-center bg-dark text-white pb-0 p-4"  id="grad1">
-    <h1>QuestionApp</h1>
+    <h1>4Mate</h1>
     <p>-super awesome form generator</p>
     <div class="container-fluid p-1 my-0 bg-white text-white " id="grad8">
         <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-link">Create</a>
@@ -39,6 +39,7 @@
             <button type="button" class="btn btn-link" onclick = "display('firstbox')">Remove</button>
             <button type="button" class="btn btn-link" onclick = "display('secondbox')">Modify</button>
                 <button type="button" class="btn btn-link" onclick = "display('thirdbox')">Activate</button>
+                <button type="button" class="btn btn-link" onclick = "display('fourbox')">Copy</button>
             </div>
             <h4>-</h4>
 
@@ -74,6 +75,13 @@
                 <h4 th:each="test: ${chooseForm.getNummer()}" >  <a href="modifyForm.html" th:href="@{/modifyForm(activate=1,id=${test})}" th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/></h4>
                 <h4>-</h4>
             </div>
+
+            <div id="text7" align="center" style="display:none">
+                <h4>Choose form to Copy</h4>
+                <h4>-</h4>
+                <h4 th:each="test: ${chooseForm.getNummer()}" >  <a href="loggedIn.html" th:href="@{/copy(id=${test})}"  th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/></h4>
+                <h4>-</h4>
+            </div>
             <hr/>
             <a href="https://www.soprasteria.se"><div class="center" style="opacity: 50%"></div></a>
         </div>
@@ -85,6 +93,7 @@
     var text = document.getElementById("text4");
     var text5 = document.getElementById("text5");
     var text6 = document.getElementById("text6");
+    var text7 = document.getElementById("text7");
     function display (selected)
 
 {
@@ -93,18 +102,28 @@ if (selected === 'firstbox')
 text.style.display = "block";
     text5.style.display = "none";
     text6.style.display = "none";
+    text7.style.display = "none";
 }
 else if (selected === 'secondbox')
 {
     text.style.display = "none";
     text5.style.display = "block";
     text6.style.display = "none";
+    text7.style.display = "none";
 }
 else if (selected === 'thirdbox')
 {
     text.style.display = "none";
     text5.style.display = "none";
     text6.style.display = "block";
+    text7.style.display = "none";
+}
+else if (selected === 'fourbox')
+{
+    text.style.display = "none";
+    text5.style.display = "none";
+    text6.style.display = "none";
+    text7.style.display = "block";
 }
 
 

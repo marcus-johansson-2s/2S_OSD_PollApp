@@ -35,8 +35,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .oauth2Login()
-                .defaultSuccessUrl("/loginSuccess", true);
+                .oauth2Login();
+
     }
 }
 

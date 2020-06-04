@@ -1,5 +1,6 @@
 package com.sopra.demo.controllers;
 
+
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -10,8 +11,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class FinalDTO {
 
@@ -91,5 +93,17 @@ public class FinalDTO {
 
         return s.replaceAll("\\d","") + "\n";
 
+    }
+
+    public List<Integer> listgetter(){
+        List<Integer> tmpList = new ArrayList<>();
+
+        for(Map.Entry<String,Integer> entry:question.entrySet()){
+
+            if(!tmpList.contains(entry.getValue()))
+                    tmpList.add(entry.getValue());
+        }
+
+        return tmpList;
     }
 }

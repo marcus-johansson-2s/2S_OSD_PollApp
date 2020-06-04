@@ -17,7 +17,7 @@
 <body>
 
 <div class="jumbotron mt-1 text-center bg-dark text-white pb-0 p-4"  id="grad1">
-    <h1>QuestionApp</h1>
+    <h1>4Mate</h1>
     <p>-super awesome form generator</p>
     <div class="container-fluid p-1 my-0 bg-white text-white " id="grad8">
         <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-link">Create</a>
@@ -41,21 +41,43 @@
 
 
             <ul class="list-group mx-auto d-block">
-            <div th:each="entry:${dto.getQuestion().entrySet()}">
-                <li class="list-group-item list-group-item-warning text-dark text-md-center p-3 h4" th:text="${dto.form.getQuestionList().get(dto.form.indexCorrector(entry.getValue())).getQuestion()+' ?'}"></li>
+                <div th:each="questionSet:${dto.listgetter()}">
+                    <li class="list-group-item list-group-item-warning text-dark text-md-center p-3 h4" th:text="${dto.form.getQuestionList().get(dto.form.indexCorrector(questionSet)).getQuestion()+' ?'}"></li>
 
-                    <div th:if="${dto.getTest().get(entry.getValue())!=null}">
-                        <li class="list-group-item list-group-item-success text-md-center " th:text="${'RadioButton Average :'+dto.getTest().get(entry.getValue()/dto.totalApplicants)}"></li>
+
+                    <div th:if="${dto.getTest().get(questionSet)!=null}">
+                        <li class="list-group-item list-group-item-success text-md-center " th:text="${'RadioButton Average :'+dto.getTest().get(questionSet)/dto.totalApplicants}"></li>
                     </div>
+
+            <div th:each="entry:${dto.getQuestion().entrySet()}">
+<!--
+                <li class="list-group-item list-group-item-warning text-dark text-md-center p-3 h4" th:text="${dto.form.getQuestionList().get(dto.form.indexCorrector(entry.getValue())).getQuestion()+' ?'}"></li>
+    -->
+
+
 
                 <th:block th:each="entry2:${dto.getQuestionAndUser().entrySet()}">
                     <div th:if="${entry.getKey().equals(entry2.getKey())}">
+                        <!--
+                        <div th:if="${entry.getKey().equals(entry2.getKey() && ${entry.getValue()}==questionSet)}">
+                            -->
+                            <div th:if="${entry.getValue()==questionSet}">
+
                         <li class="list-group-item list-group-item-success text-md-center p-2 h6" th:text="' - '+${entry2.getValue()}+' - '+${dto.converter(entry2.getKey())}"></li>
+                        </div>
                     </div>
                 </th:block>
-
-
             </div>
+                <hr/>
+
+</div>
+
+
+
+
+
+
+
                 <li class="list-group-item list-group-item-primary text-white text-md-center h4"  th:text="${'Total Applicants :'+dto.totalApplicants}"></li>
                 <li class="list-group-item list-group-item-primary text-white text-md-center h4"   th:text="${'Total Answers :'+dto.counterTotalAnswers}"></li>
             <!--

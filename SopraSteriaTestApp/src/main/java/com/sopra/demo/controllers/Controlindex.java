@@ -124,7 +124,7 @@ public class Controlindex {
 
 
 
-            System.out.println("Index count = " +indexCount);
+           // System.out.println("Index count = " +indexCount);
         formService.saveForm(new Form(indexCount, description, anon, false));
 
         redirectAttrs.addAttribute("id", indexCount);
@@ -147,7 +147,7 @@ public class Controlindex {
         int indexCount = formService.findingOne(id).questionList.size();
         dto.setAnswerId(1);
         dto.setAnotherQuestion(2);
-       System.out.println("Form id= "+id);
+      // System.out.println("Form id= "+id);
         dto.setFormId(id);
         dto.setId(indexCount);
         model.addAttribute("dto", dto);
@@ -362,21 +362,15 @@ public class Controlindex {
 
 
             Question tmp= form.questionList.get(matcher);
-
-
-
             if (qa.getType() == 1) {
                 qa.setTextAnswer(tmp.getTmpString());
             }
 
-            if (qa.getType() == 2)
+            if (qa.getType() == 2) {
                 qa.setRadioAnswer(tmp.getTmpInt());
-
+            }
             if (qa.getType() == 3) {
                 tmp.getCheckBoxAnswerList().removeIf(Objects::isNull);
-
-
-
                 qa.setCheckBoxAnswer(tmp.getCheckBoxAnswerList());
 
             }
@@ -389,9 +383,13 @@ public class Controlindex {
 
 
         answerService.saveAnswers(fa);
+return "thankyou";
+        /*
         redirectAttributes.addFlashAttribute("successDto","Your answers has been registered");
         return "redirect:/loggedIn";
 
+
+         */
     }
     /////////////////////////////Chooosing form
 
@@ -474,7 +472,7 @@ public class Controlindex {
                 dto.addStrings(e, "Inactive");
             }
             dto.addInt(e);
-            System.out.println("Form ID ="+e);
+            //System.out.println("Form ID ="+e);
         }
 
         model.addAttribute("chooseForm", dto);
@@ -492,7 +490,7 @@ public class Controlindex {
             return "adminDeny";
         }
 
-        System.out.println("Form ID match ="+id);
+        //System.out.println("Form ID match ="+id);
 
         if (activate == 1) {
 
@@ -694,6 +692,33 @@ public class Controlindex {
             file.deleteOnExit();
             return test;
 
+    }
+
+    @GetMapping(value = "/copy", params = "id")
+    public String copy(@RequestParam ("id") long id,RedirectAttributes redirectAttributes) throws IOException {
+
+        long indexCount = 1;
+
+        while (formService.existsDoubles(indexCount)) {
+            indexCount++;
+        }
+        Form tmpForm = formService.findingOne(id);
+        formService.saveForm(new Form(indexCount,tmpForm.getDescription(), tmpForm.getAnon(), false));
+
+        for(Question q:tmpForm.questionList){
+            formService.savingQuestion(q,indexCount);
+
+        }
+        redirectAttributes.addFlashAttribute("successDto","Form has been copied as 'Form "+indexCount+"'!");
+        return "redirect:/loggedIn";
+    }
+
+
+
+
+    @RequestMapping("/thankyou")
+    public String thanks() {
+        return "thankyou";
     }
 
 }

@@ -13,7 +13,7 @@
 <body>
 
 <div class="jumbotron mt-1 text-center bg-dark text-white pb-0 p-4"  id="grad1">
-    <h1>QuestionApp</h1>
+    <h1>4Mate</h1>
     <p>-super awesome form generator</p>
     <div class="container-fluid p-1 my-0 bg-white text-white " id="grad8">
         <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-link">Create</a>
@@ -35,7 +35,11 @@
     <h4>  <a href="answerSpecQuestion.html" th:href="@{/answerSpecQuestion(id=${test})}" th:text="'Form  ' +${test} +' description : '+${strings.get(test)}"/></h4>
     -->
 
-    <h4>  <a href="answerSpecQuestion.html" th:href="@{/answerSpecQuestion(id=${test.formId})}" th:text="'Form  ' +${test.formId} +' description : '+${test.description}"/></h4>
+    <h4>  <a href="answerSpecQuestion.html" target="popup" th:href="@{/answerSpecQuestion(id=${test.formId})}" th:text="'Form  ' +${test.formId} +' description : '+${test.description}"/></h4>
+
+    <h4 th:text="'Link for form :'+@{/answerSpecQuestion(id=${test.formId})}">Link for Form:</h4>
+
+    <hr/>
 
 </th:block>
             <hr/>

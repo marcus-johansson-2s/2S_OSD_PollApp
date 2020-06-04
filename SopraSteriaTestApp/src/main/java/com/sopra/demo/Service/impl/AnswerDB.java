@@ -27,8 +27,6 @@ public class AnswerDB implements AnswerService {
     @Autowired
     private CheckboxAnswerRep CBanswer;
     @Autowired
-    private FormRep frep;
-    @Autowired
     private AnswerRep Arep;
     @Autowired
     private QuestionRep Qrep;
@@ -99,6 +97,23 @@ public class AnswerDB implements AnswerService {
                         }
                         if (QA.getType() == 3) {
                             //QA.setCheckBoxAnswer();
+                            List<CheckboxAnswer> CAList = CBanswer.findAll();
+                            List<CheckboxQuestions> CQList = CBquestions.findAll();
+                            List<Integer> tmpList = new ArrayList<>();
+
+                            for(CheckboxAnswer ca:CAList) {
+                                if(FA.getUser().equals(ca.getUser()) ) {
+                                        if(CBquestions.findById(ca.getIdanswer()).get().getQuestionId()==QA.getQuestionId() && CBquestions.findById(ca.getIdanswer()).get().getFormId()==FA.getFormId())
+
+                                    tmpList.add(ca.getIdanswer());
+
+                                }
+
+
+                            }
+                            QA.setCheckBoxAnswer(tmpList);
+
+
                         }
 
                         //QAList.add(QA);
@@ -125,7 +140,7 @@ public class AnswerDB implements AnswerService {
  */
      for(Map.Entry<String, FormAnswer> form : formAnswerListMap.entrySet()){
 
-         System.out.println("Form id INPUt = "+form.getValue().getFormId());
+        // System.out.println("Form id INPUt = "+form.getValue().getFormId());
          List<QuestionAnswer> QAList = new ArrayList<QuestionAnswer>();
          for (Map.Entry<String, QuestionAnswer> question : questionAnswerListMap.entrySet()) {
              String newKey = form.getKey()+question.getValue().getQuestionId();

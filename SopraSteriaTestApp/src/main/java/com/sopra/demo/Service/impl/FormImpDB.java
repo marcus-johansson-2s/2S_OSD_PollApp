@@ -9,11 +9,13 @@ import com.sopra.demo.DB.Entities.QuestionsDB;
 import com.sopra.demo.Service.FormService;
 import com.sopra.demo.controllers.Form;
 import com.sopra.demo.controllers.Question;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -134,10 +136,11 @@ public class FormImpDB implements FormService {
             }
         }
         for(QuestionsDB d:QFrep.findAll()){
-            if(d.getId()==id){
+            if(d.getFormId()==id){
                 QFrep.delete(d);
             }
         }
+
     }
 
     @Override
@@ -252,35 +255,101 @@ public class FormImpDB implements FormService {
     @Override
     public void UpdatingQuestion(Form DTO) {
 
+        List<CheckboxQuestions> cbQlist = CBrep.findAll();
         List<QuestionsDB> test=QFrep.findAll();
       List<QuestionsDB> test2= new ArrayList<>();
-
       List<Integer> typeList= new ArrayList<>();
-                        System.out.println(DTO.getFormId());
+
+        List<CheckboxQuestions> tmpCheckbox =new ArrayList<>();
+
+        List<Integer> QidList=new  ArrayList<>();
+      //  System.out.println("Form ID:: "+DTO.getFormId());
         //System.out.println(question);
+
+        int QID=0;
         for(QuestionsDB d:test){
-            for(Question q:DTO.getQuestionList()) {
-                if (d.getFormId() == DTO.getFormId()) {
-                    typeList.add(d.getQuestiontype());
-                    QFrep.delete(d);
 
 
+
+
+            if (d.getFormId() == DTO.getFormId()) {
+                int type = d.getQuestiontype();
+                typeList.add(type);
+
+            for (CheckboxQuestions cQ : cbQlist) {
+
+                if (cQ.getFormId() == DTO.getFormId() && cQ.getQuestionId() == d.getQuestionId()) {
+                    cQ.setQuestionId(QID);
+                    tmpCheckbox.add(cQ);
+                    CBrep.delete(cQ);
+                   // System.out.println("Copy question = " + cQ.getQuestionId());
                 }
             }
+
+            for(Question q:DTO.getQuestionList()) {
+                if (d.getFormId() == DTO.getFormId()) {
+                    QFrep.delete(d);
+                }
+
+             }
+
+               // QidList.add(d.getQuestionId());
+                QID++;
+            }
+        }
+        int counter=0;
+        int counterID=0;
+        CBrep.flush();
+/*
+        for(int i:typeList){
+
+            System.out.println("eleement = "+i);
+
         }
 
+ */
+
         List<QuestionsDB> questionDBlist = new ArrayList<>();
-        int counter=0;
+
         for(Question q:DTO.getQuestionList()){
 
+            int dispersion=0;
                 QuestionsDB tmp = new QuestionsDB();
                 tmp.setFormId((int)DTO.getFormId());
                 tmp.setQuestion(q.getQuestion());
-                tmp.setQuestionId(counter);
+
+                tmp.setQuestionId(counterID);
+           // tmp.setQuestionId(QidList.get(counter));
+
+
                 tmp.setQuestiontype(typeList.get(counter));
+
+                if(tmp.getQuestiontype()==1 &&tmp.getQuestiontype()==2){
+                    dispersion++;
+
+                }
+
+                 if(tmp.getQuestiontype()==3){
+
+                    for(CheckboxQuestions cq:tmpCheckbox){
+                        //System.out.println("Match Question ID = " + cq.getQuestionId());
+                       // System.out.println("Match with = " + tmp.getQuestionId());
+                        if(cq.getQuestionId()+dispersion==tmp.getQuestionId()){
+
+                            CBrep.save(cq);
+
+                        }
+
+                    }
+
+
+
+                 }
+
+
                 questionDBlist.add(tmp);
             counter++;
-
+            counterID++;
 
 
 
@@ -296,8 +365,15 @@ public class FormImpDB implements FormService {
     @Override
     public void deletingQuestion(long question,long formId) {
 
+        List<CheckboxQuestions> cbQlist = CBrep.findAll();
         List<QuestionsDB> qdbList = QFrep.findAll();
 
+        for(CheckboxQuestions cQ:cbQlist){
+            if(cQ.getFormId()==formId && cQ.getQuestionId() == question){
+                CBrep.delete(cQ);
+            }
+
+        }
         for(QuestionsDB qdb : qdbList){
             if(qdb.getFormId()==formId && qdb.getQuestionId()==question){
 
