@@ -51,17 +51,10 @@
                     </div>
 
             <div th:each="entry:${dto.getQuestion().entrySet()}">
-<!--
-                <li class="list-group-item list-group-item-warning text-dark text-md-center p-3 h4" th:text="${dto.form.getQuestionList().get(dto.form.indexCorrector(entry.getValue())).getQuestion()+' ?'}"></li>
-    -->
-
-
 
                 <th:block th:each="entry2:${dto.getQuestionAndUser().entrySet()}">
                     <div th:if="${entry.getKey().equals(entry2.getKey())}">
-                        <!--
-                        <div th:if="${entry.getKey().equals(entry2.getKey() && ${entry.getValue()}==questionSet)}">
-                            -->
+
                             <div th:if="${entry.getValue()==questionSet}">
                                 <li class="list-group-item list-group-item-success text-md-center p-2" th:text="' - '+${entry2.getValue()}+' - '+${dto.converter(entry2.getKey(),dto.form.getAnon())}"></li>
                         </div>
@@ -87,16 +80,10 @@
 
 
 
-                <a th:href="@{/get-file(id=${dto.getForm().formId})}"  type="button" class="btn btn-outline-primary">Export to excel file</a>
+                <a th:href="@{/get-file(id=${dto.getForm().formId})}"  type="button" class="btn btn-outline-primary">Export to excel file  <i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a>
                 <hr/>
                 <a href="https://www.soprasteria.se"><div class="center" style="opacity: 50%"></div></a>
-<!--
-  <a href="ms-excel:ofe|u|C:/Users/CptCaveMan/IdeaProjects/2S_OSD_PollApp/temp.xlsx" download type="button" class="btn btn-link">GetFile</a>
-     <a th:href="${dto.exelFunction()}"  download type="button" class="btn btn-link">GetFile</a>
-                <a href="ms-excel:ofe|u|temp.xlsx" download type="button" class="btn btn-link">GetFile</a>
-                <a th:href="'ms-excel:ofe|u|'+${dto.exelFunction()}" type="button" class="btn btn-link">GetFile</a>
-                       <button th:onclick="${dto.exelFunction()}">KUK</button>
--->
+
         </div>
 
         </div>

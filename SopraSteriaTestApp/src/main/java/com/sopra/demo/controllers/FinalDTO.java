@@ -19,8 +19,6 @@ public class FinalDTO {
     private Map<String, Integer> question = new HashMap<>();
     private Map<Integer, Integer> test = new HashMap<>();
 
-    //Resource resource = new ClassPathResource("exel/temp.xlsx");
-
 
     public float getTotalApplicants() {
         return totalApplicants;

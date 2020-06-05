@@ -36,9 +36,7 @@
                 <h3><i class="fa fa-pencil" aria-hidden="true"></i>Answer form</h3>
             </div>
 <th:block th:each="test,i: ${Qid}" align="center">
-    <!--
-    <h4>  <a href="answerSpecQuestion.html" th:href="@{/answerSpecQuestion(id=${test})}" th:text="'Form  ' +${test} +' description : '+${strings.get(test)}"/></h4>
-    -->
+
 
     <h4>  <a href="answerSpecQuestion.html" target="popup" th:href="@{/answerSpecQuestion(id=${test.formId})}" th:text="'Form  ' +${test.formId} +' description : '+${test.description}"/></h4>
 

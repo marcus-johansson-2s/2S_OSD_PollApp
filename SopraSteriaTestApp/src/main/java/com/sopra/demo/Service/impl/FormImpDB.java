@@ -142,9 +142,9 @@ public class FormImpDB implements FormService {
 
 
 
-        //QFrep.saveAll(questionDBlist);
+
         frep.save(tmpForm);
-        //frep.saveAndFlush(tmpForm);
+
 
 
     }
@@ -217,9 +217,6 @@ public class FormImpDB implements FormService {
         List<CheckboxQuestions> tmpCheckbox = new ArrayList<>();
 
         List<Integer> QidList = new ArrayList<>();
-        //  System.out.println("Form ID:: "+DTO.getFormId());
-        //System.out.println(question);
-
         int QID = 0;
         for (QuestionsDB d : test) {
 
@@ -234,8 +231,6 @@ public class FormImpDB implements FormService {
                         cQ.setQuestionId(QID);
                         tmpCheckbox.add(cQ);
                         CBrep.delete(cQ);
-                        // System.out.println("Copy question = " + cQ.getQuestionId());
-
                     }
                 }
 
@@ -256,14 +251,6 @@ public class FormImpDB implements FormService {
         int counter = 0;
         int counterID = 0;
         CBrep.flush();
-/*
-        for(int i:typeList){
-
-            System.out.println("eleement = "+i);
-
-        }
-
- */
 
         List<QuestionsDB> questionDBlist = new ArrayList<>();
 
@@ -288,8 +275,7 @@ public class FormImpDB implements FormService {
             if (tmp.getQuestiontype() == 3) {
 
                 for (CheckboxQuestions cq : tmpCheckbox) {
-                    //System.out.println("Match Question ID = " + cq.getQuestionId());
-                    // System.out.println("Match with = " + tmp.getQuestionId());
+
                     if (cq.getQuestionId() + dispersion == tmp.getQuestionId()) {
 
                         CBrep.save(cq);
@@ -301,19 +287,12 @@ public class FormImpDB implements FormService {
 
 
             }
-
-
             questionDBlist.add(tmp);
             counter++;
             counterID++;
 
 
         }
-
-
-
-
-
 
         QFrep.saveAll(questionDBlist);
 

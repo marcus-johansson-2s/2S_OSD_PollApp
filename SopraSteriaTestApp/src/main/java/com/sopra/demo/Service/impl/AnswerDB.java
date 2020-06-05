@@ -89,7 +89,7 @@ public class AnswerDB implements AnswerService {
                     QA.setType(fqDB.getQuestiontype());
                     QA.setQuestion(fqDB.getQuestion());
                     QA.setQuestionId(faDB.getQuestionId());
-                    // qa.setId(form.questionList.size());
+
                     if (QA.getType() == 1) {
                         QA.setTextAnswer(faDB.getAnswer());
                     }
@@ -97,7 +97,7 @@ public class AnswerDB implements AnswerService {
                         QA.setRadioAnswer(parseInt(faDB.getAnswer()));
                     }
                     if (QA.getType() == 3) {
-                        //QA.setCheckBoxAnswer();
+
                         List<CheckboxAnswer> CAList = CBanswer.findAll();
                         List<CheckboxQuestions> CQList = CBquestions.findAll();
                         List<Integer> tmpList = new ArrayList<>();
@@ -205,9 +205,6 @@ public class AnswerDB implements AnswerService {
             aList.add(formAnswerDB);
         }
 
-
-        // Qrep.save(formQuestions);
-        //Arep.save(formAnswerDB);
         Qrep.saveAll(fList);
         Arep.saveAll(aList);
 

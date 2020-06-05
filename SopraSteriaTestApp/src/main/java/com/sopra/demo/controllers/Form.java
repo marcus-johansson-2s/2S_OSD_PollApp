@@ -49,13 +49,6 @@ public class Form {
     }
 
     public void listSetter(List<Question> questionList2) {
-/*
-        for(int i =0;i<questionList.size();i++){
-           questionList.get(i).setQuestion(questionList2.get(i).getQuestion());
-
-        }
-
- */
 
         questionList = questionList2;
 

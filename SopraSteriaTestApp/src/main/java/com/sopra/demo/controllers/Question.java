@@ -9,12 +9,8 @@ public class Question {
     private String question;
     private int id;
     private int typeQuestion;
-
     private int tmpInt=0;
     private String tmpString;
-
-
-
     private Map<Integer, String> checkBoxAnswer= new HashMap<>();
     private List<Integer> checkBoxAnswerList = new ArrayList<>();
 

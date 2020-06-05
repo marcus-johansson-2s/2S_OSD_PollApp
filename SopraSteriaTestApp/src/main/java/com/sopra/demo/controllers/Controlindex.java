@@ -18,10 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.poi.util.IOUtils.toByteArray;
 
@@ -59,7 +57,6 @@ public class Controlindex {
         model.addAttribute("admin", new smallDto());
         return "admin";
     }
-
     @PostMapping("/admin")
     public String Submit(@ModelAttribute("admin") smallDto admin, HttpSession session,RedirectAttributes redirectAttributes) throws IOException {
 
@@ -75,9 +72,6 @@ public class Controlindex {
         return "adminDeny";
     }
 
-
-
-    //////////////////////////////LOGIN
     @RequestMapping("/loggedIn")
     public String loggedIn(Model model) {
 
@@ -107,10 +101,7 @@ public class Controlindex {
 
     @PostMapping("/createForm")
     public String Fsubmit(@RequestParam("tmpInt") boolean anon, @RequestParam("question") String description, RedirectAttributes redirectAttrs) {
-
         long indexCount = 1;
-
-
         while (formService.existsDoubles(indexCount)) {
             indexCount++;
         }
@@ -137,7 +128,6 @@ public class Controlindex {
         int indexCount = formService.findingOne(id).questionList.size();
         dto.setAnswerId(1);
         dto.setAnotherQuestion(2);
-      // System.out.println("Form id= "+id);
         dto.setFormId(id);
         dto.setId(indexCount);
         model.addAttribute("dto", dto);
@@ -147,8 +137,6 @@ public class Controlindex {
     @PostMapping("/createQuestions")
     public String Qsubmit(@RequestParam String checkBoxText, @RequestParam int anotherQuestion, @RequestParam int id, @RequestParam int answerId, @RequestParam String question, @RequestParam int formId, RedirectAttributes redirectAttrs) {
         Question q = new Question();
-
-//        String[] x = checkBoxText.split("\n");
         int counter = 0;
         checkBoxText += "/";
         StringBuilder S = new StringBuilder();
@@ -225,15 +213,10 @@ public class Controlindex {
         return "error";
     }
 
-
-    ///////////////////////////////////////// POSTING QUESTIONS
     @RequestMapping(value = "/adminDeny", method = RequestMethod.GET)
     public String adminDeny(Model model) {
         return "adminDeny";
     }
-
-    ///////////////////////////7
-
 
     @GetMapping("/answerQuestion")
     public String answerInput(Model model) {
@@ -247,14 +230,11 @@ public class Controlindex {
         }
 
         model.addAttribute("strings", strings);
-
         model.addAttribute("Qid", formService.findAll());
         return "answerQuestion";
     }
 
-    ///////////////////////////////////FormAnswer SPecific Question
-    // @RequestMapping(value = "/answerSpecQuestion" , method = RequestMethod.GET)
-    // @GetMapping("/answerSpecQuestion"
+
     @RequestMapping(value = "/answerSpecQuestion", params = "id", method = RequestMethod.GET)
     public String answerSpec(@RequestParam("id") long id, Model model, OAuth2AuthenticationToken authentication,RedirectAttributes redirectAttributes) throws IOException {
 
@@ -312,8 +292,6 @@ public class Controlindex {
             qa.setId(form.questionList.size());
             qa.setQuestionId(q.getId());
             qa.setType(q.getTypeQuestion());
-
-            //qa.setQuestion(formService.findingOne((int)form.getFormId()).questionList.get(q.getId()).getQuestion());
             qa.setQuestion(formService.getQuestion((int)form.getFormId(),q.getId()));
 
             ///////////////Correct index fault
@@ -323,7 +301,6 @@ public class Controlindex {
                     matcher=i;
                 }
             }
-
 
 
             Question tmp= form.questionList.get(matcher);
@@ -343,18 +320,8 @@ public class Controlindex {
 
 
         }
-
-
-
-
         answerService.saveAnswers(fa);
-return "thankyou";
-        /*
-        redirectAttributes.addFlashAttribute("successDto","Your answers has been registered");
-        return "redirect:/loggedIn";
-
-
-         */
+            return "thankyou";
     }
     /////////////////////////////Chooosing form
 
@@ -393,9 +360,7 @@ return "thankyou";
             return "adminDeny";
         }
 
-
         DtoFormAnswers tmpClassForPrint = new DtoFormAnswers();
-
         for (Form q : formService.findAll()) {
             if (id == q.getFormId()) {
                 tmpClassForPrint.setForm(q);
@@ -426,9 +391,7 @@ return "thankyou";
             return "adminDeny";
         }
 
-
         smallDto dto = new smallDto();
-
         for (Form i : formService.findAll()) {
             int e = (int) i.getFormId();
 
@@ -606,14 +569,25 @@ return "thankyou";
             style.setWrapText(true);
 
             int i=1;
-            for (Map.Entry<String,Integer> entry : finalDTO.getQuestion().entrySet()) {
+
+        Map<String,Integer> result = finalDTO.getQuestion().entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+        Map<String,String> result2= finalDTO.getQuestionAndUser().entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+            for (Map.Entry<String,Integer> entry : result.entrySet()) {
 
                 Row row = sheet.createRow(i);
                 Cell cell = row.createCell(0);
                 cell.setCellValue(finalDTO.getForm().getQuestionList().get(finalDTO.getForm().indexCorrector(entry.getValue())).getQuestion());
                 cell.setCellStyle(style);
                 i++;
-                for (Map.Entry<String, String> entry2 : finalDTO.getQuestionAndUser().entrySet()) {
+                for (Map.Entry<String, String> entry2 : result2.entrySet()) {
                     if (entry.getKey().equals(entry2.getKey())) {
                         cell = row.createCell(1);
                         cell.setCellValue(entry2.getValue());
@@ -630,7 +604,7 @@ return "thankyou";
 
             }
 
-            //////////////////////////////////////////////////
+
         File file = File.createTempFile("temp", null);
             FileOutputStream outputStream = new FileOutputStream(file);
             workbook.write(outputStream);
