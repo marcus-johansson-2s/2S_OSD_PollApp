@@ -16,6 +16,8 @@ public class smallDto {
         this.adminPass = adminPass;
     }
 
+    Map<Integer,String> descrption = new HashMap<>();
+
     Map<Integer,String> strings = new HashMap<>();
     List<Integer> nummer = new ArrayList<>();
 
@@ -43,5 +45,30 @@ public class smallDto {
 
     public void addStrings(int a, String b) {
         this.strings.put(a,b);
+    }
+
+    public void addDesc(int a, String b) {
+        this.descrption.put(a,b);
+    }
+    public Map<Integer, String> getDesc() {
+        return descrption;
+    }
+
+    public String getSpecDesc(int index){
+
+        String test="";
+
+        for(Map.Entry<Integer,String>entry:descrption.entrySet()){
+
+            if(entry.getKey()==index){
+                test=entry.getValue();
+                return test;
+            }
+
+        }
+
+
+        return test;
+
     }
 }

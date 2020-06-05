@@ -374,12 +374,14 @@ return "thankyou";
             return "adminDeny";
         }
 
-
+        smallDto dto=new smallDto();
         List<Integer> lista = new ArrayList<>();
         for (Form i : formService.findAll()) {
             int e = (int) i.getFormId();
             lista.add(e);
+            dto.addDesc(e,i.getDescription());
         }
+        model.addAttribute("dto",dto);
 
         model.addAttribute("chooseForm", lista);
         return "chooseFormAndAnswers";
@@ -438,12 +440,13 @@ return "thankyou";
 
             if (i.getActive()) {
                 dto.addStrings(e, "Active");
-
             } else {
                 dto.addStrings(e, "Inactive");
             }
             dto.addInt(e);
-            //System.out.println("Form ID ="+e);
+            dto.addDesc((int)i.getFormId(),i.getDescription());
+
+
         }
 
         model.addAttribute("chooseForm", dto);

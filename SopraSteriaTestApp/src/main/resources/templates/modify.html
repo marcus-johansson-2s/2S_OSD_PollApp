@@ -50,7 +50,19 @@
             <div id="text4" align="center" style="display:none">
                 <h4>Choose form to remove</h4>
                 <h4>-</h4>
-                <h4 th:each="test: ${chooseForm.getNummer()}"> <a href="modifyForm.html" th:href="@{/modifyForm(activate=0,id=${test})}" th:text="'Form : ' +${test}" /></h4>
+                <ul class="list-group mx-auto d-block">
+                <div th:each="test: ${chooseForm.getNummer()}">
+                    <li class="list-group-item list-group-item-danger text-dark text-md-center p-3">
+                    <a href="modifyForm.html" th:href="@{/modifyForm(activate=0,id=${test})}" th:text="'Form : ' +${test}" />
+                        <br>
+                    <li class="list-group-item list-group-item-dark text-dark text-md-center p-2 h3">
+                        <div th:text="${chooseForm.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>
+                </li>
+                    </li>
+
+                </div>
+                </ul>
+
 
 
                 <h4>-</h4>
@@ -65,21 +77,66 @@
             <div id="text5" align="center" style="display:none">
                 <h4>Choose form to Modify</h4>
                 <h4>-</h4>
-                <h4 th:each="test: ${chooseForm.getNummer()}" >  <a href="modifyQuestion.html" th:href="@{/modifyQuestion(question=404,id=${test})}" th:text="'Form : ' +${test}"  /></h4>
+                <ul class="list-group mx-auto d-block">
+                <div th:each="test: ${chooseForm.getNummer()}" >
+                    <div th:if="${chooseForm.getSpecial(test).equals('Inactive')}">
+                    <li class="list-group-item list-group-item-warning text-dark text-md-center p-3">
+                    <a href="modifyQuestion.html" th:href="@{/modifyQuestion(question=404,id=${test})}" th:text="'Form : ' +${test}"  />
+                        <br>
+                        <li class="list-group-item list-group-item-warning text-dark text-md-center p-2 h3">
+                            <div th:text="${chooseForm.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>
+                        </li>
+                    </li>
+                    </div>
+                </div>
+                </ul>
                 <h4>-</h4>
             </div>
 
             <div id="text6" align="center" style="display:none">
                 <h4>Choose form to Activate</h4>
                 <h4>-</h4>
-                <h4 th:each="test: ${chooseForm.getNummer()}" >  <a href="modifyForm.html" th:href="@{/modifyForm(activate=1,id=${test})}" th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/></h4>
+                <ul class="list-group mx-auto d-block">
+                <div th:each="test: ${chooseForm.getNummer()}" >
+
+                    <div th:if="${chooseForm.getSpecial(test).equals('Active')}">
+                    <li class="list-group-item list-group-item-success text-dark text-md-center p-3">
+                        <a href="modifyForm.html" th:href="@{/modifyForm(activate=1,id=${test})}" th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/>
+                        <br>
+                        <li class="list-group-item list-group-item-success text-dark text-md-center p-2 h3">
+                            <div th:text="${chooseForm.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>
+                        </li>
+                        </div>
+                    <div th:if="${chooseForm.getSpecial(test).equals('Inactive')}">
+                        <li class="list-group-item list-group-item-dark text-dark text-md-center p-3">
+                            <a href="modifyForm.html" th:href="@{/modifyForm(activate=1,id=${test})}" th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/>
+                            <br>
+                        <li class="list-group-item list-group-item-dark text-dark text-md-center p-2 h3">
+                            <div th:text="${chooseForm.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>
+                        </li>
+                    </div>
+
+
+                    </li>
+                </div>
+                </ul>
                 <h4>-</h4>
             </div>
 
             <div id="text7" align="center" style="display:none">
                 <h4>Choose form to Copy</h4>
                 <h4>-</h4>
-                <h4 th:each="test: ${chooseForm.getNummer()}" >  <a href="loggedIn.html" th:href="@{/copy(id=${test})}"  th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/></h4>
+                <ul class="list-group mx-auto d-block">
+                    <div th:each="test: ${chooseForm.getNummer()}" >
+                    <li class="list-group-item list-group-item-primary text-dark text-md-center p-3">
+                    <a href="loggedIn.html" th:href="@{/copy(id=${test})}"  th:text="'Form : ' +${test} "/>
+                        <br>
+                        <li class="list-group-item list-group-item-info text-dark text-md-center p-2 h3">
+                            <div th:text="${chooseForm.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>
+                        </li>
+                    </li>
+                </div>
+                </ul>
                 <h4>-</h4>
             </div>
             <hr/>

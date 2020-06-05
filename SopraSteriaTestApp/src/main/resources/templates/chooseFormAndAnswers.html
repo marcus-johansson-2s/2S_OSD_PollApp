@@ -34,9 +34,15 @@
             </div>
 
 <th:block th:each="test: ${chooseForm}" align="center">
-
-    <h4>  <a href="showingFormAnswers.html" th:href="@{/showingFormAnswers(id=${test})}" th:text="'Form : ' +${test}"  /></h4>
-
+    <ul class="list-group mx-auto d-block">
+    <li class="list-group-item list-group-item-info text-white text-md-center p-3">
+  <a href="showingFormAnswers.html" th:href="@{/showingFormAnswers(id=${test})}" th:text="'Form : ' +${test}"  />
+        <br>
+        <li class="list-group-item list-group-item-light text-dark text-md-center p-2 h3">
+            <div th:text="${dto.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>
+        </li>
+    </li>
+    </ul>
 </th:block>
             <hr/>
             <a href="https://www.soprasteria.se"><div class="center" style="opacity: 50%"></div></a>
