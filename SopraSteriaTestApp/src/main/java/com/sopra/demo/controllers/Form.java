@@ -1,25 +1,24 @@
 package com.sopra.demo.controllers;
 
 import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.List;
-        import java.util.Map;
+import java.util.List;
 
 public class Form {
 
     private Long formId;
-    public List<Question> questionList=new ArrayList<>();
+    public List<Question> questionList = new ArrayList<>();
     private String description;
-    private boolean isAnon=false;
-    private boolean active=false;
+    private boolean isAnon = false;
+    private boolean active = false;
 
 
-   public Form(){}
+    public Form() {
+    }
 
-    public Form(long formId, String desc,boolean anon,boolean bool){
+    public Form(long formId, String desc, boolean anon, boolean bool) {
         this.formId = formId;
-        description=desc;
-        isAnon=anon;
+        description = desc;
+        isAnon = anon;
         active = bool;
 
     }
@@ -58,7 +57,7 @@ public class Form {
 
  */
 
-        questionList=questionList2;
+        questionList = questionList2;
 
     }
 
@@ -79,28 +78,28 @@ public class Form {
     }
 
 
-       public int indexCorrector(int index) {
-            for (int i = 0; i < questionList.size(); i++) {
+    public int indexCorrector(int index) {
+        for (int i = 0; i < questionList.size(); i++) {
 
-               if (questionList.get(i).getId() == index) {
-                   return i;
-               }
+            if (questionList.get(i).getId() == index) {
+                return i;
+            }
 
-           }
-           return 0;
+        }
+        return 0;
     }
 
-    public Question getQ(int id){
+    public Question getQ(int id) {
 
-       for(Question q:questionList){
+        for (Question q : questionList) {
 
-           if(q.getId()==id){
-               return q;
-           }
+            if (q.getId() == id) {
+                return q;
+            }
 
-       }
+        }
 
 
-       return null;
+        return null;
     }
 }

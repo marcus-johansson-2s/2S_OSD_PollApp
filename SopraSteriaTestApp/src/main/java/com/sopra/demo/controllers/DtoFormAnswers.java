@@ -3,20 +3,18 @@ package com.sopra.demo.controllers;
 import com.sopra.demo.controllers.Answers.FormAnswer;
 import com.sopra.demo.controllers.Answers.QuestionAnswer;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.lang.Integer.parseInt;
-
 public class DtoFormAnswers {
 
-    private Form form= new Form();
-    private List<FormAnswer> formAnswer= new ArrayList<>();
+    private Form form = new Form();
+    private List<FormAnswer> formAnswer = new ArrayList<>();
 
-    public DtoFormAnswers(){}
+    public DtoFormAnswers() {
+    }
 
 
     public Form getForm() {
@@ -37,7 +35,7 @@ public class DtoFormAnswers {
 
 
     ////////////////converts this object to FINAL dto for printing purposes in html
-    public FinalDTO functionUltra4000(){
+    public FinalDTO functionUltra4000() {
 
         FinalDTO fdto = new FinalDTO();
 
@@ -47,7 +45,7 @@ public class DtoFormAnswers {
         int counterTotalAnswers = 0;
         int radioMedian = 0;
         Map<String, String> questionAndUser = new HashMap<>();
-        Map<String,Integer> question = new HashMap<>();
+        Map<String, Integer> question = new HashMap<>();
         Map<Integer, Integer> test = new HashMap<>();
 
         for (FormAnswer fa : formAnswer) {
@@ -57,34 +55,34 @@ public class DtoFormAnswers {
                 for (int i = 0; i < form.getQuestionList().size(); i++) {
                     if (form.questionList.get(form.indexCorrector(i)).getId() == qa.getQuestionId()) {
 
-                        if(qa.getType()==1) {
-                            questionAndUser.put(fa.getUser() + qa.getQuestionId(),qa.getTextAnswer());
-                            question.put( fa.getUser()+qa.getQuestionId(),qa.getQuestionId());
+                        if (qa.getType() == 1) {
+                            questionAndUser.put(fa.getUser() + qa.getQuestionId(), qa.getTextAnswer());
+                            question.put(fa.getUser() + qa.getQuestionId(), qa.getQuestionId());
                         }
-                        if(qa.getType()==2) {
-                            questionAndUser.put(fa.getUser() + qa.getQuestionId(),Integer.toString(qa.getRadioAnswer()));
-                            question.put( fa.getUser()+qa.getQuestionId(),qa.getQuestionId());
+                        if (qa.getType() == 2) {
+                            questionAndUser.put(fa.getUser() + qa.getQuestionId(), Integer.toString(qa.getRadioAnswer()));
+                            question.put(fa.getUser() + qa.getQuestionId(), qa.getQuestionId());
 
-                            radioMedian=qa.getRadioAnswer();
-                            if(test.get(qa.getQuestionId()) != null) {
+                            radioMedian = qa.getRadioAnswer();
+                            if (test.get(qa.getQuestionId()) != null) {
                                 radioMedian += test.get(qa.getQuestionId());
                             }
-                            test.put(qa.getQuestionId(),radioMedian);
+                            test.put(qa.getQuestionId(), radioMedian);
                         }
 
                         if (qa.getCheckBoxAnswer() != null && !qa.getCheckBoxAnswer().isEmpty()) {
-                            question.put(fa.getUser()+qa.getQuestionId(),qa.getQuestionId());
+                            question.put(fa.getUser() + qa.getQuestionId(), qa.getQuestionId());
 
                             for (Integer o : qa.getCheckBoxAnswer()) {
-                                if(form.getQuestionList().get(form.indexCorrector(i)).getCheckBoxAnswer().get(o)!=null) {
-                                   // checkBox.append(form.getQuestionList().get(qa.getQuestionId()).getCheckBoxAnswer().get(o) + ",");
+                                if (form.getQuestionList().get(form.indexCorrector(i)).getCheckBoxAnswer().get(o) != null) {
+                                    // checkBox.append(form.getQuestionList().get(qa.getQuestionId()).getCheckBoxAnswer().get(o) + ",");
                                     checkBox.append(form.getQ(qa.getQuestionId()).getCheckBoxAnswer().get(o) + ",");
                                 }
                             }
-                            String tmp=checkBox.toString();
-                            tmp=tmp.replace("\n", "").replace("\r", "");
+                            String tmp = checkBox.toString();
+                            tmp = tmp.replace("\n", "").replace("\r", "");
 
-                            questionAndUser.put(fa.getUser() + qa.getQuestionId(),tmp);
+                            questionAndUser.put(fa.getUser() + qa.getQuestionId(), tmp);
                             checkBox.setLength(0);
                         }
 
@@ -101,33 +99,29 @@ public class DtoFormAnswers {
         fdto.setTotalApplicants(totalApplicants);
         fdto.setForm(form);
 
-        for (Map.Entry<String,Integer> entry : question.entrySet()) {
+        for (Map.Entry<String, Integer> entry : question.entrySet()) {
 
-            outPutBuilder.append("\n" + "Question : "+form.questionList.get(form.indexCorrector(entry.getValue())).getQuestion() + "\n");
+            outPutBuilder.append("\n" + "Question : " + form.questionList.get(form.indexCorrector(entry.getValue())).getQuestion() + "\n");
 
-            if( test.get(entry.getValue())!=null) {
-                outPutBuilder.append("\n" + "RadioButton average = " + test.get(entry.getValue())/totalApplicants + "\n");
+            if (test.get(entry.getValue()) != null) {
+                outPutBuilder.append("\n" + "RadioButton average = " + test.get(entry.getValue()) / totalApplicants + "\n");
             }
-            outPutBuilder.append("\n" + "Answers" +"\n");
+            outPutBuilder.append("\n" + "Answers" + "\n");
 
             for (Map.Entry<String, String> entry2 : questionAndUser.entrySet()) {
                 if (entry.getKey().equals(entry2.getKey())) {
-                    outPutBuilder.append("\n"+ " | " + entry2.getValue() + " |  User : " + entry2.getKey().replaceAll("\\d","") + "\n");
+                    outPutBuilder.append("\n" + " | " + entry2.getValue() + " |  User : " + entry2.getKey().replaceAll("\\d", "") + "\n");
 
                 }
             }
 
         }
-        outPutBuilder.append("\n"+ "Total Applicants :"+ totalApplicants + "\n");
-        outPutBuilder.append("\n"+ "Total Answers :"+ counterTotalAnswers + "\n");
-
-
+        outPutBuilder.append("\n" + "Total Applicants :" + totalApplicants + "\n");
+        outPutBuilder.append("\n" + "Total Answers :" + counterTotalAnswers + "\n");
 
 
         return fdto;
     }
-
-
 
 
 }

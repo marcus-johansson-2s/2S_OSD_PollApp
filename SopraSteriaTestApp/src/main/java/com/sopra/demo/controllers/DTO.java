@@ -6,11 +6,13 @@ public class DTO {
     private int id;
     private int answerId;
     private int formId;
-    private int anotherQuestion=0;
+    private int anotherQuestion = 0;
     private String checkBoxText;
-    private boolean tmpInt=false;
+    private boolean tmpInt = false;
 
-    DTO(){}
+    DTO() {
+    }
+
     public DTO(String answer, int id) {
         this.answer = answer;
         this.id = id;

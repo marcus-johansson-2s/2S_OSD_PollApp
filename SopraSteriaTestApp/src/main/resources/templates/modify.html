@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 
 
@@ -7,21 +7,25 @@
     <title>Demo</title>
     <meta charset="utf-8">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="/css/style.css"/>
+
 </head>
 <body>
 
+
 <div class="jumbotron mt-1 text-center bg-dark text-white pb-0 p-4"  id="grad1">
-    <h1>4Mate</h1>
+    <h1><i class="fa fa-angle-double-left" aria-hidden="true"></i></i>'4M<i class="fa fa-angle-up" aria-hidden="true"></i>te'<i class="fa fa-angle-double-right" aria-hidden="true"></i></i></h1>
     <p>-super awesome form generator</p>
     <div class="container-fluid p-1 my-0 bg-white text-white " id="grad8">
-        <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-link">Create</a>
-        <a href="modify.html"  th:href="@{/modify}" type="button" class="btn btn-link">Modify</a>
-        <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-link">Answer Form</a>
-        <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-link">See Answers</a>
-        <a href="admin.html"  th:href="@{/admin}" type="button" class="btn btn-link">Admin</a>
+        <a href="createForm.html" th:href="@{/createForm}"  type="button" class="btn btn-link"><i class="fa fa-file" aria-hidden="true"></i>Create</a>
+        <a href="modify.html"  th:href="@{/modify}" type="button" class="btn btn-link"><i class="fa fa-cog" aria-hidden="true"></i>Modify</a>
+        <a href="answerQuestion.html"   th:href="@{/answerQuestion}" type="button" class="btn btn-link"><i class="fa fa-pencil" aria-hidden="true"></i>Answer Form</a>
+        <a href="chooseFormAndAnswers.html"  th:href="@{/chooseFormAndAnswers}" type="button" class="btn btn-link"><i class="fa fa-file-text" aria-hidden="true"></i>See Answers</a>
+        <a href="admin.html"  th:href="@{/admin}" type="button" class="btn btn-link"><i class="fa fa-universal-access" aria-hidden="true"></i>Admin</a>
     </div>
 </div>
 
@@ -29,17 +33,17 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="container p-0 my-0 bg-dark text-white" id="grad2">
-                <h3>Modify</h3>
+                <h3><i class="fa fa-cog" aria-hidden="true"></i>Modify</h3>
             </div>
             <div class="alert alert-primary" style="margin:auto;width:80%;display: block;text-align:center; word-wrap: break-word;"  role="alert">
             Forms need to be activated for applicants to answer them,once a form is activated it will always be
                 active , Forms can only be modified if not activated
             </div>
             <div th:align="center">
-            <button type="button" class="btn btn-link" onclick = "display('firstbox')">Remove</button>
-            <button type="button" class="btn btn-link" onclick = "display('secondbox')">Modify</button>
-                <button type="button" class="btn btn-link" onclick = "display('thirdbox')">Activate</button>
-                <button type="button" class="btn btn-link" onclick = "display('fourbox')">Copy</button>
+            <button type="button" class="btn btn-link" onclick = "display('firstbox')"><i class="fa fa-times" aria-hidden="true"></i>Remove</button>
+            <button type="button" class="btn btn-link" onclick = "display('secondbox')"><i class="fa fa-cogs" aria-hidden="true"></i>Modify</button>
+                <button type="button" class="btn btn-link" onclick = "display('thirdbox')"><i class="fa fa-bolt" aria-hidden="true"></i>Activate</button>
+                <button type="button" class="btn btn-link" onclick = "display('fourbox')"><i class="fa fa-files-o" aria-hidden="true"></i>Copy</button>
             </div>
             <h4>-</h4>
 
@@ -53,7 +57,7 @@
                 <ul class="list-group mx-auto d-block">
                 <div th:each="test: ${chooseForm.getNummer()}">
                     <li class="list-group-item list-group-item-danger text-dark text-md-center p-3">
-                    <a href="modifyForm.html" th:href="@{/modifyForm(activate=0,id=${test})}" th:text="'Form : ' +${test}" />
+                    <a href="modifyForm.html"  style="font-size: 20px;" th:href="@{/modifyForm(activate=0,id=${test})}" th:text="'Form : ' +${test}" />
                         <br>
                     <li class="list-group-item list-group-item-dark text-dark text-md-center p-2 h3">
                         <div th:text="${chooseForm.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>
@@ -81,7 +85,7 @@
                 <div th:each="test: ${chooseForm.getNummer()}" >
                     <div th:if="${chooseForm.getSpecial(test).equals('Inactive')}">
                     <li class="list-group-item list-group-item-warning text-dark text-md-center p-3">
-                    <a href="modifyQuestion.html" th:href="@{/modifyQuestion(question=404,id=${test})}" th:text="'Form : ' +${test}"  />
+                    <a  href="modifyQuestion.html" style="font-size: 20px;" th:href="@{/modifyQuestion(question=404,id=${test})}" th:text="'Form : ' +${test}"  />
                         <br>
                         <li class="list-group-item list-group-item-warning text-dark text-md-center p-2 h3">
                             <div th:text="${chooseForm.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>
@@ -101,7 +105,7 @@
 
                     <div th:if="${chooseForm.getSpecial(test).equals('Active')}">
                     <li class="list-group-item list-group-item-success text-dark text-md-center p-3">
-                        <a href="modifyForm.html" th:href="@{/modifyForm(activate=1,id=${test})}" th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/>
+                        <a href="modifyForm.html" style="font-size: 20px;" th:href="@{/modifyForm(activate=1,id=${test})}" th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/>
                         <br>
                         <li class="list-group-item list-group-item-success text-dark text-md-center p-2 h3">
                             <div th:text="${chooseForm.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>
@@ -109,7 +113,7 @@
                         </div>
                     <div th:if="${chooseForm.getSpecial(test).equals('Inactive')}">
                         <li class="list-group-item list-group-item-dark text-dark text-md-center p-3">
-                            <a href="modifyForm.html" th:href="@{/modifyForm(activate=1,id=${test})}" th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/>
+                            <a href="modifyForm.html"  style="font-size: 20px;" th:href="@{/modifyForm(activate=1,id=${test})}" th:text="'Form : ' +${test} +'  status : '+ ${chooseForm.getSpecial(test)}"/>
                             <br>
                         <li class="list-group-item list-group-item-dark text-dark text-md-center p-2 h3">
                             <div th:text="${chooseForm.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>
@@ -129,7 +133,7 @@
                 <ul class="list-group mx-auto d-block">
                     <div th:each="test: ${chooseForm.getNummer()}" >
                     <li class="list-group-item list-group-item-primary text-dark text-md-center p-3">
-                    <a href="loggedIn.html" th:href="@{/copy(id=${test})}"  th:text="'Form : ' +${test} "/>
+                    <a href="loggedIn.html"  style="font-size: 20px;" th:href="@{/copy(id=${test})}"  th:text="'Form : ' +${test} "/>
                         <br>
                         <li class="list-group-item list-group-item-info text-dark text-md-center p-2 h3">
                             <div th:text="${chooseForm.getSpecDesc(test)}" style="font-size :13px;overflow-wrap: break-word;color: black;"></div>

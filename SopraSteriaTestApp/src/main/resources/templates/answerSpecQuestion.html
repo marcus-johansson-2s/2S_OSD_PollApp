@@ -39,7 +39,7 @@
         <label >This form is Anonymous</label>
     </div>
 
-    <div align="center" style="word-break: break-all;" th:each="message,itemStat: ${dto.questionList}" >
+    <div align="center" th:each="message,itemStat: ${dto.questionList}" >
 
     <input type="hidden" th:name="|questionList[${itemStat.index}].typeQuestion|"  th:value="${message.getTypeQuestion()}">
     <input type="hidden" th:field="*{formId}">
@@ -48,9 +48,9 @@
 
     <br>
 
-<div class="card text-white bg-secondary mb-3" style="width: 20rem; border-width: 20px;border-color: transparent; opacity: 40%;" >
+<div class="card text-white bg-primary  mb-3 w-50 border-right-0 border-left-0" style="width: 20rem; border-width: 20px;border-color: transparent; opacity: 40%;" >
     <div class="card-body">
- <div th:text="${message.getQuestion()}" ></div>
+ <div class="card-text" th:text="${message.getQuestion()}"></div>
     </div>
 
 </div>

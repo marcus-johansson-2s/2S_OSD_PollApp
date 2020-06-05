@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.adminPasstest",
+      "type": "java.lang.String",
+      "description": "adminPass."
+  }
+] }

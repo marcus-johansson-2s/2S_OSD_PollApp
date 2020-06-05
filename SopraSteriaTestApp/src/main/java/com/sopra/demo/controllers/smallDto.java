@@ -6,24 +6,28 @@ import java.util.List;
 import java.util.Map;
 
 public class smallDto {
-    private String adminPass="";
+    private String adminPass = "";
 
 
     public String getAdminPass() {
         return adminPass;
     }
+
     public void setAdminPass(String adminPass) {
         this.adminPass = adminPass;
     }
 
-    Map<Integer,String> descrption = new HashMap<>();
+    Map<Integer, String> descrption = new HashMap<>();
 
-    Map<Integer,String> strings = new HashMap<>();
+    Map<Integer, String> strings = new HashMap<>();
     List<Integer> nummer = new ArrayList<>();
 
-    smallDto(String a){adminPass=a;}
-    smallDto(){}
+    smallDto(String a) {
+        adminPass = a;
+    }
 
+    smallDto() {
+    }
 
 
     public List<Integer> getNummer() {
@@ -35,7 +39,7 @@ public class smallDto {
     }
 
 
-    public String getSpecial(int i){
+    public String getSpecial(int i) {
         return strings.get(i);
     }
 
@@ -44,24 +48,25 @@ public class smallDto {
     }
 
     public void addStrings(int a, String b) {
-        this.strings.put(a,b);
+        this.strings.put(a, b);
     }
 
     public void addDesc(int a, String b) {
-        this.descrption.put(a,b);
+        this.descrption.put(a, b);
     }
+
     public Map<Integer, String> getDesc() {
         return descrption;
     }
 
-    public String getSpecDesc(int index){
+    public String getSpecDesc(int index) {
 
-        String test="";
+        String test = "";
 
-        for(Map.Entry<Integer,String>entry:descrption.entrySet()){
+        for (Map.Entry<Integer, String> entry : descrption.entrySet()) {
 
-            if(entry.getKey()==index){
-                test=entry.getValue();
+            if (entry.getKey() == index) {
+                test = entry.getValue();
                 return test;
             }
 

@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,10 +36,8 @@ public class Controlindex {
     @Autowired
     private AnswerService answerService;
 
-    private String adminPass = "admin";
-
-    public static List<Member> memberList = new ArrayList<Member>();
-
+    @Value("${adminPass}")
+    private String adminPass;
 
     @RequestMapping("/")
     public String index() {
@@ -76,12 +75,7 @@ public class Controlindex {
         return "adminDeny";
     }
 
-    @RequestMapping(value = "/members", method = RequestMethod.GET)
-    @ModelAttribute("test")
 
-    public List<Member> member() {
-        return memberList;
-    }
 
     //////////////////////////////LOGIN
     @RequestMapping("/loggedIn")
@@ -472,10 +466,8 @@ return "thankyou";
                 redirectAttributes.addFlashAttribute("errorDto","You cannot activate a form without questions");
                 return "redirect:/errorMessage";
             }
-
-
             formService.activate(id);
-           // formService.findingOne(id).setActive(true);
+
         }
 
         if (activate == 0) {
@@ -513,7 +505,6 @@ return "thankyou";
         if(question!=404){
 
             formService.deletingQuestion(question,id);
-           // formService.findingOne(id).getQuestionList().remove(formService.findingOne(id).indexCorrector((int)question));
         }
         model.addAttribute("dto", formService.findingOne(id));
         return "modifyQuestion";

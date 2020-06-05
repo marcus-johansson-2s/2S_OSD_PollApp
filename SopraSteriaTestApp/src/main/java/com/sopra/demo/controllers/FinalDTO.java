@@ -12,7 +12,7 @@ public class FinalDTO {
     }
 
     private Form form = new Form();
-    private int totalApplicants = 0;
+    private float totalApplicants = 0;
     private int counterTotalAnswers = 0;
     private int radioMedian = 0;
     private Map<String, String> questionAndUser = new HashMap<>();
@@ -22,7 +22,7 @@ public class FinalDTO {
     //Resource resource = new ClassPathResource("exel/temp.xlsx");
 
 
-    public int getTotalApplicants() {
+    public float getTotalApplicants() {
         return totalApplicants;
     }
 
@@ -80,7 +80,9 @@ public class FinalDTO {
     }
 
 
-    public String converter(String s) {
+    public String converter(String s,boolean anon) {
+
+        if(!anon){ return "anonymys";}
 
         return s.replaceAll("\\d", "") + "\n";
 

@@ -4,7 +4,8 @@ public class SuccessDto {
 
     private String message;
 
-    public SuccessDto(){}
+    public SuccessDto() {
+    }
 
     public String getMessage() {
         return message;

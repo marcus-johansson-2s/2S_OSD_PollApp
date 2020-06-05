@@ -4,7 +4,7 @@ h1 {  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "
     font-size:380%;
     padding: 2%;
     text-align: center;
-    text-transform: uppercase;
+
     text-rendering: optimizeLegibility;
     text-shadow: 1px 2px darkslategray;
 }
